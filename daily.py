@@ -6,7 +6,7 @@ Created on 8 juin 2017
 from simple_salesforce import Salesforce
 sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
-compte = sf.query("Select  id,name,Cle_Client_STOCKX__c,BillingAddress from Account  where Cle_Client_STOCKX__c = 'C1037'")
+compte = sf.query("Select  id,name,Cle_Client_STOCKX__c,BillingCity from Account  where Cle_Client_STOCKX__c = 'C1037'")
 print(compte['records'])
 
 import os.path
