@@ -40,12 +40,10 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     (d,m,a) = row[clef].split('/')
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
-                try:    
+                 
                     record[mapFields[clef]]=row[clef].decode('utf-8')
                     print clef, row[clef],record[mapFields[clef]]
-                except :
-                    print clef, row[clef],record[mapFields[clef]]
-                    pass
+               
             """try:
                 
                 reponse = sf.Lignes_commande__c.create(record)
