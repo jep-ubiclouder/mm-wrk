@@ -39,9 +39,9 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     row[clef]=value
                 try:    
                     record[mapFields[clef]]=row[clef].encode('utf-8')
-                    print clef, row[clef],record[mapFields[clef]]
+                    #print clef, row[clef],record[mapFields[clef]]
                 except :
-                    print clef, row[clef]
+                    print clef, row[clef],record[mapFields[clef]
                     pass
             """try:
                 
