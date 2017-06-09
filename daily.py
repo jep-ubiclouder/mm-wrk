@@ -40,14 +40,15 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                 try:    
                     record[mapFields[clef]]=row[clef].decode('utf-8')
                 except :
+                    print clef, row[clef]
                     pass
-            try:
+            """try:
                 
                 reponse = sf.Lignes_commande__c.create(record)
             except :
                 print record
                 print record['Name'] 
-                continue
+                continue"""
                 
             i += 1
             if i > 50:
