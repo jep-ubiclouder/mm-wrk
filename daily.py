@@ -17,7 +17,7 @@ for l in mapfile.readlines():
     if l[0] =='#':
         continue
     (clefSTX,clefSF) = l.split('=')
-    mapFields[clefSTX]=clefSF
+    mapFields[clefSTX]=clefSF[:-2]
 
 print mapFields
 
