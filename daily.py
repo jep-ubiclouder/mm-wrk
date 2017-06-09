@@ -30,8 +30,8 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                 print clef, row[clef]
                 try:
                     record[mapFields[clef]]=row[clef]
-                except Exception e:
-                    print e, clef, 'ignored'
+                except :
+                    print  clef, 'ignored'
                     pass
             reponse = sf.Ligne_order__c.create(record)
             
