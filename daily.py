@@ -42,6 +42,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                 except :
                     pass
             try:
+                print record['NAME']
                 reponse = sf.Lignes_commande__c.create(record)
             except :
                 print record 
