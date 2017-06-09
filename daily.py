@@ -14,7 +14,7 @@ for r in toto['records']:
     id=r['Id']
     print 'deleting ',id
     sf.Lignes_commande__c.delete(id)
-while toto.hasKey('nextRecordUrl'):
+while 'nextRecordUrl' in toto.keys():
     toto = sf.query_more(toto['nextRecordUrl'])
     for r in toto['records']:
         id=r['Id']
