@@ -26,9 +26,13 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         for row in reader:
             record={}
             for clef in row.keys():
-                // print row
+                # print row
                 print clef, row[clef]
-                record[mapFields[clef]]=row[clef]
+                try:
+                    record[mapFields[clef]]=row[clef]
+                except Exception e:
+                    print e, clef, 'ignored'
+                    pass
             reponse = sf.Ligne_order__c.create(record)
             
 if __name__ == '__main__':
