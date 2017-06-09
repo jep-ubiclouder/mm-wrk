@@ -38,7 +38,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                 try:    
-                    record[mapFields[clef]]=row[clef]
+                    record[mapFields[clef]]=row[clef].encode('utf-8')
                 except :
                     pass
             try:
