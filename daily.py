@@ -6,9 +6,6 @@ Created on 8 juin 2017
 from simple_salesforce import Salesforce
 sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
-#compte = sf.query("Select  id,name,Cle_Client_STOCKX__c,BillingCity from Account  where Cle_Client_STOCKX__c = 'C1037'")
-#print(compte['records'])
-
 toto = sf.query('select id from Lignes_commande__c')
 for r in toto['records']:
     id=r['Id']
@@ -20,7 +17,6 @@ while 'nextRecordUrl' in toto.keys():
         id=r['Id']
         print 'deleting ',id
         sf.Lignes_commande__c.delete(id)
-
 import os.path
 import csv
 mapFields = {}
@@ -30,33 +26,29 @@ for l in mapfile.readlines():
         continue
     (clefSTX,clefSF) = l.split('=')
     mapFields[clefSTX]=clefSF[:-2]
-
 print( mapFields)
-
+i=0
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         reader=  reader = csv.DictReader(csvfile,delimiter=';')
-        for row in reader[:20]:
+        for row in reader:
             record={}
             for clef in row.keys():
-                # print row
-                ## print clef, row[clef]
                 if clef=='DATE_CDE' or clef == 'PARUTION':
                     (d,m,a) = row[clef].split('/')
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
-                try:
-                    
+                try:    
                     record[mapFields[clef]]=row[clef]
                 except :
-                    # print clef, 'ignored'
                     pass
             try:
                 reponse = sf.Lignes_commande__c.create(record)
-                ## print reponse
             except :
                 print record 
                 continue
                 
-            
+            i += 1
+            if i > 50:
+                break
 if __name__ == '__main__':
     pass
