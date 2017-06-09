@@ -38,14 +38,15 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                 try:    
-                    record[mapFields[clef]]=row[clef].encode('utf-8')
+                    record[mapFields[clef]]=row[clef]
                 except :
                     pass
             try:
-                print record['Name']
+                
                 reponse = sf.Lignes_commande__c.create(record)
             except :
-                print record 
+                print record
+                print record['Name'] 
                 continue
                 
             i += 1
