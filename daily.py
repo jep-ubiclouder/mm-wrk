@@ -29,7 +29,7 @@ for l in mapfile.readlines():
 print( mapFields)
 i=0
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
-        reader=  reader = csv.DictReader(csvfile,delimiter=';')
+        reader=  csv.DictReader(csvfile,delimiter=';')
         for row in reader:
             record={}
             for clef in row.keys():
@@ -38,7 +38,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                 try:    
-                    record[mapFields[clef]]=row[clef]
+                    record[mapFields[clef]]=row[clef].decode('utf-8')
                 except :
                     pass
             try:
