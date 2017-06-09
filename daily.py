@@ -22,6 +22,8 @@ for l in mapfile.readlines():
 print mapFields
 
 
+
+
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         reader=  csv.reader(csvfile,delimiter=';')
         for row in reader:
