@@ -9,18 +9,18 @@ sf = Salesforce(username='jep@ubitask2.com', password='Ubi$2017', security_token
 compte = sf.query("Select  id,name from Account  where AccountNumber = 'CD656092'")
 print(compte['records'])
 
-print 'hello world'
-print 'yo'
-from simple_salesforce import SFType
-
-reponse = sf.ubTAsks__Tasks_per_Status__c.describe()
-print(reponse)
-"""import os.path
+import os.path
 import csv
+
+mapfile = open('./bucket-mm-daily/map-lignes.sdl','r')
+for l in mapfile.readlines():
+    
+    
+
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         reader=  csv.reader(csvfile,delimiter=';')
         for row in reader:
                 print row
-"""
+
 if __name__ == '__main__':
     pass
