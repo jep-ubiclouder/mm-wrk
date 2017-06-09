@@ -19,7 +19,7 @@ for l in mapfile.readlines():
     (clefSTX,clefSF) = l.split('=')
     mapFields[clefSTX]=clefSF[:-2]
 
-print mapFields
+print( mapFields)
 
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         reader=  reader = csv.DictReader(csvfile,delimiter=';')
@@ -36,13 +36,13 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     
                     record[mapFields[clef]]=row[clef]
                 except :
-                    print  clef, 'ignored'
+                    print(clef, 'ignored')
                     pass
             try:
                 reponse = sf.Lignes_commande__c.create(record)
-                print reponse
-            except e:
-                print record
+                print(reponse)
+            except :
+                print(record)
                 continue
                 
             
