@@ -25,10 +25,9 @@ print mapFields
 
 
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
-        reader=  csv.reader(csvfile,delimiter=';')
+        reader=  reader = csv.DictReader(csvfile,delimiter=';')
         for row in reader:
-                pass
-                # print row
+            print row
 
 if __name__ == '__main__':
     pass
