@@ -27,7 +27,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
             record={}
             for clef in row.keys():
                 # print row
-                print clef, row[clef]
+                print(clef, row[clef])
                 if clef=='DATE_CDE' or clef == 'PARUTION':
                     (d,m,a) = row[clef].split('/')
                     value= '%s-%s-%s'%(a,m,d)
