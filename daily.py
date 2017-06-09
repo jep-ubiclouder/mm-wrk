@@ -26,6 +26,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         for row in reader:
             record={}
             for (clef,value) in row:
+                print row
                 print clef,value
                 record[mapFields[clef]]=value
             reponse = sf.Ligne_order__c.create(record)
