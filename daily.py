@@ -12,11 +12,13 @@ sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_toke
 toto = sf.query('select id from Lignes_commande__c')
 for r in toto['records']:
     id=r['Id']
+    print 'deleting ',id
     sf.Lignes_commande__c.delete(id)
 while toto.hasKey['nextRecordUrl']:
     toto = sf.query_more(toto.hasKey['nextRecordUrl'])
     for r in toto['records']:
         id=r['Id']
+        print 'deleting ',id
         sf.Lignes_commande__c.delete(id)
 
 import os.path
