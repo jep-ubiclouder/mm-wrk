@@ -33,7 +33,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                 except :
                     print  clef, 'ignored'
                     pass
-            reponse = sf.Ligne_order__c.create(record)
+            reponse = sf.Lignes_commande__c.create(record)
             
 if __name__ == '__main__':
     pass
