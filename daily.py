@@ -43,6 +43,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                 print reponse
             except e:
                 print record
+                continue
                 
             
 if __name__ == '__main__':
