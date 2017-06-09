@@ -27,7 +27,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
             record={}
             for clef in row.keys():
                 # print row
-                print(clef, row[clef])
+                print clef, row[clef]
                 if clef=='DATE_CDE' or clef == 'PARUTION':
                     (d,m,a) = row[clef].split('/')
                     value= '%s-%s-%s'%(a,m,d)
@@ -36,13 +36,13 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     
                     record[mapFields[clef]]=row[clef]
                 except :
-                    print(clef, 'ignored')
+                    # print clef, 'ignored'
                     pass
             try:
                 reponse = sf.Lignes_commande__c.create(record)
-                print(reponse)
+                ## print reponse
             except :
-                print(record)
+                print record 
                 continue
                 
             
