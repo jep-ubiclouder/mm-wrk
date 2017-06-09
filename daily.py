@@ -41,7 +41,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                  
-                record[mapFields[clef]]=row[clef].decode('utf-8')
+                record[mapFields[clef]]=row[clef].encode('latin-1')
                 print clef, row[clef],record[mapFields[clef]]
                
             """try:
