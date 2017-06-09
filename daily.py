@@ -25,10 +25,10 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
         reader=  reader = csv.DictReader(csvfile,delimiter=';')
         for row in reader:
             record={}
-            for (clef,value) in row:
-                print row
-                print clef,value
-                record[mapFields[clef]]=value
+            for clef in row.keys():
+                // print row
+                print clef, row[clef]
+                record[mapFields[clef]]=row[clef]
             reponse = sf.Ligne_order__c.create(record)
             
 if __name__ == '__main__':
