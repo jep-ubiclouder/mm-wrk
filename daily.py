@@ -44,7 +44,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                 record[mapFields[clef]]=row[clef].decode('latin-1')
                 #print clef, row[clef],record[mapFields[clef]]
                
-            "try:
+            try:
                 
                 reponse = sf.Lignes_commande__c.create(record)
             except :
