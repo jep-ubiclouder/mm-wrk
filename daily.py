@@ -9,7 +9,8 @@ sf = Salesforce(username='jep@ubitask2.com', password='Ubi$2017', security_token
 compte = sf.query("Select  id,name from Account  where AccountNumber = 'CD656092'")
 print(compte['records'])
 
-
+print 'hello world'
+print 'yo'
 from simple_salesforce import SFType
 
 reponse = sf.ubTAsks__Tasks_per_Status__c.describe()
