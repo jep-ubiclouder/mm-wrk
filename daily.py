@@ -31,7 +31,7 @@ for l in mapfile.readlines():
     mapFields[clefSTX]=clefSF[:-2]
 print( mapFields)
 i=0
-with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
+with open('./bucket-mm-daily/lo-2017-test.csv', 'r', encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=';')
         for row in reader:
             record={}
@@ -41,9 +41,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                  
-                record[mapFields[clef]]=row[clef].decode('latin-1')
-                #print clef, row[clef],record[mapFields[clef]]
-               
+                record[mapFields[clef]]=row[clef]  #.decode('latin-1') 
             try:
                 
                 reponse = sf.Lignes_commande__c.create(record)
