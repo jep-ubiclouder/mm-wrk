@@ -31,8 +31,8 @@ for l in mapfile.readlines():
     mapFields[clefSTX]=clefSF[:-2]
 print( mapFields)
 i=0
-with open('./bucket-mm-daily/lo-2017-test.csv', 'r', encoding='utf-8') as csvfile:
-        reader=  csv.DictReader(csvfile,delimiter=';')
+with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
+        reader=  csv.DictReader(csvfile,delimiter=';', encoding='utf-8')
         for row in reader:
             record={}
             for clef in row.keys():
