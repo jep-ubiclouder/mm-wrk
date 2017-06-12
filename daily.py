@@ -32,7 +32,7 @@ for l in mapfile.readlines():
 print( mapFields)
 i=0
 with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
-        reader=  csv.DictReader(csvfile,delimiter=';', encoding='utf-8')
+        reader=  csv.DictReader(csvfile,delimiter=';')
         for row in reader:
             record={}
             for clef in row.keys():
@@ -41,7 +41,7 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                  
-                record[mapFields[clef]]=row[clef]  #.decode('latin-1') 
+                record[mapFields[clef]]=row[clef].decode('utf-8') 
             try:
                 
                 reponse = sf.Lignes_commande__c.create(record)
