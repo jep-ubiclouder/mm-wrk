@@ -12,13 +12,13 @@ sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_toke
 toto = sf.query('select id from Lignes_commande__c')
 for r in toto['records']:
     id=r['Id']
-    print 'deleting ',id
+    print( 'deleting ',id)
     sf.Lignes_commande__c.delete(id)
 while 'nextRecordUrl' in toto.keys():
     toto = sf.query_more(toto['nextRecordUrl'])
     for r in toto['records']:
         id=r['Id']
-        print 'deleting ',id
+        print( 'deleting ',id)
         sf.Lignes_commande__c.delete(id)
 import os.path
 import csv
@@ -41,17 +41,17 @@ with open('./bucket-mm-daily/lo-2017-test.csv', 'r') as csvfile:
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
                  
-                record[mapFields[clef]]=row[clef].decode('utf-8') 
+                record[mapFields[clef]]=row[clef]
             try:
                 
                 reponse = sf.Lignes_commande__c.create(record)
             except :
-                print record
-                print record['Name'] 
+                #print record
+                #print record['Name'] 
                 continue
                 
             i += 1
-            if i > 50:
+            if i > 30:
                 break
 if __name__ == '__main__':
     pass
