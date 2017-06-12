@@ -36,9 +36,8 @@ with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as 
         for row in reader:
             record={}
             for clef in row.keys():
+                print(clef,row[clef])
                 if clef=='DATE_CDE' or clef == 'PARUTION':
-                    print(clef,row[clef])
-                    
                     (d,m,a) = row[clef].split('/')
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
