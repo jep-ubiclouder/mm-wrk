@@ -32,7 +32,7 @@ for l in mapfile.readlines():
 print( mapFields)
 i=0
 with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as csvfile:
-        reader=  csv.DictReader(csvfile,delimiter=';')
+        reader=  csv.DictReader(csvfile,delimiter=',')
         for row in reader:
             record={}
             for clef in row.keys():
