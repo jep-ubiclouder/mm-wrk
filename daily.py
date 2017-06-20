@@ -39,7 +39,7 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
     reader=  csv.DictReader(csvfile,delimiter=',')
     for row in reader:
         record={}
-        statut = row['STATUT']
+        statut = row['STATUT'] 
         for clef in row.keys():
             if clef in mapFields.keys():
                 # print(clef,row[clef])
