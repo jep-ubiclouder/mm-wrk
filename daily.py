@@ -9,7 +9,7 @@ Created on 8 juin 2017
 from simple_salesforce import Salesforce
 import sys
 
-def sendmail(nbreIns,nbreUpd):
+def sendmail(insertions):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -23,11 +23,11 @@ def sendmail(nbreIns,nbreUpd):
     <p>Hi!<br>
         Voici les resultats du batch de cette nuit<br>
         Lignes créées : %s
-        Lignes modifiées: %s
+        
     </p>
   </body>
 </html>
-""" %(nbreIns,nbreUpd)
+""" %(len (insertions))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     
@@ -43,10 +43,17 @@ def sendmail(nbreIns,nbreUpd):
     s.send_message(msg)
     s.quit()
 
+def findFile():
+    import datetime
+    now = datetime.datetime.now()
+    compactDate='%s%s%s',(now.year,now.month,now.day)
+    base ='~/bucket-mm-daily/EXPORT_%s.CSV'%compactDate
+    return base
+    
 
 sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
-toto = sf.query('select id from Lignes_commande__c')
+## toto = sf.query('select id from Lignes_commande__c')
 """ for r in toto['records']:
     id=r['Id']
     print( 'deleting ',id)
@@ -71,7 +78,7 @@ i=0
 updates ={}
 insertions ={}
 
-with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvfile:
+with open(findFile(), 'r',encoding='utf-8') as csvfile:
     reader=  csv.DictReader(csvfile,delimiter=',')
     for row in reader:
         record={}
@@ -100,14 +107,13 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         except :
            continue
         i += 1
-        # if i > 30:
-        #    break
-    
+
     for clef in insertions.keys() :
         reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef])
         print(reponse)
-    ## print(updates)    
-    sendmail(len(insertions))
+    ## print(updates) 
+    print(dir(reponse))   
+    sendmail(insertions)
     
 if __name__ == '__main__':
     pass
