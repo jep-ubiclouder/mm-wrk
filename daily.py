@@ -88,7 +88,8 @@ def process(parmDate):
                     continue 
                     ## Nous faisons des upsert sur le champ Index_STOCKX__c NE DOIT PAS apparraitre dans le record
                 if clef in mapFields.keys():
-                    
+                    if clef=='DESIGNATION': 
+                        row[clef] =row[clef][:80]
                         
                     ## passage en AA-MM-JJ
                     if clef=='DATE_CDE' or clef == 'PARUTION':
@@ -97,10 +98,7 @@ def process(parmDate):
                         value= '%s-%s-%s'%(a,m,d)
                         row[clef]=value
                     try:
-                        valeur=row[clef]
-                        if clef=='DESIGNATION': 
-                            valeur=row[clef][80]
-                        record[mapFields[clef]]=valeur
+                        record[mapFields[clef]]=row[clef]
                     except :
                         print('ooops')
             try:
