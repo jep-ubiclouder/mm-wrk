@@ -78,7 +78,7 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         statut = row['STATUT'] 
         commande=row['COMMANDE']
         if commande=='123456':continue
-        Index_STOCKX__c = row['Index_STOCKX__c']
+        Index_STOCKX__c = row['IND']
         for clef in row.keys():
             if clef =='IND': 
                 continue 
@@ -107,7 +107,7 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,rec)
         print(reponse)
     ## print(updates)    
-    sendmail(len(insertions),len(updates))
+    sendmail(len(insertions))
     
 if __name__ == '__main__':
     pass
