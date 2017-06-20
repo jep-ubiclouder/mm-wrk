@@ -54,9 +54,9 @@ with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as 
                     print('ooops')
         try:
             #print( record)
-            if statut =='M': updates.push(record)
-            elif statut=='C': insertions.push(record)
-            elif statut =='D':effaces.push(record)
+            if statut =='M': updates.append(record)
+            elif statut=='C': insertions.append(record)
+            elif statut =='D':effaces.append(record)
             # reponse = sf.Lignes_commande__c.create(record)
             pass
         except :
