@@ -108,8 +108,8 @@ def process(parmDate):
         for clef in insertions.keys() :
             try:
                 reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            except SalesforceMalformedRequest:
-                print(SalesforceMalformedRequest)
+            except SalesforceMalformedRequest  :
+                print(dir(SalesforceMalformedRequest))
                 sys.exit()
             #  print(reponse)
         # print(dir(reponse))   
