@@ -112,9 +112,9 @@ with open(findFile(), 'r',encoding='utf-8') as csvfile:
 
     for clef in insertions.keys() :
         reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-        print(reponse)
+        print(reponse.json)
 
-    print(dir(reponse))   
+    #print(dir(reponse))   
     sendmail(insertions)
     
 if __name__ == '__main__':
