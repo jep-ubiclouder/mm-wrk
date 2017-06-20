@@ -48,6 +48,7 @@ def findFile(parmDate):
     
 def process(parmDate):
     sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
+    print(dir(sf))
     import os.path
     import csv
     mapFields = {}
@@ -95,7 +96,7 @@ def process(parmDate):
         for clef in insertions.keys() :
             try:
                 reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            except SalesforceMalformedRequest:
+            except :
                 print(reponse.text)
             #  print(reponse)
         # print(dir(reponse))   
