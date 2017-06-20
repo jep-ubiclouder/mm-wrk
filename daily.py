@@ -44,7 +44,7 @@ def sendmail(nbreIns,nbreUpd):
     s.quit()
 
 
-sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='gtdoRmsdHuv6MSNxu0ePidS9', sandbox=True)
+sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
 toto = sf.query('select id from Lignes_commande__c')
 """ for r in toto['records']:
