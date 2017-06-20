@@ -8,6 +8,7 @@ Created on 8 juin 2017
 '''
 from simple_salesforce import Salesforce
 import sys
+from _datetime import timedelta
 
 def sendmail(insertions):
 
@@ -44,8 +45,8 @@ def sendmail(insertions):
     s.quit()
 
 def findFile():
-    import datetime
-    now = datetime.datetime.now()
+    import datetime, timedelta
+    now = datetime.datetime.now() -timedelta(days=1)
     compactDate='%s%s%s'%(now.year,now.month,now.day)
     print(compactDate)
     base ='~/bucket-mm-daily/EXPORT_%s.CSV'%compactDate
