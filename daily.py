@@ -23,7 +23,7 @@ while 'nextRecordUrl' in toto.keys():
 import os.path
 import csv
 mapFields = {}
-mapfile = open('./bucket-mm-daily/map-lignes.sdl','r')
+mapfile = open('./bucket-mm-daily/mapping_lignes-de-commandes2017.sdl','r')
 for l in mapfile.readlines():
     if l[0] =='#':
         continue
