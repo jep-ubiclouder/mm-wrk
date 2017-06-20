@@ -111,9 +111,9 @@ with open(findFile(), 'r',encoding='utf-8') as csvfile:
         i += 1
 
     for clef in insertions.keys() :
-        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef])
+        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
         print(reponse)
-    ## print(updates) 
+
     print(dir(reponse))   
     sendmail(insertions)
     
