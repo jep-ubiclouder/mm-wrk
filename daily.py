@@ -104,7 +104,7 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         #    break
     
     for clef in insertions.keys() :
-        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,rec)
+        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef])
         print(reponse)
     ## print(updates)    
     sendmail(len(insertions))
