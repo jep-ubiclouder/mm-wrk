@@ -36,23 +36,23 @@ with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as 
         for row in reader:
             record={}
             for clef in row.keys():
-                print(clef,row[clef])
-                if clef=='DATE_CDE' or clef == 'PARUTION':
-                    (d,m,a) = row[clef].split('-')
-                    value= '%s-%s-%s'%(a,m,d)
-                    row[clef]=value
-                try: 
-                    record[mapFields[clef]]=row[clef]
-                except :
-                    print('ooops')
+                if clef in mapFileds.keys():
+                    # print(clef,row[clef])
+                    if clef=='DATE_CDE' or clef == 'PARUTION':
+                        (d,m,a) = row[clef].split('-')
+                        value= '%s-%s-%s'%(a,m,d)
+                        row[clef]=value
+                        
+                    try: 
+                        record[mapFields[clef]]=row[clef]
+                    except :
+                        print('ooops')
             try:
-                
-                reponse = sf.Lignes_commande__c.create(record)
+                print record
+                # reponse = sf.Lignes_commande__c.create(record)
+                pass
             except :
-                #print record
-                #print record['Name'] 
-                continue
-                
+               continue
             i += 1
             if i > 30:
                 break
