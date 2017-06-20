@@ -28,7 +28,7 @@ for l in mapfile.readlines():
     if l[0] =='#':
         continue
     (clefSTX,clefSF) = l.split('=')
-    mapFields[clefSTX]=clefSF[:-2]
+    mapFields[clefSTX]=clefSF[:-1]
 print( mapFields)
 i=0
 with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as csvfile:
