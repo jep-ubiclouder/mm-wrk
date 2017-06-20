@@ -108,7 +108,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     from datetime import datetime, timedelta
     if args.parmDate :
-        now = datetime.strptime(parmDate, '%Y-%M-%d')
+        now = datetime.strptime(args.parmDate, '%Y-%M-%d')
     if args.parmDate is None:
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
