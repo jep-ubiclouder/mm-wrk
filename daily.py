@@ -39,8 +39,6 @@ effaces =[]
 with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvfile:
     reader=  csv.DictReader(csvfile,delimiter=',')
     for row in reader:
-        print(row)
-        sys.exit(0)
         record={}
         statut = row['STATUT'] 
         for clef in row.keys():
@@ -65,8 +63,8 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         except :
            continue
         i += 1
-        if i > 30:
-            break
+        # if i > 30:
+        #    break
     print(insertions)
     print(updates)    
 if __name__ == '__main__':
