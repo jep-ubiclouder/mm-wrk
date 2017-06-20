@@ -48,7 +48,7 @@ def findFile(parmDate):
     
 def process(parmDate):
     
-    from simple_salesforce.api import (
+    from simple_salesforce import (
     Salesforce,
     SalesforceAPI,
     SFType,
@@ -108,8 +108,8 @@ def process(parmDate):
         for clef in insertions.keys() :
             try:
                 reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            except SalesforceMalformedRequest  :
-                print(SalesforceMalformedRequest.message)
+            except SalesforceMalformedRequest as err :
+                print(err)
                 sys.exit()
             #  print(reponse)
         # print(dir(reponse))   
