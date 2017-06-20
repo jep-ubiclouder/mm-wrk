@@ -41,6 +41,8 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
     for row in reader:
         record={}
         statut = row['STATUT'] 
+        commande=row['COMMANDE']
+        if commande=='123456':continue
         for clef in row.keys():
             if clef in mapFields.keys():
                 # print(clef,row[clef])
