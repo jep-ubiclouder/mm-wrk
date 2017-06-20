@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/local/bin/python3.6
 #-*- coding: utf-8 -*-
 
 '''
@@ -9,6 +9,7 @@ Created on 8 juin 2017
 from simple_salesforce import Salesforce
 import sys
 from _datetime import timedelta
+from datetime import date
 
 def sendmail(insertions):
 
@@ -31,10 +32,6 @@ def sendmail(insertions):
 """ %(len (insertions))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
-    
-    
-    # me == the sender's email address
-    # you == the recipient's email address
     msg['Subject'] = 'resultat du jour'
     msg['From'] = 'ubunutu@localhost'
     msg['To'] = 'jean-eric.preis@ubiclouder.com'
@@ -44,11 +41,8 @@ def sendmail(insertions):
     s.send_message(msg)
     s.quit()
 
-def findFile():
-    from datetime import datetime, timedelta
-    now = datetime.now() -timedelta(days=1)
-    compactDate='%s%02i%02i'%(now.year,now.month,now.day)
-    print(compactDate)
+def findFile(parmDate=None):
+    
     base ='./bucket-mm-daily/EXPORT_%s.CSV'%compactDate
     return base
     
@@ -118,4 +112,19 @@ with open(findFile(), 'r',encoding='utf-8') as csvfile:
     sendmail(insertions)
     
 if __name__ == '__main__':
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Short sample app')
+    parser.add_argument('-d','--date', action="store", dest="date",type=string)
+    
+    args = parser.parse_args()
+    from datetime import datetime, timedelta
+    if args.parmDate :
+        now = datetime.strptime(parmDate, '%Y-%M-%d')
+    if parmDate is None:
+        now = datetime.now() -timedelta(days=1)
+    compactDate='%s%02i%02i'%(now.year,now.month,now.day)
+    print(compactDate)
     pass
+    import sys
+    sys.exit()
