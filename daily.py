@@ -112,4 +112,4 @@ if __name__ == '__main__':
     if args.parmDate is None:
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
-    process(compactDate)
+    process(compactDate) 
