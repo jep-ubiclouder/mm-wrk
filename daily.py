@@ -47,7 +47,7 @@ def findFile(parmDate):
     return base
     
 def process(parmDate):
-    sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
+    
     from simple_salesforce.api import (
     Salesforce,
     SalesforceAPI,
@@ -60,6 +60,7 @@ def process(parmDate):
     SalesforceGeneralError,
     SalesforceMalformedRequest
     )
+    sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
     import os.path
     import csv
     mapFields = {}
