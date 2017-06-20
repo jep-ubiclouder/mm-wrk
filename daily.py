@@ -82,7 +82,7 @@ def process(parmDate):
                         value= '%s-%s-%s'%(a,m,d)
                         row[clef]=value
                     try: 
-                        record[mapFields[clef]]=row[clef]
+                        record[mapFields[clef]]=row[clef][:80]
                     except :
                         print('ooops')
             try:
