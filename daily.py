@@ -29,7 +29,7 @@ def sendmail(insertions):
     </p>
   </body>
 </html>
-""" %(len (insertions))
+""" %(insertions)
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -103,17 +103,15 @@ def process(parmDate):
                 pass
             except :
                continue
-            i += 1
-    
+            
+        i=1    
         for clef in insertions.keys() :
             try:
                 reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
+                i+=1
             except SalesforceMalformedRequest as err :
                 print(err)
-                sys.exit()
-            #  print(reponse)
-        # print(dir(reponse))   
-        sendmail(insertions)
+        sendmail(i)
     
 if __name__ == '__main__':
     import argparse
