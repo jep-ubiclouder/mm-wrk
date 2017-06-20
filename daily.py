@@ -35,7 +35,7 @@ i=0
 updates =[]
 insertions =[]
 effaces =[]
-with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as csvfile:
+with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvfile:
     reader=  csv.DictReader(csvfile,delimiter=',')
     for row in reader:
         record={}
