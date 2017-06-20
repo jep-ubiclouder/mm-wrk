@@ -103,7 +103,7 @@ if __name__ == '__main__':
     import argparse
     
     parser = argparse.ArgumentParser(description='Short sample app')
-    parser.add_argument('-d','--date', action="store", dest="date")
+    parser.add_argument('-d','--date', action="store", dest="parmDate")
     
     args = parser.parse_args()
     from datetime import datetime, timedelta
