@@ -49,7 +49,7 @@ def findFile():
     now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
     print(compactDate)
-    base ='~/bucket-mm-daily/EXPORT_%s.CSV'%compactDate
+    base ='./bucket-mm-daily/EXPORT_%s.CSV'%compactDate
     return base
     
 
