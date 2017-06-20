@@ -93,8 +93,10 @@ def process(parmDate):
             i += 1
     
         for clef in insertions.keys() :
-            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            #except :
+            try:
+                reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
+            except simple_salesforce.api.SalesforceMalformedRequest:
+                print(reponse.text)
             #  print(reponse)
         # print(dir(reponse))   
         sendmail(insertions)
