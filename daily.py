@@ -48,7 +48,7 @@ def findFile(parmDate):
     
 def process(parmDate):
     sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
-from simple_salesforce.api import (
+    from simple_salesforce.api import (
     Salesforce,
     SalesforceAPI,
     SFType,
@@ -59,7 +59,7 @@ from simple_salesforce.api import (
     SalesforceResourceNotFound,
     SalesforceGeneralError,
     SalesforceMalformedRequest
-)
+    )
     import os.path
     import csv
     mapFields = {}
@@ -109,6 +109,7 @@ from simple_salesforce.api import (
                 reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
             except SalesforceMalformedRequest:
                 print(reponse.text)
+                sys.exit()
             #  print(reponse)
         # print(dir(reponse))   
         sendmail(insertions)
