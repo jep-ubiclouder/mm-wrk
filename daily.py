@@ -94,7 +94,7 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
                     print('ooops')
         try:
             #print( record)
-            if statut =='M': updates.append(record)
+            if statut =='M': insertions.append(record)
             elif statut=='C': insertions.append(record)
             elif statut =='D':effaces.append(record)
             # reponse = sf.Lignes_commande__c.create(record)
@@ -104,11 +104,11 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         i += 1
         # if i > 30:
         #    break
-    print(insertions)
+    
     for rec in insertions :
-        reponse = sf.Lignes_commande__c.create(rec)
+        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%rec['Index_STOCKX__c'],rec)
         print(reponse)
-    print(updates)    
+    ## print(updates)    
     sendmail(len(insertions),len(updates))
     
 if __name__ == '__main__':
