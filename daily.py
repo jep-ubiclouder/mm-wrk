@@ -36,7 +36,7 @@ with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as 
         for row in reader:
             record={}
             for clef in row.keys():
-                if clef in mapFileds.keys():
+                if clef in mapFields.keys():
                     # print(clef,row[clef])
                     if clef=='DATE_CDE' or clef == 'PARUTION':
                         (d,m,a) = row[clef].split('-')
