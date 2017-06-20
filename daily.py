@@ -77,12 +77,12 @@ def process(parmDate):
                 if clef in mapFields.keys():
                     ## passage en AA-MM-JJ
                     if clef=='DATE_CDE' or clef == 'PARUTION':
-                        print(clef, row[clef])                    
+                        ## print(clef, row[clef])                    
                         (d,m,a) = row[clef].split('-')
                         value= '%s-%s-%s'%(a,m,d)
                         row[clef]=value
                     try: 
-                        record[mapFields[clef]]=row[clef][:80]
+                        record[mapFields[clef]]=row[clef]
                     except :
                         print('ooops')
             try:
