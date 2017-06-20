@@ -31,7 +31,7 @@ def sendmail(nbreIns,nbreUpd):
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     
-    msg.
+    
     # me == the sender's email address
     # you == the recipient's email address
     msg['Subject'] = 'resultat du jour"
