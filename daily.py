@@ -41,9 +41,9 @@ def sendmail(insertions):
     s.send_message(msg)
     s.quit()
 
-def findFile(parmDate=None):
+def findFile(parmDate):
     
-    base ='./bucket-mm-daily/EXPORT_%s.CSV'%compactDate
+    base ='./bucket-mm-daily/EXPORT_%s.CSV'%parmDate
     return base
     
 def process(parmDate):
@@ -62,7 +62,7 @@ def process(parmDate):
     updates ={}
     insertions ={}
     
-    with open(findFile(), 'r',encoding='utf-8') as csvfile:
+    with open(findFile(parmDate), 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=',')
         for row in reader:
             record={}
@@ -112,7 +112,4 @@ if __name__ == '__main__':
     if args.parmDate is None:
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
-    print(compactDate)
-    pass
-    import sys
-    sys.exit()
+    process(parmDate)
