@@ -8,7 +8,42 @@ Created on 8 juin 2017
 '''
 from simple_salesforce import Salesforce
 import sys
-#from msilib.schema import _Validation_records
+
+def sendmail(nbreIns,nbreUpd):
+
+    # Import smtplib for the actual sending function
+    import smtplib
+    
+    # Import the email modules we'll need
+    
+    html = """\
+<html>
+  <head></head>
+  <body>
+    <p>Hi!<br>
+        Voici les resultats du batch de cette nuit<br>
+        Lignes créées : %s
+        Lignes modifiées: %s
+    </p>
+  </body>
+</html>
+""" %(nbreIns,nbreUpd)
+    from email.mime.text import MIMEText
+    msg = MIMEText(html, 'html')
+    
+    msg.
+    # me == the sender's email address
+    # you == the recipient's email address
+    msg['Subject'] = 'resultat du jour"
+    msg['From'] = ubunutu@localhost
+    msg['To'] = jean-eric.preis@ubiclouder.com
+    
+    # Send the message via our own SMTP server.
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+
+
 sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
 toto = sf.query('select id from Lignes_commande__c')
@@ -71,5 +106,7 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         #    break
     print(insertions)
     print(updates)    
+    sendmail(len(insertions),len(updates))
+    
 if __name__ == '__main__':
     pass
