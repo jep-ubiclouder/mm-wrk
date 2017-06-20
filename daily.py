@@ -48,7 +48,7 @@ with open('./bucket-mm-daily/EXPORT_CDE_SF_CA_24.csv', 'r',encoding='utf-8') as 
                     except :
                         print('ooops')
             try:
-                print record
+                print( record)
                 # reponse = sf.Lignes_commande__c.create(record)
                 pass
             except :
