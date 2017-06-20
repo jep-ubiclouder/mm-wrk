@@ -93,10 +93,9 @@ def process(parmDate):
             i += 1
     
         for clef in insertions.keys() :
-            try:
-                reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            except :
-                print(reponse)
+            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
+            #except :
+            #  print(reponse)
         # print(dir(reponse))   
         sendmail(insertions)
     
