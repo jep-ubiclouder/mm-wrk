@@ -68,9 +68,9 @@ for l in mapfile.readlines():
     mapFields[clefSTX]=clefSF[:-1]
 print( mapFields)
 i=0
-updates =[]
-insertions =[]
-effaces =[]
+updates ={}
+insertions ={}
+
 with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvfile:
     reader=  csv.DictReader(csvfile,delimiter=',')
     for row in reader:
@@ -78,26 +78,24 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         statut = row['STATUT'] 
         commande=row['COMMANDE']
         if commande=='123456':continue
+        Index_STOCKX__c = row['Index_STOCKX__c']
         for clef in row.keys():
+            if clef =='IND': 
+                continue 
+                ## Nous faisons des upsert le champs Index_STOCKX__c NE DOIT PAS apparraitre dans le record
             if clef in mapFields.keys():
-                # print(clef,row[clef])
+                ## passage en AA-MM-JJ
                 if clef=='DATE_CDE' or clef == 'PARUTION':
-                    print(clef, row[clef])
-                    
+                    print(clef, row[clef])                    
                     (d,m,a) = row[clef].split('-')
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
-                    
                 try: 
                     record[mapFields[clef]]=row[clef]
                 except :
                     print('ooops')
         try:
-            #print( record)
-            if statut =='M': insertions.append(record)
-            elif statut=='C': insertions.append(record)
-            elif statut =='D':effaces.append(record)
-            # reponse = sf.Lignes_commande__c.create(record)
+            insertions[Index_STOCKX__c] = record
             pass
         except :
            continue
@@ -105,8 +103,8 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         # if i > 30:
         #    break
     
-    for rec in insertions :
-        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%rec['Index_STOCKX__c'],rec)
+    for clef in insertions.keys() :
+        reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,rec)
         print(reponse)
     ## print(updates)    
     sendmail(len(insertions),len(updates))
