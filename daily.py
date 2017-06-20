@@ -96,7 +96,7 @@ def process(parmDate):
             try:
                 reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
             except :
-                print(reponse.text)
+                print(reponse)
         # print(dir(reponse))   
         sendmail(insertions)
     
