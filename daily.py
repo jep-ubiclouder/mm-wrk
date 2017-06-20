@@ -47,7 +47,7 @@ def sendmail(insertions):
 def findFile():
     from datetime import datetime, timedelta
     now = datetime.now() -timedelta(days=1)
-    compactDate='%s%s%s'%(now.year,now.month,now.day)
+    compactDate='%s%02i%02i'%(now.year,now.month,now.day)
     print(compactDate)
     base ='~/bucket-mm-daily/EXPORT_%s.CSV'%compactDate
     return base
