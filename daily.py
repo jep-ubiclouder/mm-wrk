@@ -7,6 +7,7 @@ Created on 8 juin 2017
 @author: jean-eric preis
 '''
 from simple_salesforce import Salesforce
+import sys
 #from msilib.schema import _Validation_records
 sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
@@ -38,6 +39,8 @@ effaces =[]
 with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvfile:
     reader=  csv.DictReader(csvfile,delimiter=',')
     for row in reader:
+        print(row)
+        sys.exit(0)
         record={}
         statut = row['STATUT'] 
         for clef in row.keys():
