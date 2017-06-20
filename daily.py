@@ -34,7 +34,7 @@ def sendmail(nbreIns,nbreUpd):
     
     # me == the sender's email address
     # you == the recipient's email address
-    msg['Subject'] = 'resultat du jour"
+    msg['Subject'] = 'resultat du jour'
     msg['From'] = ubunutu@localhost
     msg['To'] = jean-eric.preis@ubiclouder.com
     
