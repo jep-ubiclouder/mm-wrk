@@ -45,6 +45,8 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
             if clef in mapFields.keys():
                 # print(clef,row[clef])
                 if clef=='DATE_CDE' or clef == 'PARUTION':
+                    print(clef, row[clef])
+                    
                     (d,m,a) = row[clef].split('-')
                     value= '%s-%s-%s'%(a,m,d)
                     row[clef]=value
