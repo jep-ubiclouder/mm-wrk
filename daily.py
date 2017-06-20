@@ -109,7 +109,7 @@ if __name__ == '__main__':
     from datetime import datetime, timedelta
     if args.parmDate :
         now = datetime.strptime(parmDate, '%Y-%M-%d')
-    if parmDate is None:
+    if args.parmDate is None:
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
     print(compactDate)
