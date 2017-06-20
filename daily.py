@@ -105,6 +105,9 @@ with open('./bucket-mm-daily/EXPORT_20170619.CSV', 'r',encoding='utf-8') as csvf
         # if i > 30:
         #    break
     print(insertions)
+    for rec in insertions :
+        reponse = sf.Lignes_commande__c.create(rec)
+        print(reponse)
     print(updates)    
     sendmail(len(insertions),len(updates))
     
