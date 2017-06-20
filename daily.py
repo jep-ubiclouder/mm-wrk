@@ -7,7 +7,7 @@ Created on 8 juin 2017
 @author: jean-eric preis
 '''
 from simple_salesforce import Salesforce
-from msilib.schema import _Validation_records
+#from msilib.schema import _Validation_records
 sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
 
 toto = sf.query('select id from Lignes_commande__c')
