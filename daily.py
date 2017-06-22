@@ -86,8 +86,8 @@ def process(parmDate):
             
             # clients uniques
             clientStx = row['CLIENT']
-            if clientStx not in lstClients:
-                lstClients.append(clientStx)
+            #if clientStx not in lstCLients:
+            #    lstClients.append(clientStx)
             
             if commande=='123456':continue
             Index_STOCKX__c = row['IND']
@@ -118,15 +118,15 @@ def process(parmDate):
         
         
         i=1    
-    qry = 'select id,Cle_Client_STOCKX__c from account where Cle_Client_STOCKX__c in '    + ','.join("'{}'".format(u) for u in lstCLients)
-    idCSTX = sf.query(qry)
+    #qry = 'select id,Cle_Client_STOCKX__c from account where Cle_Client_STOCKX__c in '    + ','.join("'{}'".format(u) for u in lstCLients)
+    #idCSTX = sf.query(qry)
     
         
     for clef in insertions.keys() :
         try:
-            for t in idCSTX['records']:
-                if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
-                    insertions[clef]['Compte__c']=t['Id']
+            #for t in idCSTX['records']:
+            #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
+            #        insertions[clef]['Compte__c']=t['Id']
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
             i+=1
         except SalesforceMalformedRequest as err :
