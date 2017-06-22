@@ -86,7 +86,7 @@ def process(parmDate):
             
             # clients uniques
             clientStx = row['CLIENT']
-            if not clientStx not in lstClients:
+            if clientStx not in lstClients:
                 lstClients.append(clientStx)
             
             if commande=='123456':continue
