@@ -74,6 +74,8 @@ def process(parmDate):
     i=0
     updates ={}
     insertions ={}
+    lstCLients =[]
+    
     
     with open(findFile(parmDate), 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=',')
@@ -81,6 +83,12 @@ def process(parmDate):
             record={}
             statut = row['STATUT'] 
             commande=row['COMMANDE']
+            
+            # clients uniques
+            clientStx = row['CLIENT']
+            if not clientStx not in lstClients:
+                lstClients.append(clientStx)
+            
             if commande=='123456':continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
@@ -107,14 +115,23 @@ def process(parmDate):
             except :
                continue
             
+        
+        
         i=1    
-        for clef in insertions.keys() :
-            try:
-                reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-                i+=1
-            except SalesforceMalformedRequest as err :
-                print(err)
-        sendmail(i)
+    qry = 'select id,Cle_Client_STOCKX__c from account where Cle_Client_STOCKX__c in '    + ','.join("'{}'".format(u) for u in lstCLients)
+    idCSTX = sf.query(qry)
+    
+        
+    for clef in insertions.keys() :
+        try:
+            for t in idCSTX['records']:
+                if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
+                    insertions[clef]['Compte__c']=t['Id']
+            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
+            i+=1
+        except SalesforceMalformedRequest as err :
+            print(err)
+    sendmail(i)
     
 if __name__ == '__main__':
     import argparse
