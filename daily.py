@@ -34,7 +34,7 @@ def sendmail(summary):
     import smtplib
     
     # Import the email modules we'll need
-    for 
+    
     html = """\
 <html>
   <head></head>
