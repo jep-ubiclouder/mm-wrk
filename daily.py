@@ -154,7 +154,7 @@ def process(parmDate):
             ccstx = insertions[clef]['Cle_Client_STX__c']
             # print(insertions[clef])
             if ccstx not in summary.keys():
-                summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00,'Nom'}
+                summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00,'Nom':''}
             summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] +=1
             summary[ccstx]['montant'] += float(insertions[clef]['Brut_Total__c'])
