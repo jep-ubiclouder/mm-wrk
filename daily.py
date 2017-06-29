@@ -45,9 +45,9 @@ def sendmail(summary):
 <html>
   <head></head>
   <body>
-    <p>Hi!<br>
+    <p>Bonjour Marie-Noëlle !<br>
         Voici les resultats du batch de cette nuit<br>
-        Lignes créées : %s
+        
         <table>
         <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
@@ -59,9 +59,9 @@ def sendmail(summary):
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
-    msg['From'] = 'ubunutu@localhost'
+    msg['From'] = 'lignesdecommandes@mm-aws.com'
     msg['To'] = 'jean-eric.preis@ubiclouder.com'
-    
+    msg['Cc'] = 'marie-noelle.marx@maisonmoderne.com'
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
