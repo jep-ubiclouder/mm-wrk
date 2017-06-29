@@ -34,7 +34,7 @@ def maketable(summary):
         liste.append(summary[clef]['lignes'])
         table +=  tr(td(liste))    
     return table
-def sendmail(summary):
+def sendmail(now,summary):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -46,7 +46,7 @@ def sendmail(summary):
   <head></head>
   <body>
     <p>Bonjour Marie-Noëlle !<br>
-        Voici les resultats du batch de cette nuit<br>
+        Voici les resultats du batch pour la date:%s<br>
         
         <table>
         <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
@@ -55,7 +55,7 @@ def sendmail(summary):
     </p>
   </body>
 </html>
-""" %(len(summary), maketable(summary))
+""" %( '%02i-%02i-%s'%(now.day,now.month,now.year), maketable(summary))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -72,7 +72,7 @@ def findFile(parmDate):
     base ='./bucket-mm-daily/EXPORT_%s.CSV'%parmDate
     return base
     
-def process(parmDate):
+def process(parmDate,now):
     
     from simple_salesforce import (
     Salesforce,
@@ -169,7 +169,7 @@ def process(parmDate):
             i+=1
         except SalesforceMalformedRequest as err :
             print(err)
-    sendmail(summary)
+    sendmail(now,summary)
     
     
 if __name__ == '__main__':
@@ -185,4 +185,4 @@ if __name__ == '__main__':
     if args.parmDate is None:
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
-    process(compactDate) 
+    process(compactDate,now) 
