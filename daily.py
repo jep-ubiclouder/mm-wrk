@@ -149,7 +149,7 @@ def process(parmDate):
             print(insertions[clef])
             if ccstx not in summary.keys():
                 summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00}
-            summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__C']
+            summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c'']
             summary[ccstx]['lignes'] +=1
             summary[ccstx]['montant'] += insertions[clef]['Brut_Total__c']
             #for t in idCSTX['records']:
