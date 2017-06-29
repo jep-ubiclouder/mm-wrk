@@ -31,7 +31,7 @@ def maketable(summary):
         liste.append(summary[clef]['Nom'])
         liste.append(summary[clef]['Num_commande'])
         liste.append(summary[clef]['montant'])
-        liste.append(summary[clef]['Lignes'])
+        liste.append(summary[clef]['lignes'])
         table +=  tr(td(liste))    
     return table
 def sendmail(summary):
@@ -158,9 +158,9 @@ def process(parmDate):
             summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] +=1
             summary[ccstx]['montant'] += float(insertions[clef]['Brut_Total__c'])
-            summary[ccstx]['montant'] += float(insertions[clef]['NOM__C'])
+            summary[ccstx]['Nom'] += float(insertions[clef]['NOM__C'])
         except Exception  as err:
-            print(err)
+            print('exception',err)
         try:
             #for t in idCSTX['records']:
             #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
