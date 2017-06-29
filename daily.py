@@ -28,8 +28,10 @@ def maketable(summary):
     for clef in summary.keys():
         liste =[]
         liste.append(clef)
+        liste.append(summary[clef]['Nom'])
         liste.append(summary[clef]['Num_commande'])
         liste.append(summary[clef]['montant'])
+        liste.append(summary[clef]['Lignes'])
         table +=  tr(td(liste))    
     return table
 def sendmail(summary):
@@ -47,7 +49,7 @@ def sendmail(summary):
         Voici les resultats du batch de cette nuit<br>
         Lignes créées : %s
         <table>
-        <tr><th>CLIENT STX</th><th>Commande</th><th>Lignes</th><th>Montant Brut</th></tr>
+        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
     </p>
@@ -152,10 +154,14 @@ def process(parmDate):
             ccstx = insertions[clef]['Cle_Client_STX__c']
             # print(insertions[clef])
             if ccstx not in summary.keys():
-                summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00}
+                summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00,'Nom'}
             summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] +=1
             summary[ccstx]['montant'] += float(insertions[clef]['Brut_Total__c'])
+            summary[ccstx]['montant'] += float(insertions[clef]['NOM__C'])
+        except Exception  as err:
+            print(err)
+        try:
             #for t in idCSTX['records']:
             #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
             #        insertions[clef]['Compte__c']=t['Id']
