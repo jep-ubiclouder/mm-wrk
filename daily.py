@@ -26,6 +26,7 @@ def maketable(summary):
     table = ''
     liste =[]
     for clef in summary.keys():
+        liste =[]
         liste.append(clef)
         liste.append(summary[clef]['Num_commande'])
         liste.append(summary[clef]['montant'])
