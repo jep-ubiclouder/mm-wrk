@@ -158,7 +158,7 @@ def process(parmDate):
             summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] +=1
             summary[ccstx]['montant'] += float(insertions[clef]['Brut_Total__c'])
-            summary[ccstx]['Nom'] += float(insertions[clef]['NOM__C'])
+            summary[ccstx]['Nom'] += float(insertions[clef]['NOM__c'])
         except Exception  as err:
             print('exception',err)
         try:
