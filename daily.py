@@ -23,9 +23,9 @@ def maketable(summary):
     table = ''
     liste =[]
     for clef in summary.keys():
-        liste.append(key)
-        liste.append(summary[key]['Num_commande'])
-        liste.append(summary[key]['montant'])
+        liste.append(clef)
+        liste.append(summary[clef]['Num_commande'])
+        liste.append(summary[clef]['montant'])
         table +=  tr(td(liste))    
     return table
 def sendmail(summary):
@@ -146,7 +146,7 @@ def process(parmDate):
     for clef in insertions.keys() :
         try:
             ccstx = insertions[clef]['Cle_Client_STX__c']
-            print(insertions[clef])
+            # print(insertions[clef])
             if ccstx not in summary.keys():
                 summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00}
             summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
