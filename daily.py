@@ -16,8 +16,11 @@ def tr(s):
 
 def td(arr):
     ligne =''
+    
     for s in arr:
         ligne +=  '<td>%s</td>'%s
+    print(ligne)
+    
     return ligne
 def maketable(summary):
     table = ''
@@ -58,8 +61,8 @@ def sendmail(summary):
     
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
-    s.send_message(msg)
-    s.quit()
+    # s.send_message(msg)
+    #s.quit()
 
 def findFile(parmDate):
     
