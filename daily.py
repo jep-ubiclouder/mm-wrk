@@ -17,7 +17,7 @@ def tr(s):
 def td(arr):
     ligne =''
     for s in arr:
-        ligne +=  '<td>%</td>'%s
+        ligne +=  '<td>%s</td>'%s
     return ligne
 def maketable(summary):
     table = ''
