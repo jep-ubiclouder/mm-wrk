@@ -14,7 +14,7 @@ from datetime import date
 def tr(s):
     return '<tr>%s</tr>'%s
 
-def td(ar):
+def td(arr):
     ligne =''
     for s in arr:
         ligne +=  '<td>%</td>'%s
