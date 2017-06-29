@@ -11,13 +11,30 @@ import sys
 from _datetime import timedelta
 from datetime import date
 
-def sendmail(insertions):
+def tr(s):
+    return '<tr>%s</tr>'%s
+
+def td(ar):
+    ligne =''
+    for s in arr:
+        ligne +=  '<td>%</td>'%s
+    return ligne
+def maketable(summary):
+    table = ''
+    liste =[]
+    for clef in summary.keys():
+        liste.append(key)
+        liste.append(summary[key]['Num_commande'])
+        liste.append(summary[key]['montant'])
+        table +=  tr(td(liste))    
+    return table
+def sendmail(summary):
 
     # Import smtplib for the actual sending function
     import smtplib
     
     # Import the email modules we'll need
-    
+    for 
     html = """\
 <html>
   <head></head>
@@ -25,11 +42,14 @@ def sendmail(insertions):
     <p>Hi!<br>
         Voici les resultats du batch de cette nuit<br>
         Lignes créées : %s
-        
+        <table>
+        <tr><th>CLIENT STX</th><th>Commande</th><th>Lignes</th><th>Montant Brut</th></tr>
+        %s
+        </table>
     </p>
   </body>
 </html>
-""" %(insertions)
+""" %(len(summary), maketable(summary))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -120,10 +140,17 @@ def process(parmDate):
         i=1    
     #qry = 'select id,Cle_Client_STOCKX__c from account where Cle_Client_STOCKX__c in '    + ','.join("'{}'".format(u) for u in lstCLients)
     #idCSTX = sf.query(qry)
+    summary={}
     
         
     for clef in insertions.keys() :
         try:
+            ccstx = insertions[clef]['Cle_Client_STX__c']
+            if ccstx not in summary.keys():
+                summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00}
+            summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__C']
+            summary[ccstx]['lignes'] +=1
+            summary[ccstx]['montant'] += insertions[clef]['Brut_Total__c']
             #for t in idCSTX['records']:
             #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
             #        insertions[clef]['Compte__c']=t['Id']
@@ -131,7 +158,8 @@ def process(parmDate):
             i+=1
         except SalesforceMalformedRequest as err :
             print(err)
-    sendmail(i)
+    sendmail(summary)
+    
     
 if __name__ == '__main__':
     import argparse
