@@ -151,7 +151,7 @@ def process(parmDate):
                 summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00}
             summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] +=1
-            summary[ccstx]['montant'] += insertions[clef]['Brut_Total__c']
+            summary[ccstx]['montant'] += float(insertions[clef]['Brut_Total__c'])
             #for t in idCSTX['records']:
             #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
             #        insertions[clef]['Compte__c']=t['Id']
