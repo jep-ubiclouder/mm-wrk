@@ -154,9 +154,8 @@ def process(parmDate,now):
                     except :
                         print('ooops')
             if action =='M':  # une modification
-                print( Index_STOCKX__c)
-                lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
                 try:
+                    lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
                     for k in record.keys():
                         if k in lc.keys() :
                             if k in ( 'Brut_Total__c' ,'Brut_Editeur__c'):
