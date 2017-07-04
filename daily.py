@@ -161,7 +161,7 @@ def process(parmDate,now):
                             continue
                         if k in lc.keys() :
                             if k in ( 'Brut_Total__c' ,'Brut_Editeur__c'):
-                                lc[k]=float(lc[k])*0.1
+                                lc[k]=float(lc[k])*1.00
                                 
                             if lc[k] != record[k] : # une difference sur un des champs qui  nous interesse 
                                 print(k, lc[k],record[k])
