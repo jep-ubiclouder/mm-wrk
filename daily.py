@@ -170,13 +170,14 @@ def process(parmDate,now):
         #for t in idCSTX['records']:
         #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
         #        insertions[clef]['Compte__c']=t['Id']
+        print(dir(sf.bulk))
         reponse = sf.bulk.Lignes_commande__c.upsert(insertions,'Index_STOCKX__c')#%clef,insertions[clef], raw_response=True)
         i+=1
     except SalesforceMalformedRequest as err :
             print(err)
     for clef in deletions.keys():
         try:
-            lc =  sf.Lignes_commande__cget_by_custom_id('Index_STOCKX__c', clef)
+            lc =  sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', clef)
             reponse =sf.Lignes_commande__c.delete(lc['Id'])
         except Exception  as err:
             print('exception',err)
