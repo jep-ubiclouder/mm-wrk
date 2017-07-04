@@ -120,6 +120,7 @@ def process(parmDate,now):
     with open(findFile(parmDate), 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=',')
         for row in reader:
+            inserer =  False
             record={}
             statut = row['STATUT'] 
             commande=row['COMMANDE']
@@ -129,6 +130,8 @@ def process(parmDate,now):
             action =  row['STATUT']
             #if clientStx not in lstCLients:
             #    lstClients.append(clientStx)
+            
+            
             
             if commande=='123456':continue
             Index_STOCKX__c = row['IND']
@@ -150,10 +153,19 @@ def process(parmDate,now):
                         record[mapFields[clef]]=row[clef]
                     except :
                         print('ooops')
-            try:
-                if action in ('C','M'):
-                    insertions[Index_STOCKX__c] = record
+            if action =='M':  # une modification
+                lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
+                try:
+                    for k in record.keys():
+                        if k in lc.keys() :
+                             if lc[k] != record[k]: # une difference sur un des champs qui  nous interesse 
+                                 inserer = True
+                                 break
+                except :
                     pass
+            try:
+                if action == 'C' or inserer :
+                    insertions[Index_STOCKX__c] = record
                 else:
                     deletions[Index_STOCKX__c] = record
             except :
@@ -190,7 +202,7 @@ def process(parmDate,now):
             errors[clef] = insertions[clef]
     for clef in deletions.keys():
         try:
-            lc =  sf.Lignes_commande__cget_by_custom_id('Index_STOCKX__c', clef)
+            lc =  sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', clef)
             reponse =sf.Lignes_commande__c.delete(lc['Id'])
         except SalesforceMalformedRequest as err :
             print(err)
