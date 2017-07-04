@@ -100,6 +100,7 @@ def process(parmDate,now):
     i=0
     updates ={}
     insertions ={}
+    deletions ={}
     lstCLients =[]
     
     
@@ -112,14 +113,15 @@ def process(parmDate,now):
             
             # clients uniques
             clientStx = row['CLIENT']
+            action =  row['STATUT']
             #if clientStx not in lstCLients:
             #    lstClients.append(clientStx)
             
             if commande=='123456':continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
-                if clef =='IND': 
-                    continue 
+                #if clef =='IND': 
+                    #continue 
                     ## Nous faisons des upsert sur le champ Index_STOCKX__c NE DOIT PAS apparraitre dans le record
                 if clef in mapFields.keys():
                     if clef=='DESIGNATION': 
@@ -136,8 +138,11 @@ def process(parmDate,now):
                     except :
                         print('ooops')
             try:
-                insertions[Index_STOCKX__c] = record
-                pass
+                if action in ('C','M'):
+                    insertions[Index_STOCKX__c] = record
+                    pass
+                else:
+                    deletions[Index_STOCKX__c] = record
             except :
                continue
             
@@ -161,14 +166,18 @@ def process(parmDate,now):
             summary[ccstx]['Nom'] = insertions[clef]['NOM__c']
         except Exception  as err:
             print('exception',err)
-        try:
-            #for t in idCSTX['records']:
-            #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
-            #        insertions[clef]['Compte__c']=t['Id']
-            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            i+=1
-        except SalesforceMalformedRequest as err :
+    try:
+        #for t in idCSTX['records']:
+        #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
+        #        insertions[clef]['Compte__c']=t['Id']
+        reponse = sf.bulk.Lignes_commande__c.upsert(insertions,'Index_STOCKX__c')#%clef,insertions[clef], raw_response=True)
+        i+=1
+    except SalesforceMalformedRequest as err :
             print(err)
+    for clef in deletions.keys():
+        try:
+            lc =  sf.Lignes_commande__cget_by_custom_id('Index_STOCKX__c', clef)
+            reponse =sf.Lignes_commande__c.delete(lc['Id'])
     sendmail(now,summary)
     
     
