@@ -158,11 +158,11 @@ def process(parmDate,now):
                 try:
                     for k in record.keys():
                         if k in lc.keys() :
-                             if lc[k] != record[k]: # une difference sur un des champs qui  nous interesse 
+                             if lc[k] != record[k] or float(lc[k])!=float(record[k]): # une difference sur un des champs qui  nous interesse 
                                  print(k, lc,record)
                                  inserer = True
                                  break
-                except :
+                except ValueError:
                     pass
             try:
                 if action == 'C' or inserer :
