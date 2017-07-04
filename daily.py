@@ -178,6 +178,8 @@ def process(parmDate,now):
         try:
             lc =  sf.Lignes_commande__cget_by_custom_id('Index_STOCKX__c', clef)
             reponse =sf.Lignes_commande__c.delete(lc['Id'])
+        except Exception  as err:
+            print('exception',err)
     sendmail(now,summary)
     
     
