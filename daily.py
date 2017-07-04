@@ -166,7 +166,7 @@ def process(parmDate,now):
                                 inserer = True
                                 break
                             
-                except Exxception as err :
+                except Exception as err :
                     print(err, Index_STOCKX__c)
                     inserer =True
             try:
