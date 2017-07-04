@@ -166,7 +166,8 @@ def process(parmDate,now):
                                 inserer = True
                                 break
                             
-                except simple_salesforce.api.SalesforceResourceNotFound :
+                except Exxception as err :
+                    print(err, Index_STOCKX__c)
                     inserer =True
             try:
                 if action == 'C' or inserer :
