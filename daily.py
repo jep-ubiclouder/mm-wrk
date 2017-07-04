@@ -160,9 +160,9 @@ def process(parmDate,now):
                         if k in lc.keys() :
                             if k in ( 'Brut_Total__c' ,'Brut_Editeur__c'):
                                 lc[k]=float(lc[k])
-                             
+                                
                             if lc[k] != record[k] : # une difference sur un des champs qui  nous interesse 
-                                print(k, lc,record)
+                                print(k, lc[k],record[k])
                                 inserer = True
                                 break
                             
