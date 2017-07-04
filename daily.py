@@ -166,7 +166,7 @@ def process(parmDate,now):
                                 inserer = True
                                 break
                             
-                except SalesforceResourceNotFound :
+                except simple_salesforce.api.SalesforceResourceNotFound :
                     inserer =True
             try:
                 if action == 'C' or inserer :
