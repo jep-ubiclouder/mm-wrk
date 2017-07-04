@@ -157,9 +157,11 @@ def process(parmDate,now):
                 try:
                     lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
                     for k in record.keys():
+                        if k =='CLIENT_FINAL__c':
+                            continue
                         if k in lc.keys() :
                             if k in ( 'Brut_Total__c' ,'Brut_Editeur__c'):
-                                lc[k]=float(lc[k])
+                                lc[k]=float(lc[k])*0.1
                                 
                             if lc[k] != record[k] : # une difference sur un des champs qui  nous interesse 
                                 print(k, lc[k],record[k])
