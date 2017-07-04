@@ -159,7 +159,7 @@ def process(parmDate,now):
                     for k in record.keys():
                         if k in lc.keys() :
                              if lc[k] != record[k]: # une difference sur un des champs qui  nous interesse 
-                                 print(k, lc[k],record[k])
+                                 print(k, lc,record)
                                  inserer = True
                                  break
                 except :
