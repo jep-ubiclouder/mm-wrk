@@ -23,6 +23,8 @@ def td(arr):
     
     return ligne
 def maketable(summary):
+    if len(summary)<=0:
+        return 'Vide'
     table = ''
     liste =[]
     for clef in summary.keys():
@@ -34,7 +36,7 @@ def maketable(summary):
         liste.append(summary[clef]['lignes'])
         table +=  tr(td(liste))    
     return table
-def sendmail(now,summary):
+def sendmail(now,summary,errors,deletions):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -47,15 +49,26 @@ def sendmail(now,summary):
   <body>
     <p>Bonjour Marie-Noëlle !<br>
         Voici les resultats du batch pour la date:%s<br>
-        
+        <i>Enregistrements acceptés<i>
         <table>
         <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
+        <i>Enregistrements rejetés</i>
+        <table>
+        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        %s
+        </table>
+        <i>Enregistrements éffacés</i>
+        <table>
+        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        %s
+        </table>
+        
     </p>
   </body>
 </html>
-""" %( '%02i-%02i-%s'%(now.day,now.month,now.year), maketable(summary))
+""" %( '%02i-%02i-%s'%(now.day,now.month,now.year), maketable(summary),maketable(errors),maketable(deletions))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -65,7 +78,7 @@ def sendmail(now,summary):
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
-    #s.quit()
+    s.quit()
 
 def findFile(parmDate):
     
@@ -120,8 +133,8 @@ def process(parmDate,now):
             if commande=='123456':continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
-                #if clef =='IND': 
-                    #continue 
+                if clef =='IND': 
+                    continue 
                     ## Nous faisons des upsert sur le champ Index_STOCKX__c NE DOIT PAS apparraitre dans le record
                 if clef in mapFields.keys():
                     if clef=='DESIGNATION': 
@@ -152,7 +165,7 @@ def process(parmDate,now):
     #qry = 'select id,Cle_Client_STOCKX__c from account where Cle_Client_STOCKX__c in '    + ','.join("'{}'".format(u) for u in lstCLients)
     #idCSTX = sf.query(qry)
     summary={}
-    
+    errors ={}
         
     for clef in insertions.keys() :
         try:
@@ -166,23 +179,22 @@ def process(parmDate,now):
             summary[ccstx]['Nom'] = insertions[clef]['NOM__c']
         except Exception  as err:
             print('exception',err)
-    try:
-        #for t in idCSTX['records']:
-        #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
-        #        insertions[clef]['Compte__c']=t['Id']
-        print(dir(sf.bulk))
-        reponse = sf.bulk.Lignes_commande__c.upsert(insertions,'Index_STOCKX__c')#%clef,insertions[clef], raw_response=True)
-        i+=1
-    except SalesforceMalformedRequest as err :
+        try:
+            #for t in idCSTX['records']:
+            #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
+            #        insertions[clef]['Compte__c']=t['Id']
+            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
+            i+=1
+        except SalesforceMalformedRequest as err :
             print(err)
+            errors[clef] = insertions[clef]
     for clef in deletions.keys():
         try:
-            lc =  sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', clef)
+            lc =  sf.Lignes_commande__cget_by_custom_id('Index_STOCKX__c', clef)
             reponse =sf.Lignes_commande__c.delete(lc['Id'])
-        except Exception  as err:
-            print('exception',err)
-    sendmail(now,summary)
-    
+    sendmail(now,summary,errors,deletions)
+    #if len(errors)>0:
+    #    sendmailE(now,errors)
     
 if __name__ == '__main__':
     import argparse
