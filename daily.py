@@ -166,8 +166,8 @@ def process(parmDate,now):
                                 inserer = True
                                 break
                             
-                except :
-                    pass
+                except SalesforceResourceNotFound :
+                    inserer =True
             try:
                 if action == 'C' or inserer :
                     insertions[Index_STOCKX__c] = record
