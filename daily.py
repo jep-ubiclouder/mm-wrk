@@ -33,9 +33,15 @@ def maketable(summary):
         try:
             liste.append(summary[clef]['Nom'])
         except KeyError:
-            liste.append('Inconnu')
-        liste.append(summary[clef]['Num_commande'])
-        liste.append(summary[clef]['montant'])
+            liste.append('Nom Inconnu')
+        try:
+            liste.append(summary[clef]['Num_commande'])
+        except KeyError:
+            liste.append('Commande Inconnu')
+        try:
+            liste.append(summary[clef]['montant'])
+        except KeyError:
+            liste.append('Montant Inconnu')
         liste.append(summary[clef]['lignes'])
         table +=  tr(td(liste))    
     return table
