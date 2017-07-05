@@ -30,7 +30,10 @@ def maketable(summary):
     for clef in summary.keys():
         liste =[]
         liste.append(clef)
-        liste.append(summary[clef]['Nom'])
+        try:
+            liste.append(summary[clef]['Nom'])
+        except KeyError:
+            liste.append('Inconnu')
         liste.append(summary[clef]['Num_commande'])
         liste.append(summary[clef]['montant'])
         liste.append(summary[clef]['lignes'])
