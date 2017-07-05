@@ -187,9 +187,9 @@ def process(parmDate,now):
             try:
                 if action == 'C' or inserer :
                     insertions[Index_STOCKX__c] = record
-                else if action =='S':
+                elif action =='S':
                     deletions[Index_STOCKX__c] = record
-                else if action =='M' and not inserer:
+                elif action =='M' and not inserer:
                     errors[Index_STOCKX__c] = record
             except :
                continue
