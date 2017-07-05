@@ -161,7 +161,8 @@ def process(parmDate,now):
                             continue
                         if k in lc.keys() :
                             if k in ( 'Brut_Total__c' ,'Brut_Editeur__c'):
-                                lc[k]=float(lc[k])*1.00
+                                lc[k]="%10.2f"%float(lc[k])
+                                record[k] = "%10.2f"%float(record[k])
                                 
                             if lc[k] != record[k] : # une difference sur un des champs qui  nous interesse 
                                 print('InstockX',Index_STOCKX__c, 'key',k, 'lc',lc[k],'rec',record[k])
