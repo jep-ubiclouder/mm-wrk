@@ -31,21 +31,21 @@ def maketable(summary):
         liste =[]
         liste.append(clef)
         try:
-            liste.append(summary[clef]['Nom'])
+            liste.append(summary[clef]['NOM__c'])
         except KeyError:
             liste.append('Nom Inconnu')
         try:
-            liste.append(summary[clef]['Num_commande'])
+            liste.append(summary[clef]['COMMANDE_STX__c'])
         except KeyError:
             liste.append('Commande Inconnu')
         try:
-            liste.append(summary[clef]['montant'])
+            liste.append(summary[clef]['Brut_Total__c'])
         except KeyError:
             liste.append('Montant Inconnu')
         try:
             liste.append(summary[clef]['lignes'])
         except KeyError:
-            liste.append('0')
+            liste.append('1')
         table +=  tr(td(liste))    
     return table
 def sendmail(now,summary,errors,deletions):
@@ -198,11 +198,11 @@ def process(parmDate,now):
             ccstx = insertions[clef]['Cle_Client_STX__c']
             # print(insertions[clef])
             if ccstx not in summary.keys():
-                summary[ccstx] = {'Num_commande':'','lignes':0, 'montant':0.00,'Nom':''}
-            summary[ccstx]['Num_commande'] =insertions[clef]['COMMANDE_STX__c']
+                summary[ccstx] = {'COMMANDE_STX__c':'','lignes':0, 'Brut_Total__c':0.00,'NOM__c':''}
+            summary[ccstx]['COMMANDE_STX__c'] =insertions[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] +=1
-            summary[ccstx]['montant'] += float(insertions[clef]['Brut_Total__c'])
-            summary[ccstx]['Nom'] = insertions[clef]['NOM__c']
+            summary[ccstx]['Brut_Total__c'] += float(insertions[clef]['Brut_Total__c'])
+            summary[ccstx]['NOM__c'] = insertions[clef]['NOM__c']
         except Exception  as err:
             print('exception',err)
         try:
