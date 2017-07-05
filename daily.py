@@ -127,7 +127,7 @@ def process(parmDate,now):
     insertions ={}
     deletions ={}
     lstCLients =[]
-    
+    errors ={}
     
     with open(findFile(parmDate), 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=',')
@@ -191,7 +191,7 @@ def process(parmDate,now):
                 print('Erreur',err )
         i=1    
     summary={}
-    errors ={}
+    
         
     for clef in insertions.keys() :
         try:
