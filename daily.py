@@ -42,7 +42,10 @@ def maketable(summary):
             liste.append(summary[clef]['montant'])
         except KeyError:
             liste.append('Montant Inconnu')
-        liste.append(summary[clef]['lignes'])
+        try:
+            liste.append(summary[clef]['lignes'])
+        except KeyError:
+            liste.append('0')
         table +=  tr(td(liste))    
     return table
 def sendmail(now,summary,errors,deletions):
