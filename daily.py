@@ -164,7 +164,7 @@ def process(parmDate,now):
                                 lc[k]=float(lc[k])*1.00
                                 
                             if lc[k] != record[k] : # une difference sur un des champs qui  nous interesse 
-                                print(k, lc[k],record[k])
+                                print('InstockX',Index_STOCKX__c, 'key',k, 'lc',lc[k],'rec',record[k])
                                 inserer = True
                                 break
                             
