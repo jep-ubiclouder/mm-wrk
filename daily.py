@@ -140,11 +140,7 @@ def process(parmDate,now):
             # clients uniques
             clientStx = row['CLIENT']
             action =  row['STATUT']
-            #if clientStx not in lstCLients:
-            #    lstClients.append(clientStx)
-            
-            
-            
+
             if commande=='123456':continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
@@ -191,14 +187,9 @@ def process(parmDate,now):
                     deletions[Index_STOCKX__c] = record
                 elif action =='M' and inserer==False:
                     errors[Index_STOCKX__c] = record
-            except :
-               continue
-            
-        
-        
+            except Exception as err:
+                print('Erreur',err )
         i=1    
-    #qry = 'select id,Cle_Client_STOCKX__c from account where Cle_Client_STOCKX__c in '    + ','.join("'{}'".format(u) for u in lstCLients)
-    #idCSTX = sf.query(qry)
     summary={}
     errors ={}
         
