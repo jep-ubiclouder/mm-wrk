@@ -17,4 +17,4 @@ eurodep= FTP(host='ftp.eurodep.fr',user='HOMMEDEFER',passwd='lhdf515')
 #truc =  eurodep.retrlines('LIST')
 truc = eurodep.nlst('*.CSV')
 for t in truc:
-    print(t)
+    eurodep.retrbinary('RETR %s'%t, open('%s'%t,'wb').write)
