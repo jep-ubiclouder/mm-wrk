@@ -14,7 +14,7 @@ from ftplib import FTP
 
 eurodep= FTP(host='ftp.eurodep.fr',user='HOMMEDEFER',passwd='lhdf515')
 
-truc =  eurodep.retrlines('LIST')
-
+#truc =  eurodep.retrlines('LIST')
+truc = eurodep.nlst('*.CSV')
 for t in truc:
     print(t)
