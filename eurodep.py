@@ -41,7 +41,10 @@ def processFile(fname):
     import os.path
     import csv
     print(fname)
-    
+    with open(fname, 'r',encoding='utf-8') as csvfile:
+        reader=  csv.DictReader(csvfile,delimiter=';')
+        for row in reader:
+           print(row) 
 if __name__ == '__main__':
     import argparse
     
@@ -56,4 +59,4 @@ if __name__ == '__main__':
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
     fn = getfromFTP(compactDate)
-    print(fn) 
+    processFile(fn)
