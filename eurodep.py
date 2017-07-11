@@ -14,7 +14,7 @@ from ftplib import FTP
 
 
 
-def getfromFTP(compactDate,now):
+def getfromFTP(compactDate):
     print(compactDate)
     eurodep= FTP(host='ftp.eurodep.fr',user='HOMMEDEFER',passwd='lhdf515')    
     
@@ -22,7 +22,26 @@ def getfromFTP(compactDate,now):
     for t in truc:
         eurodep.retrbinary('RETR %s'%t, open('%s'%t,'wb').write)
     return truc[0]
-   
+
+
+def processFile(fname):
+    from simple_salesforce import (
+    Salesforce,
+    SalesforceAPI,
+    SFType,
+    SalesforceError,
+    SalesforceMoreThanOneRecord,
+    SalesforceExpiredSession,
+    SalesforceRefusedRequest,
+    SalesforceResourceNotFound,
+    SalesforceGeneralError,
+    SalesforceMalformedRequest
+    )
+    sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
+    import os.path
+    import csv
+    print(fname)
+    
 if __name__ == '__main__':
     import argparse
     
@@ -36,5 +55,5 @@ if __name__ == '__main__':
     if args.parmDate is None:
         now = datetime.now() -timedelta(days=1)
     compactDate='%s%02i%02i'%(now.year,now.month,now.day)
-    fn = getfromFTP(compactDate,now)
+    fn = getfromFTP(compactDate)
     print(fn) 
