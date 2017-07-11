@@ -37,7 +37,7 @@ def processFile(fname):
     SalesforceGeneralError,
     SalesforceMalformedRequest
     )
-    sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
+    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     import os.path
     import csv
     print(fname)
