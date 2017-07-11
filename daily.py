@@ -52,7 +52,7 @@ def sendmail(now,summary,errors,deletions):
 
     # Import smtplib for the actual sending function
     import smtplib
-    print(summary)
+    # print(summary)
     # Import the email modules we'll need
     
     html = """\
