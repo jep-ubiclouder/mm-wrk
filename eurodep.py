@@ -10,4 +10,10 @@ from simple_salesforce import Salesforce
 import sys
 from _datetime import timedelta
 from datetime import date
-from ftplib import FTP_PORT
+from ftplib import FTP
+
+eurodep= FTP(host='ftp.eurodep.fr',user='HOMMEDEFER',passwd='lhdf515')
+
+truc =  eurodep.retrlines('LIST')
+
+print(truc)
