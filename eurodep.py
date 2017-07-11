@@ -16,4 +16,5 @@ eurodep= FTP(host='ftp.eurodep.fr',user='HOMMEDEFER',passwd='lhdf515')
 
 truc =  eurodep.retrlines('LIST')
 
-print(truc)
+for t in truc:
+    print(t)
