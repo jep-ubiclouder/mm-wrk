@@ -38,13 +38,15 @@ def processFile(fname):
     SalesforceMalformedRequest
     )
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    
     import os.path
     import csv
     print(fname)
     with open(fname, 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=';')
         for row in reader:
-           print(row) 
+           print(row)
+    print(sf) 
 if __name__ == '__main__':
     import argparse
     
