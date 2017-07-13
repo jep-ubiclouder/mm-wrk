@@ -66,13 +66,13 @@ def processFile(fname):
         "\'%s\'" % c for c in eans]) + ')'
     les_eans = sf.query(qry_eans)
     for prod in les_eans['records']:
-        print(prod)
+        print("EAN",prod)
 
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
     les_eans = sf.query(qry_arts)
     for prod in les_eans['records']:
-        print(prod)
+        print("ART",prod)
 
 
 if __name__ == '__main__':
