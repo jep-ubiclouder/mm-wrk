@@ -55,7 +55,10 @@ def getfromFTP(compactDate):
 
     truc = eurodep.nlst('*%s.csv' % compactDate)
     for t in truc:
-        eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
+        try:
+            eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
+        Exception e:
+            return False
     return truc[0]
 
 
@@ -192,4 +195,5 @@ if __name__ == '__main__':
         now = datetime.now() - timedelta(days=1)
     compactDate = '%s%02i%02i' % (now.year, now.month, now.day)
     fn = getfromFTP(compactDate)
-    processFile(fn)
+    if fn != False:
+        processFile(fn)
