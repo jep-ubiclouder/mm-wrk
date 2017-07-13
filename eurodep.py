@@ -117,11 +117,7 @@ def processFile(fname):
     byACL = {}
     entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
     sourceEncoding = "iso-8859-1"
-    ## targetEncoding = "utf-8"
     source = fname
-    ## target = open("./work.txt", "w")
-
-    ## import codecs
     BLOCKSIZE = 1048576  # or some other, desired size in bytes
     with codecs.open(fname, "r", sourceEncoding) as sourceFile:
         with codecs.open("./work.txt", "w", "utf-8") as targetFile:
@@ -172,7 +168,7 @@ def processFile(fname):
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
     les_Acl = sf.query(qry_arts)
-    for prod in les_eans['records']:
+    for prod in les_Acl['records']:
         # print("ART",prod)
         connus.append(prod['Code_ACL__c'])
     ACLInconnus = findUnknownItems(connus, arts)
