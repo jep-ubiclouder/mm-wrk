@@ -70,7 +70,7 @@ def processFile(fname):
     for acc in les_ids['records']:
         #print(acc)
         connus.append(acc['Code_EURODEP__c'])
-    clientsInconnus= findUnknownItems(connus,codes_cli)
+    clientsInconnus = findUnknownItems(connus,codes_cli)
     
     connus=[]
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
@@ -79,16 +79,19 @@ def processFile(fname):
     for prod in les_eans['records']:
         #print("EAN",prod)
         connus.append(prod['EAN__c'])
-    EANInconnus= findUnknownItems(connus, eans)
+    EANInconnus = findUnknownItems(connus, eans)
     
-        
+    connus=[]    
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
-    les_eans = sf.query(qry_arts)
+    les_Acl = sf.query(qry_arts)
     for prod in les_eans['records']:
-        print("ART",prod)
+        #print("ART",prod)
+        connus.append(prod['Code_ACL__c'])
+    ACLInconnus = findUnknownItems(connus, )
+    
         
-    print("Client Inconnus",clientsInconnus,"ean inconnus",EANInconnus )
+    print("Client Inconnus",clientsInconnus,"ean inconnus",EANInconnus , "ACL Inconnus",ACLInconnus)
 
 if __name__ == '__main__':
     import argparse
