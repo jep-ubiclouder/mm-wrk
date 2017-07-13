@@ -57,7 +57,7 @@ def getfromFTP(compactDate):
     for t in truc:
         try:
             eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
-        except Exception e:
+        except Exception :
             return False
     return truc[0]
 
