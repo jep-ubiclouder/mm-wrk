@@ -68,7 +68,7 @@ def processFile(fname):
 
     les_ids = sf.query(qry_code_eurodep)
     for acc in les_ids['records']:
-        print(acc)
+        #print(acc)
         connus.append(acc['Code_EURODEP__c'])
     clientsInconnus= findUnknownItems(connus,codes_cli)
     
@@ -77,7 +77,7 @@ def processFile(fname):
         "\'%s\'" % c for c in eans]) + ')'
     les_eans = sf.query(qry_eans)
     for prod in les_eans['records']:
-        print("EAN",prod)
+        #print("EAN",prod)
         connus.append(prod['EAN__c'])
     EANInconnus= findUnknownItems(connus, eans)
     
@@ -88,7 +88,7 @@ def processFile(fname):
     for prod in les_eans['records']:
         print("ART",prod)
         
-    
+    print("Client Inconnus",clientsInconnus,"ean inconnus",EANInconnus )
 
 if __name__ == '__main__':
     import argparse
