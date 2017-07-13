@@ -54,7 +54,8 @@ def processFile(fname):
     res = 'select id,name,BillingCity from account where Code_EURODEP__c in ('+','.join(["\'%s\'"%c for c in codes_cli])+')'
     print(res)
     les_ids =sf.query(res)
-    print(les_ids)
+    for acc in les_ids['records']:
+        print(acc)
 if __name__ == '__main__':
     import argparse
     
