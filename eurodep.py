@@ -10,7 +10,7 @@ from simple_salesforce import Salesforce
 import sys
 from _datetime import timedelta
 from datetime import date
-from ftplib import FTP
+from ftplib import FTP,all_errors
 #import webbrowser
 import codecs
 
