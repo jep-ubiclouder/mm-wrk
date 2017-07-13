@@ -73,12 +73,13 @@ def findUnknownItems(connus, fournis):
 def findProduitsInconnus(ean,acl,EANInconnus,ACLInconnus):
     produitsInconnus =[]
     for k in EANInconnus:
-        if ean[k]['ART'] not in acl.keys():
+        if ean[k][0]['ART'] not in acl.keys():
             produitsInconnus.append(ean[k])
         
             
     for k in ACLInconnus:
-        if acl[k]['EAN ART'] not in ean.keys():
+        print(k,acl[k])
+        if acl[k][0]['EAN ART'] not in ean.keys():
             produitsInconnus.append(acl[k])
     return produitsInconnus
 
