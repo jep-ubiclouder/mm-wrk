@@ -11,24 +11,28 @@ import sys
 from _datetime import timedelta
 from datetime import date
 
+
 def tr(s):
-    return '<tr>%s</tr>'%s
+    return '<tr>%s</tr>' % s
+
 
 def td(arr):
-    ligne =''
-    
+    ligne = ''
+
     for s in arr:
-        ligne +=  '<td>%s</td>'%s
+        ligne += '<td>%s</td>' % s
     print(ligne)
-    
+
     return ligne
+
+
 def maketable(summary):
-    if len(summary)<=0:
+    if len(summary) <= 0:
         return 'Vide'
     table = ''
-    liste =[]
+    liste = []
     for clef in summary.keys():
-        liste =[]
+        liste = []
         liste.append(clef)
         try:
             liste.append(summary[clef]['NOM__c'])
@@ -46,15 +50,17 @@ def maketable(summary):
             liste.append(summary[clef]['lignes'])
         except KeyError:
             liste.append('1')
-        table +=  tr(td(liste))    
+        table += tr(td(liste))
     return table
-def sendmail(now,summary,errors,deletions):
+
+
+def sendmail(now, summary, errors, deletions):
 
     # Import smtplib for the actual sending function
     import smtplib
     # print(summary)
     # Import the email modules we'll need
-    
+
     html = """\
 <html>
   <head></head>
@@ -80,161 +86,164 @@ def sendmail(now,summary,errors,deletions):
     </p>
   </body>
 </html>
-""" %( '%02i-%02i-%s'%(now.day,now.month,now.year), maketable(summary),maketable(errors),maketable(deletions))
+""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(errors), maketable(deletions))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
     msg['From'] = 'lignesdecommandes@mm-aws.com'
     msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
-    
+
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
 
+
 def findFile(parmDate):
-    
-    base ='./bucket-mm-daily/EXPORT_%s.CSV'%parmDate
+
+    base = './bucket-mm-daily/EXPORT_%s.CSV' % parmDate
     return base
-    
-def process(parmDate,now):
-    
+
+
+def process(parmDate, now):
+
     from simple_salesforce import (
-    Salesforce,
-    SalesforceAPI,
-    SFType,
-    SalesforceError,
-    SalesforceMoreThanOneRecord,
-    SalesforceExpiredSession,
-    SalesforceRefusedRequest,
-    SalesforceResourceNotFound,
-    SalesforceGeneralError,
-    SalesforceMalformedRequest
+        Salesforce,
+        SalesforceAPI,
+        SFType,
+        SalesforceError,
+        SalesforceMoreThanOneRecord,
+        SalesforceExpiredSession,
+        SalesforceRefusedRequest,
+        SalesforceResourceNotFound,
+        SalesforceGeneralError,
+        SalesforceMalformedRequest
     )
     sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
     import os.path
     import csv
     mapFields = {}
-    mapfile = open('./bucket-mm-daily/mapping_lignes-de-commandes2017.sdl','r')
+    mapfile = open('./bucket-mm-daily/mapping_lignes-de-commandes2017.sdl', 'r')
     for l in mapfile.readlines():
-        if l[0] =='#':
+        if l[0] == '#':
             continue
-        (clefSTX,clefSF) = l.split('=')
-        mapFields[clefSTX]=clefSF[:-1]
-    print( mapFields)
-    i=0
-    updates ={}
-    insertions ={}
-    deletions ={}
-    lstCLients =[]
-    errors ={}
-    
-    with open(findFile(parmDate), 'r',encoding='utf-8') as csvfile:
-        reader=  csv.DictReader(csvfile,delimiter=',')
+        (clefSTX, clefSF) = l.split('=')
+        mapFields[clefSTX] = clefSF[:-1]
+    print(mapFields)
+    i = 0
+    updates = {}
+    insertions = {}
+    deletions = {}
+    lstCLients = []
+    errors = {}
+
+    with open(findFile(parmDate), 'r', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
-            inserer =  False
-            record={}
-            statut = row['STATUT'] 
-            commande=row['COMMANDE']
-            
+            inserer = False
+            record = {}
+            statut = row['STATUT']
+            commande = row['COMMANDE']
+
             # clients uniques
             clientStx = row['CLIENT']
-            action =  row['STATUT']
+            action = row['STATUT']
 
-            if commande=='123456':continue
+            if commande == '123456':
+                continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
-                if clef =='IND': 
-                    continue 
-                    ## Nous faisons des upsert sur le champ Index_STOCKX__c NE DOIT PAS apparraitre dans le record
+                if clef == 'IND':
+                    continue
+                    # Nous faisons des upsert sur le champ Index_STOCKX__c NE DOIT PAS apparraitre dans le record
                 if clef in mapFields.keys():
-                    if clef=='DESIGNATION': 
-                        row[clef] =row[clef][:80]
-                        
-                    ## passage en AA-MM-JJ
-                    if clef=='DATE_CDE' or clef == 'PARUTION':
-                        ## print(clef, row[clef])                    
-                        (d,m,a) = row[clef].split('-')
-                        value= '%s-%s-%s'%(a,m,d)
-                        row[clef]=value
+                    if clef == 'DESIGNATION':
+                        row[clef] = row[clef][:80]
+
+                    # passage en AA-MM-JJ
+                    if clef == 'DATE_CDE' or clef == 'PARUTION':
+                        ## print(clef, row[clef])
+                        (d, m, a) = row[clef].split('-')
+                        value = '%s-%s-%s' % (a, m, d)
+                        row[clef] = value
                     try:
-                        record[mapFields[clef]]=row[clef]
-                    except :
+                        record[mapFields[clef]] = row[clef]
+                    except:
                         print('ooops')
-            if action =='M':  # une modification
+            if action == 'M':  # une modification
                 try:
                     lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
                     for k in record.keys():
-                        if k =='CLIENT_FINAL__c':
+                        if k == 'CLIENT_FINAL__c':
                             continue
-                        if k in lc.keys() :
-                            if k in ( 'Brut_Total__c' ,'Brut_Editeur__c'):
-                                lc[k]="%10.2f"%float(lc[k])
-                                record[k] = "%10.2f"%float(record[k])
-                                
-                            if lc[k] != record[k] : # une difference sur un des champs qui  nous interesse 
-                                print('InstockX',Index_STOCKX__c, 'key',k, 'lc',lc[k],'rec',record[k])
+                        if k in lc.keys():
+                            if k in ('Brut_Total__c', 'Brut_Editeur__c'):
+                                lc[k] = "%10.2f" % float(lc[k])
+                                record[k] = "%10.2f" % float(record[k])
+
+                            if lc[k] != record[k]:  # une difference sur un des champs qui  nous interesse
+                                print('InstockX', Index_STOCKX__c, 'key', k, 'lc', lc[k], 'rec', record[k])
                                 inserer = True
                                 break
-                            
-                except Exception as err :
+
+                except Exception as err:
                     print(err, Index_STOCKX__c)
-                    inserer =True
+                    inserer = True
             try:
-                if action == 'C' or inserer :
+                if action == 'C' or inserer:
                     insertions[Index_STOCKX__c] = record
-                elif action =='S':
+                elif action == 'S':
                     deletions[Index_STOCKX__c] = record
-                elif action =='M' and inserer==False:
+                elif action == 'M' and inserer == False:
                     errors[Index_STOCKX__c] = record
             except Exception as err:
-                print('Erreur',err )
-        i=1    
-    summary={}
-    
-        
-    for clef in insertions.keys() :
+                print('Erreur', err)
+        i = 1
+    summary = {}
+
+    for clef in insertions.keys():
         try:
             ccstx = insertions[clef]['Cle_Client_STX__c']
             # print(insertions[clef])
             if ccstx not in summary.keys():
-                summary[ccstx] = {'COMMANDE_STX__c':'','lignes':0, 'Brut_Total__c':0.00,'NOM__c':''}
-            summary[ccstx]['COMMANDE_STX__c'] =insertions[clef]['COMMANDE_STX__c']
-            summary[ccstx]['lignes'] +=1
+                summary[ccstx] = {'COMMANDE_STX__c': '', 'lignes': 0, 'Brut_Total__c': 0.00, 'NOM__c': ''}
+            summary[ccstx]['COMMANDE_STX__c'] = insertions[clef]['COMMANDE_STX__c']
+            summary[ccstx]['lignes'] += 1
             summary[ccstx]['Brut_Total__c'] += float(insertions[clef]['Brut_Total__c'])
             summary[ccstx]['NOM__c'] = insertions[clef]['NOM__c']
-        except Exception  as err:
-            print('exception',err)
+        except Exception as err:
+            print('exception', err)
         try:
-            #for t in idCSTX['records']:
+            # for t in idCSTX['records']:
             #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
             #        insertions[clef]['Compte__c']=t['Id']
-            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s'%clef,insertions[clef], raw_response=True)
-            i+=1
-        except SalesforceMalformedRequest as err :
+            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
+            i += 1
+        except SalesforceMalformedRequest as err:
             print(err)
             errors[clef] = insertions[clef]
     for clef in deletions.keys():
         try:
-            lc =  sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', clef)
-            reponse =sf.Lignes_commande__c.delete(lc['Id'])
-        except SalesforceMalformedRequest as err :
+            lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', clef)
+            reponse = sf.Lignes_commande__c.delete(lc['Id'])
+        except SalesforceMalformedRequest as err:
             print(err)
-    sendmail(now,summary,errors,deletions)
-    #if len(errors)>0:
+    sendmail(now, summary, errors, deletions)
+    # if len(errors)>0:
     #    sendmailE(now,errors)
-    
+
+
 if __name__ == '__main__':
     import argparse
-    
+
     parser = argparse.ArgumentParser(description='Short sample app')
-    parser.add_argument('-d','--date', action="store", dest="parmDate")
-    
+    parser.add_argument('-d', '--date', action="store", dest="parmDate")
+
     args = parser.parse_args()
     from datetime import datetime, timedelta
-    if args.parmDate :
+    if args.parmDate:
         now = datetime.strptime(args.parmDate, '%Y-%m-%d')
     if args.parmDate is None:
-        now = datetime.now() -timedelta(days=1)
-    compactDate='%s%02i%02i'%(now.year,now.month,now.day)
-    process(compactDate,now) 
+        now = datetime.now() - timedelta(days=1)
+    compactDate = '%s%02i%02i' % (now.year, now.month, now.day)
+    process(compactDate, now)

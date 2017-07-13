@@ -45,7 +45,8 @@ def processFile(fname):
     with open(fname, 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=';')
         for row in reader:
-           print(row)
+           print('Code Client',row['CODCLI'])
+           
     print(sf) 
 if __name__ == '__main__':
     import argparse
