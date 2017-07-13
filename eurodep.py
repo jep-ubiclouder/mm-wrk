@@ -54,7 +54,7 @@ def getfromFTP(compactDate):
     eurodep = FTP(host='ftp.eurodep.fr', user='HOMMEDEFER', passwd='lhdf515')
     try:
         truc = eurodep.nlst('*%s.csv' % compactDate)
-    except ftplib.all_errors as e:
+    except all_errors as e:
         print('No File today')
         return False
     
