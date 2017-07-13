@@ -39,7 +39,7 @@ def maketable(clefs, dico, entetes):
     if len(clefs) < 1:
         return 'Vide'
     ent = entetes.values()
-    result += th(ent)
+    result += tr(th(ent))
     temp = []
     #print( dico)
     for inconnu in clefs:
