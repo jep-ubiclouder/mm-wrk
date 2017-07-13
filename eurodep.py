@@ -34,15 +34,15 @@ def th(arr):
     return ligne
 
 
-def maketable(clef,dico, entetes):
+def maketable(clefs, dico, entetes):
     result = ''
-    if len(data) < 1:
+    if len(clefs) < 1:
         return 'Vide'
-    ent=entetes.values()
+    ent = entetes.values()
     result += th(ent)
-    temp=[]
-    for inconnu in clef:
-        result+=tr(td([dico[inconnu][k] for k in entetes.keys()]))
+    temp = []
+    for inconnu in clefs:
+        result += tr(td([dico[inconnu][k] for k in entetes.keys()]))
     return result
 
 
@@ -162,7 +162,8 @@ def processFile(fname):
 
     produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
     print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
-    print(maketable(clientsInconnus,byCODCLI,entetesClientsInconnus))
+    print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
+
 
 if __name__ == '__main__':
     import argparse
