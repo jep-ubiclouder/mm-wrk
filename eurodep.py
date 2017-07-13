@@ -122,7 +122,7 @@ def processFile(fname):
 
     target.write(unicode(source.read(), sourceEncoding).encode(targetEncoding))
 
-    with open(fname, 'r', encoding='utf-8') as csvfile:
+    with open("./work.txt", 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
         for row in reader:
             print('Code Client', row['CODCLI'])
