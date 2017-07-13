@@ -51,7 +51,7 @@ def processFile(fname):
                codes_cli.append(row['CODCLI'])
         
     print(codes_cli) 
-    res = 'select id,name from account where Code_EURODEP__c in :(%s)'%codes_cli[:]
+    res = 'select id,name from account where Code_EURODEP__c in :('+','.join(codes_cli)+')'
     print(res)
 if __name__ == '__main__':
     import argparse
