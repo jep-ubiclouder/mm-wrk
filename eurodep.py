@@ -75,12 +75,15 @@ def findProduitsInconnus(ean,acl,EANInconnus,ACLInconnus):
     for k in EANInconnus:
         if ean[k][0]['ART'] not in acl.keys():
             produitsInconnus.append(ean[k])
-        
+        else:
+            print('found unkown EAN k',k, 'by',ean[k][0]['ART'])
             
     for k in ACLInconnus:
-        print(k,acl[k])
+        
         if acl[k][0]['EAN ART'] not in ean.keys():
             produitsInconnus.append(acl[k])
+        else:
+            print('found unkown ACL k',k, 'by',acl[k][0]['EAN ART'])
     return produitsInconnus
 
 def processFile(fname):
