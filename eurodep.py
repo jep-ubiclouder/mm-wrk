@@ -22,7 +22,7 @@ def td(arr):
     ligne = ''
     for s in arr:
         ligne += '<td>%s</td>' % s
-    ##print(ligne)
+    # print(ligne)
     return ligne
 
 
@@ -43,7 +43,7 @@ def maketable(clefs, dico, entetes):
     temp = []
     #print( dico)
     for inconnu in clefs:
-        #print(dico[inconnu][0])
+        # print(dico[inconnu][0])
         result += tr(td([dico[inconnu][0][k] for k in entetes.keys()]))
     return result
 
@@ -115,6 +115,12 @@ def processFile(fname):
     byEAN = {}
     byACL = {}
     entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
+    sourceEncoding = "iso-8859-1"
+    targetEncoding = "utf-8"
+    source = open(fname)
+    target = open("./work.txt", "w")
+
+    target.write(unicode(source.read(), sourceEncoding).encode(targetEncoding))
 
     with open(fname, 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
