@@ -51,7 +51,7 @@ def processFile(fname):
                codes_cli.append("%s"%row['CODCLI'])
         
     print(codes_cli) 
-    res = 'select id,name,BillingAddress from account where Code_EURODEP__c in ('+','.join(["\'%s\'"%c for c in codes_cli])+')'
+    res = 'select id,name,BillingCity from account where Code_EURODEP__c in ('+','.join(["\'%s\'"%c for c in codes_cli])+')'
     print(res)
     les_ids =sf.query(res)
     print(les_ids)
