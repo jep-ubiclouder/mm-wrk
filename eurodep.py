@@ -23,6 +23,12 @@ def getfromFTP(compactDate):
     return truc[0]
 
 
+def findUnknownItems(connus, fournis):
+    resultat = []
+    for k in fournis:
+        if k not in connus:
+            resultat.append(k)
+    return resultat 
 def processFile(fname):
     from simple_salesforce import (
         Salesforce,
@@ -44,6 +50,7 @@ def processFile(fname):
     codes_cli = []
     eans = []
     arts = []
+    connus =[]
     with open(fname, 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
         for row in reader:
@@ -62,18 +69,26 @@ def processFile(fname):
     les_ids = sf.query(qry_code_eurodep)
     for acc in les_ids['records']:
         print(acc)
+        connus.append(acc['Code_Eurodep__c'])
+    clientsInconnus= findUnknownItems(connus,codes_cli)
+    
+    connus=[]
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
         "\'%s\'" % c for c in eans]) + ')'
     les_eans = sf.query(qry_eans)
     for prod in les_eans['records']:
         print("EAN",prod)
-
+        connus.append(prod['EAN__c'])
+    EANInconnus= findUnknownItems(connus, eans)
+    
+        
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
     les_eans = sf.query(qry_arts)
     for prod in les_eans['records']:
         print("ART",prod)
-
+        
+    
 
 if __name__ == '__main__':
     import argparse
