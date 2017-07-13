@@ -88,7 +88,7 @@ def processFile(fname):
     for prod in les_eans['records']:
         #print("ART",prod)
         connus.append(prod['Code_ACL__c'])
-    ACLInconnus = findUnknownItems(connus, )
+    ACLInconnus = findUnknownItems(connus,arts )
     
         
     print("Client Inconnus",clientsInconnus,"ean inconnus",EANInconnus , "ACL Inconnus",ACLInconnus)
