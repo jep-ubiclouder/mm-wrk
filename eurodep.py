@@ -12,7 +12,7 @@ from _datetime import timedelta
 from datetime import date
 from ftplib import FTP
 #import webbrowser
-
+import codecs
 
 def tr(s):
     return '<tr>%s</tr>\n' % s
