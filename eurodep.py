@@ -41,9 +41,9 @@ def maketable(clefs, dico, entetes):
     ent = entetes.values()
     result += th(ent)
     temp = []
-    print( dico)
+    #print( dico)
     for inconnu in clefs:
-        print(inconnu)
+        print(dico[inconnu])
         result += tr(td([dico[inconnu][k] for k in entetes.keys()]))
     return result
 
