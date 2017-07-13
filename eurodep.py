@@ -37,17 +37,22 @@ def processFile(fname):
     SalesforceGeneralError,
     SalesforceMalformedRequest
     )
-    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    #sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     
     import os.path
     import csv
     print(fname)
+    codes_cli = []
     with open(fname, 'r',encoding='utf-8') as csvfile:
         reader=  csv.DictReader(csvfile,delimiter=';')
         for row in reader:
            print('Code Client',row['CODCLI'])
-           
-    print(sf) 
+           if row['CODCLI'] not in codes_cli:
+               codes_cli.append(row['CODCLI'])
+        
+    print(codes_cli) 
+    res = 'select id,name from account where Code_EURODEP__c in :(%s)'%codes_cli[:]
+    print(res)
 if __name__ == '__main__':
     import argparse
     
