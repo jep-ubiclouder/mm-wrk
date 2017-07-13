@@ -6,14 +6,27 @@ Created on 11 juillet 2017
 
 @author: jean-eric preis
 '''
-from simple_salesforce import Salesforce
+from simple_salesforce import (
+     Salesforce,
+     SalesforceAPI,
+     SFType,
+     SalesforceError,
+     SalesforceMoreThanOneRecord,
+     SalesforceExpiredSession,
+     SalesforceRefusedRequest,
+     SalesforceResourceNotFound,
+     SalesforceGeneralError,
+     SalesforceMalformedRequest
+ )
+
 import sys
 from _datetime import timedelta
 from datetime import date
-from ftplib import FTP,all_errors
-#import webbrowser
-import codecs
+from ftplib import FTP, all_errors
 
+import codecs
+import os.path
+import csv
 
 def tr(s):
     return '<tr>%s</tr>\n' % s
@@ -23,7 +36,6 @@ def td(arr):
     ligne = ''
     for s in arr:
         ligne += '<td>%s</td>' % s
-    # print(ligne)
     return ligne
 
 
@@ -31,35 +43,35 @@ def th(arr):
     ligne = ''
     for s in arr:
         ligne += '<th>%s</th>' % s
-    print(ligne)
     return ligne
 
 
 def maketable(clefs, dico, entetes):
+    """ Renvoie une table propre HTML pour inclusion dans le mail resultant"""
     result = ''
     if len(clefs) < 1:
         return 'Vide'
     ent = entetes.values()
     result += tr(th(ent))
-    temp = []
-    #print( dico)
     for inconnu in clefs:
-        # print(dico[inconnu][0])
         result += tr(td([dico[inconnu][0][k] for k in entetes.keys()]))
     return result
 
 
 def getfromFTP(compactDate):
-    print(compactDate)
+    """ 
+    Telecharge le fichier du jour de la date passée en parammètre format YYYYMMDD
+    Renvoie le nom du fichier ecrit sur le disque ou False si une erreur est survenue
+    """
     eurodep = FTP(host='ftp.eurodep.fr', user='HOMMEDEFER', passwd='lhdf515')
     try:
         truc = eurodep.nlst('*%s.csv' % compactDate)
     except all_errors as e:
         print('No File today')
         return False
-    
+
     for t in truc:
-        eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)    
+        eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
     return truc[0]
 
 
@@ -69,6 +81,9 @@ def envoieEmail(clientsInconnus, produitsInconnus):
 
 
 def findUnknownItems(connus, fournis):
+    """
+    renvoie un tableau des elements de fournis qui ne sont pas connus
+    """
     resultat = []
     for k in fournis:
         if k not in connus:
@@ -77,6 +92,9 @@ def findUnknownItems(connus, fournis):
 
 
 def findProduitsInconnus(ean, acl, EANInconnus, ACLInconnus):
+    """
+    cherche si on arrive a retrouver les EANn par des acl ou reciproquement
+    """
     produitsInconnus = []
     for k in EANInconnus:
         if ean[k][0]['ART'] not in acl.keys():
@@ -85,7 +103,6 @@ def findProduitsInconnus(ean, acl, EANInconnus, ACLInconnus):
             print('found unkown EAN k', k, 'by', ean[k][0]['ART'])
 
     for k in ACLInconnus:
-
         if acl[k][0]['EAN ART'] not in ean.keys():
             produitsInconnus.append(acl[k])
         else:
@@ -94,23 +111,10 @@ def findProduitsInconnus(ean, acl, EANInconnus, ACLInconnus):
 
 
 def processFile(fname):
-    from simple_salesforce import (
-        Salesforce,
-        SalesforceAPI,
-        SFType,
-        SalesforceError,
-        SalesforceMoreThanOneRecord,
-        SalesforceExpiredSession,
-        SalesforceRefusedRequest,
-        SalesforceResourceNotFound,
-        SalesforceGeneralError,
-        SalesforceMalformedRequest
-    )
+    
+    ## instanciation de l'objet salesforce
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
-
-    import os.path
-    import csv
-    print(fname)
+    ## initialisation des divers tableau pour filtrage
     codes_cli = []
     eans = []
     arts = []
@@ -120,6 +124,9 @@ def processFile(fname):
     byEAN = {}
     byACL = {}
     entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
+    
+    
+    ## Eurodep ne fournit pas les fichier en UTF-8 !, je m'en occupe moi meme
     sourceEncoding = "iso-8859-1"
     source = fname
     BLOCKSIZE = 1048576  # or some other, desired size in bytes
@@ -130,32 +137,34 @@ def processFile(fname):
                 if not contents:
                     break
                 targetFile.write(contents)
-
+    # Je travaille dans le fichier temporaire qui en UTF8
     with open("./work.txt", 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
+        ## dans chaque ligne je repère le champ clef 
         for row in reader:
-            print('Code Client', row['CODCLI'])
+            ##  CODCLI est le numero EURODEP
             if row['CODCLI'] not in codes_cli:
                 codes_cli.append("%s" % row['CODCLI'])
                 byCODCLI[row['CODCLI']] = []
+            ## ART est le code ACL
             if row['ART'] not in arts:
                 arts.append(row['ART'])
                 byACL[row['ART']] = []
+            ## EAN
             if row['EAN ART'] not in eans:
                 eans.append(row['EAN ART'])
                 byEAN[row['EAN ART']] = []
+            ## je popule les divers dictionnaires
             byCODCLI[row['CODCLI']].append(row)
             byEAN[row['EAN ART']].append(row)
             byACL[row['ART']].append(row)
-        # print(row)
 
-    print(codes_cli)
+    ##print(codes_cli)
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
     for acc in les_ids['records']:
-        # print(acc)
         connus.append(acc['Code_EURODEP__c'])
     clientsInconnus = findUnknownItems(connus, codes_cli)
 
@@ -172,8 +181,8 @@ def processFile(fname):
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
     les_Acl = sf.query(qry_arts)
+    
     for prod in les_Acl['records']:
-        # print("ART",prod)
         connus.append(prod['Code_ACL__c'])
     ACLInconnus = findUnknownItems(connus, arts)
 
