@@ -15,14 +15,14 @@ from ftplib import FTP
 
 
 def tr(s):
-    return '<tr>%s</tr>' % s
+    return '<tr>%s</tr>\n' % s
 
 
 def td(arr):
     ligne = ''
     for s in arr:
         ligne += '<td>%s</td>' % s
-    print(ligne)
+    ##print(ligne)
     return ligne
 
 
@@ -163,7 +163,7 @@ def processFile(fname):
     ACLInconnus = findUnknownItems(connus, arts)
 
     produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
-    print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
+    # print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
     print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
 
 
