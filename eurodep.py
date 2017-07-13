@@ -52,14 +52,14 @@ def maketable(clefs, dico, entetes):
 def getfromFTP(compactDate):
     print(compactDate)
     eurodep = FTP(host='ftp.eurodep.fr', user='HOMMEDEFER', passwd='lhdf515')
-
-    truc = eurodep.nlst('*%s.csv' % compactDate)
+    try:
+        truc = eurodep.nlst('*%s.csv' % compactDate)
+    except ftplib.all_errors as e:
+        print('No File today')
+        return False
+    
     for t in truc:
-        try:
-            eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
-        except ftplib.all_errors as e:
-            print('No File today')
-            return False
+        eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)    
     return truc[0]
 
 
