@@ -14,6 +14,7 @@ from ftplib import FTP
 #import webbrowser
 import codecs
 
+
 def tr(s):
     return '<tr>%s</tr>\n' % s
 
@@ -116,14 +117,19 @@ def processFile(fname):
     byACL = {}
     entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
     sourceEncoding = "iso-8859-1"
-    targetEncoding = "utf-8"
+    ## targetEncoding = "utf-8"
     source = fname
-    target = open("./work.txt", "w")
+    ## target = open("./work.txt", "w")
 
-    with open(fname,'r',encoding=sourceEncoding) as fin:
-        target.write(fin.read().encode(targetEncoding))
-        
-    # target.write(source.read(), sourceEncoding).encode(targetEncoding))
+    ## import codecs
+    BLOCKSIZE = 1048576  # or some other, desired size in bytes
+    with codecs.open(fname, "r", sourceEncoding) as sourceFile:
+        with codecs.open("./work.txt", "w", "utf-8") as targetFile:
+            while True:
+                contents = sourceFile.read(BLOCKSIZE)
+                if not contents:
+                    break
+                targetFile.write(contents)
 
     with open("./work.txt", 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
