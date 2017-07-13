@@ -11,8 +11,8 @@ import sys
 from _datetime import timedelta
 from datetime import date
 from ftplib import FTP
-import webbrowser
-from test.badsyntax_future3 import result
+#import webbrowser
+
 
 
 def tr(s):
