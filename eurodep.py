@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 '''
-Created on 8 juin 2017
+Created on 11 juillet 2017
 
 @author: jean-eric preis
 '''
@@ -11,7 +11,38 @@ import sys
 from _datetime import timedelta
 from datetime import date
 from ftplib import FTP
+import webbrowser
+from test.badsyntax_future3 import result
 
+
+def tr(s):
+    return '<tr>%s</tr>' % s
+
+
+def td(arr):
+    ligne = ''
+    for s in arr:
+        ligne += '<td>%s</td>' % s
+    print(ligne)
+    return ligne
+
+
+def th(arr):
+    ligne = ''
+    for s in arr:
+        ligne += '<th>%s</th>' % s
+    print(ligne)
+    return ligne
+
+
+def maketable(data, entetes):
+    result = ''
+    if len(data) < 1:
+        return 'Vide'
+    result += th(entetes)
+    for d in data:
+        result +=td(d)
+    return result
 
 def getfromFTP(compactDate):
     print(compactDate)
@@ -23,12 +54,34 @@ def getfromFTP(compactDate):
     return truc[0]
 
 
+
+
+
+def envoieEmail(clientsInconnus,produitsInconnus):
+    
+    pass
+
+
+
 def findUnknownItems(connus, fournis):
     resultat = []
     for k in fournis:
         if k not in connus:
             resultat.append(k)
-    return resultat 
+    return resultat
+
+def findProduitsInconnus(ean,acl,EANInconnus,ACLInconnus):
+    produitsInconnus =[]
+    for k in EANInconnus:
+        if ean[k]['ART'] not in acl.keys():
+            produitsInconnus.append(ean[k])
+        
+            
+    for k in ACLInconnus:
+        if acl[k]['EAN ART'] not in ean.keys():
+            produitsInconnus.append(acl[k])
+    return produitsInconnus
+
 def processFile(fname):
     from simple_salesforce import (
         Salesforce,
@@ -50,48 +103,61 @@ def processFile(fname):
     codes_cli = []
     eans = []
     arts = []
-    connus =[]
+    connus = []
+
+    byCODCLI = {}
+    byEAN = {}
+    byACL = {}
     with open(fname, 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
         for row in reader:
             print('Code Client', row['CODCLI'])
             if row['CODCLI'] not in codes_cli:
                 codes_cli.append("%s" % row['CODCLI'])
+                byCODCLI[row['CODCLI']] = []
             if row['ART'] not in arts:
                 arts.append(row['ART'])
+                byACL[row['ART']] = []
             if row['EAN ART'] not in eans:
                 eans.append(row['EAN ART'])
+                byEAN[row['EAN ART']] = []
+            byCODCLI[row['CODCLI']].append(row)
+            byEAN[row['EAN ART']].append(row)
+            byACL[row['ART']].append(row)
         # print(row)
+
     print(codes_cli)
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
     for acc in les_ids['records']:
-        #print(acc)
+        # print(acc)
         connus.append(acc['Code_EURODEP__c'])
-    clientsInconnus = findUnknownItems(connus,codes_cli)
-    
-    connus=[]
+    clientsInconnus = findUnknownItems(connus, codes_cli)
+
+    connus = []
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
         "\'%s\'" % c for c in eans]) + ')'
     les_eans = sf.query(qry_eans)
     for prod in les_eans['records']:
-        #print("EAN",prod)
+        # print("EAN",prod)
         connus.append(prod['EAN__c'])
     EANInconnus = findUnknownItems(connus, eans)
-    
-    connus=[]    
+
+    connus = []
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
     les_Acl = sf.query(qry_arts)
     for prod in les_eans['records']:
-        #print("ART",prod)
+        # print("ART",prod)
         connus.append(prod['Code_ACL__c'])
-    ACLInconnus = findUnknownItems(connus,arts )
+    ACLInconnus = findUnknownItems(connus, arts)
     
-        
-    print("Client Inconnus",clientsInconnus,"ean inconnus",EANInconnus , "ACL Inconnus",ACLInconnus)
+    
+    produitsInconnus=findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
+    print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus,"\nProduits Inconnus",produitsInconnus)
+
 
 if __name__ == '__main__':
     import argparse
