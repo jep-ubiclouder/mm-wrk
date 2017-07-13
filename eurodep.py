@@ -120,7 +120,7 @@ def processFile(fname):
     source = fname
     target = open("./work.txt", "w")
 
-    with open(fname,'rb',encoding=sourceEncoding) ad fin:
+    with open(fname,'rb',encoding=sourceEncoding) as fin:
         target.write(fin.read().encode(targetEncoding))
         
     # target.write(source.read(), sourceEncoding).encode(targetEncoding))
