@@ -49,7 +49,7 @@ def processFile(fname):
            print('Code Client',row['CODCLI'])
            if row['CODCLI'] not in codes_cli:
                codes_cli.append("%s"%row['CODCLI'])
-        
+        print(reader[-1])
     print(codes_cli) 
     res = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in ('+','.join(["\'%s\'"%c for c in codes_cli])+')'
     print(res)
