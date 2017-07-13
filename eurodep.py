@@ -117,10 +117,13 @@ def processFile(fname):
     entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
     sourceEncoding = "iso-8859-1"
     targetEncoding = "utf-8"
-    source = open(fname)
+    source = fname
     target = open("./work.txt", "w")
 
-    target.write(unicode(source.read(), sourceEncoding).encode(targetEncoding))
+    with open(fname,'rb',encoding=sourceEncoding) ad fin:
+        target.write(fin.read().encode(targetEncoding))
+        
+    # target.write(source.read(), sourceEncoding).encode(targetEncoding))
 
     with open("./work.txt", 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
