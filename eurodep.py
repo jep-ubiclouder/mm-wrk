@@ -69,7 +69,7 @@ def processFile(fname):
     les_ids = sf.query(qry_code_eurodep)
     for acc in les_ids['records']:
         print(acc)
-        connus.append(acc['Code_Eurodep__c'])
+        connus.append(acc['Code_EURODEP__c'])
     clientsInconnus= findUnknownItems(connus,codes_cli)
     
     connus=[]
