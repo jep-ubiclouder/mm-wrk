@@ -14,7 +14,6 @@ from ftplib import FTP
 #import webbrowser
 
 
-
 def tr(s):
     return '<tr>%s</tr>' % s
 
@@ -35,14 +34,17 @@ def th(arr):
     return ligne
 
 
-def maketable(data, entetes):
+def maketable(clef,dico, entetes):
     result = ''
     if len(data) < 1:
         return 'Vide'
-    result += th(entetes)
-    for d in data:
-        result +=td(d)
+    ent=entetes.values()
+    result += th(ent)
+    temp=[]
+    for inconnu in clef:
+        result+=tr(td([dico[inconnu][k] for k in entetes.keys()]))
     return result
+
 
 def getfromFTP(compactDate):
     print(compactDate)
@@ -54,13 +56,9 @@ def getfromFTP(compactDate):
     return truc[0]
 
 
+def envoieEmail(clientsInconnus, produitsInconnus):
 
-
-
-def envoieEmail(clientsInconnus,produitsInconnus):
-    
     pass
-
 
 
 def findUnknownItems(connus, fournis):
@@ -70,21 +68,23 @@ def findUnknownItems(connus, fournis):
             resultat.append(k)
     return resultat
 
-def findProduitsInconnus(ean,acl,EANInconnus,ACLInconnus):
-    produitsInconnus =[]
+
+def findProduitsInconnus(ean, acl, EANInconnus, ACLInconnus):
+    produitsInconnus = []
     for k in EANInconnus:
         if ean[k][0]['ART'] not in acl.keys():
             produitsInconnus.append(ean[k])
         else:
-            print('found unkown EAN k',k, 'by',ean[k][0]['ART'])
-            
+            print('found unkown EAN k', k, 'by', ean[k][0]['ART'])
+
     for k in ACLInconnus:
-        
+
         if acl[k][0]['EAN ART'] not in ean.keys():
             produitsInconnus.append(acl[k])
         else:
-            print('found unkown ACL k',k, 'by',acl[k][0]['EAN ART'])
+            print('found unkown ACL k', k, 'by', acl[k][0]['EAN ART'])
     return produitsInconnus
+
 
 def processFile(fname):
     from simple_salesforce import (
@@ -112,6 +112,8 @@ def processFile(fname):
     byCODCLI = {}
     byEAN = {}
     byACL = {}
+    entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
+
     with open(fname, 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
         for row in reader:
@@ -157,11 +159,10 @@ def processFile(fname):
         # print("ART",prod)
         connus.append(prod['Code_ACL__c'])
     ACLInconnus = findUnknownItems(connus, arts)
-    
-    
-    produitsInconnus=findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
-    print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus,"\nProduits Inconnus",produitsInconnus)
 
+    produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
+    print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
+    print(maketable(clientsInconnus,byCODCLI,entetesClientsInconnus))
 
 if __name__ == '__main__':
     import argparse
