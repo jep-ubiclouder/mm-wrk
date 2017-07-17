@@ -7,17 +7,17 @@ Created on 11 juillet 2017
 @author: jean-eric preis
 '''
 from simple_salesforce import (
-     Salesforce,
-     SalesforceAPI,
-     SFType,
-     SalesforceError,
-     SalesforceMoreThanOneRecord,
-     SalesforceExpiredSession,
-     SalesforceRefusedRequest,
-     SalesforceResourceNotFound,
-     SalesforceGeneralError,
-     SalesforceMalformedRequest
- )
+    Salesforce,
+    SalesforceAPI,
+    SFType,
+    SalesforceError,
+    SalesforceMoreThanOneRecord,
+    SalesforceExpiredSession,
+    SalesforceRefusedRequest,
+    SalesforceResourceNotFound,
+    SalesforceGeneralError,
+    SalesforceMalformedRequest
+)
 
 import sys
 from _datetime import timedelta
@@ -27,6 +27,7 @@ from ftplib import FTP, all_errors
 import codecs
 import os.path
 import csv
+
 
 def tr(s):
     return '<tr>%s</tr>\n' % s
@@ -111,10 +112,10 @@ def findProduitsInconnus(ean, acl, EANInconnus, ACLInconnus):
 
 
 def processFile(fname):
-    
-    ## instanciation de l'objet salesforce
+
+    # instanciation de l'objet salesforce
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
-    ## initialisation des divers tableau pour filtrage
+    # initialisation des divers tableau pour filtrage
     codes_cli = []
     eans = []
     arts = []
@@ -124,9 +125,8 @@ def processFile(fname):
     byEAN = {}
     byACL = {}
     entetesClientsInconnus = {'NOM': 'Nom', 'ADRESSE': 'Adresse', 'CP': 'Code postal', 'VILLE': 'Ville', 'CODCLI': 'Code EURODEP'}
-    
-    
-    ## Eurodep ne fournit pas les fichier en UTF-8 !, je m'en occupe moi meme
+
+    # Eurodep ne fournit pas les fichier en UTF-8 !, je m'en occupe moi meme
     sourceEncoding = "iso-8859-1"
     source = fname
     BLOCKSIZE = 1048576  # or some other, desired size in bytes
@@ -138,34 +138,40 @@ def processFile(fname):
                     break
                 targetFile.write(contents)
     # Je travaille dans le fichier temporaire qui en UTF8
+    dujour=[]
     with open("./work.txt", 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
-        ## dans chaque ligne je repère le champ clef 
+        # dans chaque ligne je repère le champ clef
         for row in reader:
-            ##  CODCLI est le numero EURODEP
+            dujour.append(row)
+            # CODCLI est le numero EURODEP
             if row['CODCLI'] not in codes_cli:
                 codes_cli.append("%s" % row['CODCLI'])
                 byCODCLI[row['CODCLI']] = []
-            ## ART est le code ACL
+            # ART est le code ACL
             if row['ART'] not in arts:
                 arts.append(row['ART'])
                 byACL[row['ART']] = []
-            ## EAN
+            # EAN
             if row['EAN ART'] not in eans:
                 eans.append(row['EAN ART'])
                 byEAN[row['EAN ART']] = []
-            ## je popule les divers dictionnaires
+            # je popule les divers dictionnaires
             byCODCLI[row['CODCLI']].append(row)
             byEAN[row['EAN ART']].append(row)
             byACL[row['ART']].append(row)
-
-    ##print(codes_cli)
+            
+    # print(codes_cli)
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
+    #byEurodep = {}
+    #byEAN = {}
+    #byACL = {}
     for acc in les_ids['records']:
         connus.append(acc['Code_EURODEP__c'])
+        #byEurodep[acc['Code_EURODEP__c']] = acc['Id']
     clientsInconnus = findUnknownItems(connus, codes_cli)
 
     connus = []
@@ -175,20 +181,29 @@ def processFile(fname):
     for prod in les_eans['records']:
         # print("EAN",prod)
         connus.append(prod['EAN__c'])
+        #byEAN[prod['EAN__c']] = prod['Id']
     EANInconnus = findUnknownItems(connus, eans)
 
     connus = []
     qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
         "\'%s\'" % c for c in arts]) + ')'
     les_Acl = sf.query(qry_arts)
-    
+
     for prod in les_Acl['records']:
         connus.append(prod['Code_ACL__c'])
+        #byACL[prod['Code_ACL__c']] = prod['Id']
     ACLInconnus = findUnknownItems(connus, arts)
-
+    # sf.Contact.update('003e0000003GuNXAA0',{'LastName': 'Jones', 'FirstName': 'John'})
+    
+    
+    
+    ## sf.Commande__c.insert({})
     produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
     # print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
     print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
+
+    for r in dujour:
+        print(r)
 
 
 if __name__ == '__main__':
