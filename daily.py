@@ -145,7 +145,7 @@ def process(parmDate, now):
     with open(findFile(parmDate), 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
-            inserer = True
+            inserer = False
             record = {}
             statut = row['STATUT']
             commande = row['COMMANDE']
