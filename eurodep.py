@@ -201,10 +201,14 @@ def processFile(fname):
     produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
     # print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
     print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
-
+    
     for r in dujour:
-        print(r)
-
+        ## print(r)
+        tmp ={}
+        tmp['Facture__c']=r['NOFAC']
+        tmp['Bon_de_livraison__c']=r['NOCDE']
+        tmp['Date_de_commande__c']='-'.join(r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:])
+        ## if  
 
 if __name__ == '__main__':
     import argparse
