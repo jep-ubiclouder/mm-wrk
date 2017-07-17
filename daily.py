@@ -218,7 +218,7 @@ def process(parmDate, now):
             #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
             #        insertions[clef]['Compte__c']=t['Id']
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
-            i += 1
+            print(reponse)
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
