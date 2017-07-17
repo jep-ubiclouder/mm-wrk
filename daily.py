@@ -219,7 +219,7 @@ def process(parmDate, now):
             #        insertions[clef]['Compte__c']=t['Id']
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
             i += 1
-        except SalesforceMalformedRequest as err:
+        except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
     for clef in deletions.keys():
