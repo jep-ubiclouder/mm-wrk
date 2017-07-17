@@ -230,7 +230,7 @@ def process(parmDate, now):
             reponse = sf.Lignes_commande__c.delete(lc['Id'])
         except SalesforceMalformedRequest as err:
             print(err)
-    sendmail(now, summary, errors, deletions,no_op)
+    sendmail(now, insertions, errors, deletions,no_op)
     # if len(errors)>0:
     #    sendmailE(now,errors)
 
