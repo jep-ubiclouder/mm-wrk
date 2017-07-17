@@ -214,11 +214,8 @@ def process(parmDate, now):
         except Exception as err:
             print('exception', err)
         try:
-            # for t in idCSTX['records']:
-            #    if t['Cle_Client_STOCKX__c']== insertions[clef]['Cle_Client_STOCKX__c']:
-            #        insertions[clef]['Compte__c']=t['Id']
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
-            print(reponse)
+            print(reponse,insertions[clef])
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
