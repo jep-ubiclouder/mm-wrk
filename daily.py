@@ -54,7 +54,7 @@ def maketable(summary):
     return table
 
 
-def sendmail(now, summary, errors, deletions):
+def sendmail(now, summary, errors, deletions,no_op):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -68,6 +68,11 @@ def sendmail(now, summary, errors, deletions):
     <p>Bonjour Marie-Noëlle !<br>
         Voici les resultats du batch pour la date:%s<br>
         <i>Enregistrements acceptés<i>
+        <table>
+        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        %s
+        </table>
+        <i>Enregistrements inchangés pour Salesforce mais peut etre dans stockX</i>
         <table>
         <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
@@ -86,7 +91,7 @@ def sendmail(now, summary, errors, deletions):
     </p>
   </body>
 </html>
-""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(errors), maketable(deletions))
+""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(no_op),maketable(errors), maketable(deletions))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -136,7 +141,7 @@ def process(parmDate, now):
     deletions = {}
     lstCLients = []
     errors = {}
-
+    no_op ={}
     with open(findFile(parmDate), 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
@@ -195,7 +200,7 @@ def process(parmDate, now):
                 elif action == 'S':
                     deletions[Index_STOCKX__c] = record
                 elif action == 'M' and inserer == False:
-                    errors[Index_STOCKX__c] = record
+                    no_op[Index_STOCKX__c] = record
             except Exception as err:
                 print('Erreur', err)
         i = 1
@@ -215,7 +220,7 @@ def process(parmDate, now):
             print('exception', err)
         try:
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
-            print(reponse,insertions[clef])
+            ## print(reponse,insertions[clef])
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
@@ -225,7 +230,7 @@ def process(parmDate, now):
             reponse = sf.Lignes_commande__c.delete(lc['Id'])
         except SalesforceMalformedRequest as err:
             print(err)
-    sendmail(now, summary, errors, deletions)
+    sendmail(now, summary, errors, deletions,no_op)
     # if len(errors)>0:
     #    sendmailE(now,errors)
 
