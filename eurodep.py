@@ -207,7 +207,7 @@ def processFile(fname):
         tmp ={}
         tmp['Facture__c']=r['NOFAC']
         tmp['Bon_de_livraison__c']=r['NOCDE']
-        tmp['Date_de_commande__c']='-'.join(r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:])
+        tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
         ## if  
 
 if __name__ == '__main__':
