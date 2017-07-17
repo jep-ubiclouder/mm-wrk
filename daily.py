@@ -69,22 +69,22 @@ def sendmail(now, summary, errors, deletions,no_op):
         Voici les resultats du batch pour la date:%s<br>
         <i>Enregistrements acceptés<i>
         <table>
-        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
         <i>Enregistrements inchangés pour Salesforce mais peut etre dans stockX</i>
         <table>
-        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
         <i>Enregistrements rejetés</i>
         <table>
-        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
         <i>Enregistrements éffacés</i>
         <table>
-        <tr><th>CLIENT STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
         
