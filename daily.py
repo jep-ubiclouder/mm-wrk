@@ -91,7 +91,7 @@ def sendmail(now, summary, errors, deletions):
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
     msg['From'] = 'lignesdecommandes@mm-aws.com'
-    msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
+    msg['To'] = 'jean-eric.preis@ubiclouder.com'  #, marie-noelle.marx@maisonmoderne.com'
 
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
