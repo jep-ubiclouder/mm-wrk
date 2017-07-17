@@ -21,7 +21,7 @@ def td(arr):
 
     for s in arr:
         ligne += '<td>%s</td>' % s
-    print(ligne)
+    #print(ligne)
 
     return ligne
 
