@@ -96,7 +96,7 @@ def sendmail(now, summary, errors, deletions,no_op):
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
     msg['From'] = 'lignesdecommandes@mm-aws.com'
-    msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
+    msg['To'] = 'jean-eric.preis@ubiclouder.com'  #, marie-noelle.marx@maisonmoderne.com'
 
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
@@ -143,7 +143,7 @@ def process(parmDate, now):
     errors = {}
     no_op ={}
     with open(findFile(parmDate), 'r', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=',')
+        reader = csv.DictReader(csvfile, delimiter=',')x
         for row in reader:
             inserer = False
             record = {}
