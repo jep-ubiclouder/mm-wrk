@@ -143,7 +143,7 @@ def process(parmDate, now):
     errors = {}
     no_op ={}
     with open(findFile(parmDate), 'r', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=',')x
+        reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
             inserer = False
             record = {}
