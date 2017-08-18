@@ -205,7 +205,7 @@ def processFile(fname):
     for 
     
     for r in dujour:
-        ## print(r)
+        print(r)
         tmp ={}
         tmp['Facture__c']=r['NOFAC']
         tmp['Bon_de_livraison__c']=r['NOCDE']
