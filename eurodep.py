@@ -210,8 +210,38 @@ def processFile(fname):
         tmp['Facture__c']=r['NOFAC']
         tmp['Bon_de_livraison__c']=r['NOCDE']
         tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+        tmp['Prix_Brut__c'] = r['PBRUT']
+        tmp['Quantite__c'] = r['QTE']
+        tmp['Prix_Net__c'] = r['PNET']
+        tmp['Produit__c'] = r['ART']
+        tmp['Quantite__c'] = r['QTE']
+        #tmp['Prix_Net__c'] = r['PBRUT']
+        #tmp['Prix_Net__c'] = r['PBRUT']
+        
+        
+        
         ## if  
-
+        """NOFAC;
+        LIGNE FAC;
+        DATFAC;
+        NOCDE;
+        DATCDE;
+        SECTEUR;
+        VENDEUR;
+        NOM_VENDEUR;
+        FORCEVENTE;
+        CIBLE;
+        CODCLI;
+        GERS;
+        NOM;
+        ADRESSE;
+        CP;
+        VILLE;
+        TEL;
+        FAX;
+        GROUPEMENT;
+        ART;
+        EAN ART;DES;FOUR;QTE;PBRUT;PNET;TOTNET;POIDS;ref cde;Code UGA"""
 if __name__ == '__main__':
     import argparse
 
