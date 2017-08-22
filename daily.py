@@ -221,7 +221,7 @@ def process(parmDate, now):
         lstCommandesToBeDel += '%s,'%comm
     qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1] # on omet la derniere virgule !! 
     print(qryForIDtoBEDel) 
-    rex= sf.queryAll(qryForIDtoBEDel)
+    rex= sf.query(qryForIDtoBEDel)
     tobedel=[]
     for r in rex:
         tobedel.append({'Id':r['Id']})
