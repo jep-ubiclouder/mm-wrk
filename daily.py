@@ -223,7 +223,7 @@ def process(parmDate, now):
     print(qryForIDtoBEDel) 
     rex= sf.query(qryForIDtoBEDel)
     tobedel=[]
-    for r in rex:
+    for r in rex['records']:
         print(rex)
         tobedel.append({'Id':r['Id']})
     if len(tobedel)>0:
