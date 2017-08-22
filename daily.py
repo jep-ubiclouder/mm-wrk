@@ -261,11 +261,11 @@ def process(parmDate, now):
         except Exception as err:
             print('exception', err)
         try:
-            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
+            reponse = sf.Lignes_commangrep 22903-1 de__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
             ## print(reponse,insertions[clef])
         except Exception as err:
             print(err)
-            errors[clef] = insertions[clef]
+            #errors[clef] = insertions[clef]
 
     sendmail(now, insertions, errors, deletions,no_op)
     # if len(errors)>0:
