@@ -250,18 +250,18 @@ def process(parmDate, now):
             errors[clef] = insertions[clef]
     for clef in no_op.keys():
         try:
-            ccstx = insertions[clef]['Cle_Client_STX__c']
+            ccstx = no_op[clef]['Cle_Client_STX__c']
             # print(insertions[clef])
             if ccstx not in summary.keys():
                 summary[ccstx] = {'COMMANDE_STX__c': '', 'lignes': 0, 'Brut_Total__c': 0.00, 'NOM__c': ''}
-            summary[ccstx]['COMMANDE_STX__c'] = insertions[clef]['COMMANDE_STX__c']
+            summary[ccstx]['COMMANDE_STX__c'] = no_op[clef]['COMMANDE_STX__c']
             summary[ccstx]['lignes'] += 1
-            summary[ccstx]['Brut_Total__c'] += float(insertions[clef]['Brut_Total__c'])
-            summary[ccstx]['NOM__c'] = insertions[clef]['NOM__c']
+            summary[ccstx]['Brut_Total__c'] += float(no_op[clef]['Brut_Total__c'])
+            summary[ccstx]['NOM__c'] = no_op[clef]['NOM__c']
         except Exception as err:
             print('exception', err)
         try:
-            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
+            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, no_op[clef], raw_response=True)
             ## print(reponse,insertions[clef])
         except Exception as err:
             print(err)
