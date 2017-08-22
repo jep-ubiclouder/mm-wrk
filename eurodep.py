@@ -215,10 +215,11 @@ def processFile(fname):
         tmp['Prix_Net__c'] = r['PNET']
         tmp['Produit__c'] = r['ART']
         tmp['Quantite__c'] = r['QTE']
-        #tmp['Prix_Net__c'] = r['PBRUT']
-        #tmp['Prix_Net__c'] = r['PBRUT']
-        
-        
+        tmp['Ligne__c'] =r['NOFAC']
+        # tmp['keyforupsert__c'] = r['NOFAC'] + str(r['NOFAC'])
+
+        try:
+            sf.Commande__c.upsert('keyforupsert__c/%')
         
         ## if  
         """NOFAC;
