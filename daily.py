@@ -47,7 +47,7 @@ def maketable(summary):
         except KeyError:
             liste.append('Montant Inconnu')
         try:
-            liste.append(summary[clef]['lignes'])
+            liste.append(summary[clef]['DATE_CDE__c'])
         except KeyError:
             liste.append('1')
         table += tr(td(liste))
@@ -69,12 +69,12 @@ def sendmail(now, summary, errors, fullUpdate,no_op):
         Voici les resultats du batch pour la date:%s<br>
         <i>Enregistrements acceptés<i>
         <table>
-        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Date Commande</th></tr>
         %s
         </table>
         <i>Enregistrements signalés modifiés dans Stock_X, donc effacés et remplacés intégralement</i>
         <table>
-        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
+        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Date Commande</th></tr>
         %s
         </table>
         
@@ -124,7 +124,7 @@ def process(parmDate, now):
             continue
         (clefSTX, clefSF) = l.split('=')
         mapFields[clefSTX] = clefSF[:-1]
-    print(mapFields)
+    ## print(mapFields)
     i = 0
     updates = {}
     insertions = {}
@@ -214,11 +214,11 @@ def process(parmDate, now):
     rex= sf.query(qryForIDtoBEDel)
     tobedel=[]
     for r in rex['records']:
-        print(rex)
+        # print(rex)
         tobedel.append({'Id':r['Id']})
     if len(tobedel)>0:
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
-        print(resDel)
+        ## print(resDel)
     fullUpdate ={}
     for clef in insertions.keys():
         try:
@@ -230,6 +230,7 @@ def process(parmDate, now):
             summary[ccstx]['lignes'] += 1
             summary[ccstx]['Brut_Total__c'] += float(insertions[clef]['Brut_Total__c'])
             summary[ccstx]['NOM__c'] = insertions[clef]['NOM__c']
+            summary[ccstx]['NOM__c'] = insertions[clef]['DATE_CDE__c']
         except Exception as err:
             print('exception', err)
         try:
