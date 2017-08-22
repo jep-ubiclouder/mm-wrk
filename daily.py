@@ -96,7 +96,7 @@ def sendmail(now, summary, errors, deletions,no_op):
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
     msg['From'] = 'lignesdecommandes@mm-aws.com'
-    msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
+    msg['To'] = 'jean-eric.preis@ubiclouder.com' #, marie-noelle.marx@maisonmoderne.com'
 
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
@@ -138,7 +138,7 @@ def process(parmDate, now):
     i = 0
     updates = {}
     insertions = {}
-    deletions = {}
+    deletions = []
     lstCLients = []
     errors = {}
     no_op ={}
@@ -176,7 +176,11 @@ def process(parmDate, now):
                     except:
                         print('ooops')
             if action == 'M':  # une modification
-                try:
+                if row['COMMANDE'] not in deletions:
+                    deletions.append(row['COMMANDE'])
+                inserer =True
+                no_op[Index_STOCKX__c] = record
+                '''try:
                     lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
                     for k in record.keys():
                         if k == 'CLIENT_FINAL__c':
@@ -194,17 +198,36 @@ def process(parmDate, now):
                 except Exception as err:
                     print(err, Index_STOCKX__c)
                     inserer = True
+                    '''
+                    
+            
             try:
                 if action == 'C' or inserer:
                     insertions[Index_STOCKX__c] = record
+                    # deletions[Index_STOCKX__c] = record
                 elif action == 'S':
-                    deletions[Index_STOCKX__c] = record
+                    ## deletions[Index_STOCKX__c] = record
                 elif action == 'M' and inserer == False:
                     no_op[Index_STOCKX__c] = record
+                    
             except Exception as err:
                 print('Erreur', err)
         i = 1
     summary = {}
+    
+    
+    lstCommandesToBeDel = ""
+    for comm in deletions:
+        lstCommandesToBeDel += '%s,'%comm
+    qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1] # on omet la derniere virgule !! 
+    print(qryForIDtoBEDel) 
+    rex= sf.queryAll(qryForIDtoBEDel)
+    tobedel=[]
+    for r in rex:
+        tobedel.append({'Id':r['Id']})
+    if len(tobedel)>0:
+        resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
+        print(resDel)
 
     for clef in insertions.keys():
         try:
@@ -224,12 +247,7 @@ def process(parmDate, now):
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
-    for clef in deletions.keys():
-        try:
-            lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', clef)
-            reponse = sf.Lignes_commande__c.delete(lc['Id'])
-        except SalesforceMalformedRequest as err:
-            print(err)
+
     sendmail(now, insertions, errors, deletions,no_op)
     # if len(errors)>0:
     #    sendmailE(now,errors)
