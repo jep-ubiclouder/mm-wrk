@@ -266,7 +266,10 @@ def process(parmDate, now):
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
-            
+    print('insert',insertions)
+    print('errors',errors)
+    print('no op',no_op)
+    print('delete',deletions)        
     sendmail(now, insertions, errors, deletions,no_op)
     # if len(errors)>0:
     #    sendmailE(now,errors)
