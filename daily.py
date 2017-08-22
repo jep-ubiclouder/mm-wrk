@@ -218,7 +218,7 @@ def process(parmDate, now):
     
     lstCommandesToBeDel = ""
     for comm in deletions:
-        lstCommandesToBeDel += '%s,'%comm
+        lstCommandesToBeDel += "'%s',"%comm
     qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1] # on omet la derniere virgule !! 
     print(qryForIDtoBEDel) 
     rex= sf.query(qryForIDtoBEDel)
