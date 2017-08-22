@@ -54,7 +54,7 @@ def maketable(summary):
     return table
 
 
-def sendmail(now, summary, errors, deletions,no_op):
+def sendmail(now, summary, errors, fullUpdate,no_op):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -72,17 +72,7 @@ def sendmail(now, summary, errors, deletions,no_op):
         <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
         </table>
-        <i>Enregistrements inchangés pour Salesforce mais peut etre dans stockX</i>
-        <table>
-        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
-        %s
-        </table>
-        <i>Enregistrements rejetés</i>
-        <table>
-        <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
-        %s
-        </table>
-        <i>Enregistrements éffacés</i>
+        <i>Enregistrements signalés modifiés dans Stock_X, donc effacés et remplacés intégralement</i>
         <table>
         <tr><th>Code Ligne STX</th><th>Nom</th><th>Commande</th><th>Montant Brut</th><th>Lignes</th></tr>
         %s
@@ -91,7 +81,7 @@ def sendmail(now, summary, errors, deletions,no_op):
     </p>
   </body>
 </html>
-""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(no_op),maketable(errors), maketable(deletions))
+""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(fullUpdate))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -229,7 +219,7 @@ def process(parmDate, now):
     if len(tobedel)>0:
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
         print(resDel)
-
+    fullUpdate ={}
     for clef in insertions.keys():
         try:
             ccstx = insertions[clef]['Cle_Client_STX__c']
@@ -253,11 +243,11 @@ def process(parmDate, now):
             ccstx = no_op[clef]['Cle_Client_STX__c']
             # print(insertions[clef])
             if ccstx not in summary.keys():
-                summary[ccstx] = {'COMMANDE_STX__c': '', 'lignes': 0, 'Brut_Total__c': 0.00, 'NOM__c': ''}
-            summary[ccstx]['COMMANDE_STX__c'] = no_op[clef]['COMMANDE_STX__c']
-            summary[ccstx]['lignes'] += 1
-            summary[ccstx]['Brut_Total__c'] += float(no_op[clef]['Brut_Total__c'])
-            summary[ccstx]['NOM__c'] = no_op[clef]['NOM__c']
+                fullUpdate[ccstx] = {'COMMANDE_STX__c': '', 'lignes': 0, 'Brut_Total__c': 0.00, 'NOM__c': ''}
+            fullUpdate[ccstx]['COMMANDE_STX__c'] = no_op[clef]['COMMANDE_STX__c']
+            fullUpdate[ccstx]['lignes'] += 1
+            fullUpdate[ccstx]['Brut_Total__c'] += float(no_op[clef]['Brut_Total__c'])
+            fullUpdate[ccstx]['NOM__c'] = no_op[clef]['NOM__c']
         except Exception as err:
             print('exception', err)
         try:
@@ -270,7 +260,7 @@ def process(parmDate, now):
     print('errors',errors)
     print('no op',no_op)
     print('delete',deletions)        
-    sendmail(now, insertions, errors, deletions,no_op)
+    sendmail(now, insertions, errors, fullUpdate,no_op)
     # if len(errors)>0:
     #    sendmailE(now,errors)
 
