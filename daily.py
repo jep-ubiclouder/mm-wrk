@@ -206,7 +206,7 @@ def process(parmDate, now):
                     insertions[Index_STOCKX__c] = record
                     # deletions[Index_STOCKX__c] = record
                 elif action == 'S':
-                    ## deletions[Index_STOCKX__c] = record
+                    pass ## deletions[Index_STOCKX__c] = record
                 elif action == 'M' and inserer == False:
                     no_op[Index_STOCKX__c] = record
                     
