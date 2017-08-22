@@ -81,7 +81,7 @@ def sendmail(now, summary, errors, fullUpdate,no_op):
     </p>
   </body>
 </html>
-""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(fullUpdate))
+""" % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(no_op))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
     msg['Subject'] = 'resultat du jour'
@@ -210,7 +210,7 @@ def process(parmDate, now):
     for comm in deletions:
         lstCommandesToBeDel += "'%s',"%comm
     qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1] # on omet la derniere virgule !! 
-    print(qryForIDtoBEDel) 
+    ## print(qryForIDtoBEDel) 
     rex= sf.query(qryForIDtoBEDel)
     tobedel=[]
     for r in rex['records']:
@@ -256,10 +256,10 @@ def process(parmDate, now):
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
-    print('insert',insertions)
-    print('errors',errors)
-    print('no op',no_op)
-    print('delete',deletions)        
+    ## print('insert',insertions)
+    ## print('errors',errors)
+    ## print('no op',no_op)
+    ## print('delete',deletions)        
     sendmail(now, insertions, errors, fullUpdate,no_op)
     # if len(errors)>0:
     #    sendmailE(now,errors)
