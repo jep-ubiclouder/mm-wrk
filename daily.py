@@ -224,6 +224,7 @@ def process(parmDate, now):
     rex= sf.query(qryForIDtoBEDel)
     tobedel=[]
     for r in rex:
+        print(rex)
         tobedel.append({'Id':r['Id']})
     if len(tobedel)>0:
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
