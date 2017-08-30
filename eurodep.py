@@ -221,28 +221,7 @@ def processFile(fname):
         try:
             sf.Commande__c.upsert('keyforupsert__c/%')
         
-        ## if  
-        """NOFAC;
-        LIGNE FAC;
-        DATFAC;
-        NOCDE;
-        DATCDE;
-        SECTEUR;
-        VENDEUR;
-        NOM_VENDEUR;
-        FORCEVENTE;
-        CIBLE;
-        CODCLI;
-        GERS;
-        NOM;
-        ADRESSE;
-        CP;
-        VILLE;
-        TEL;
-        FAX;
-        GROUPEMENT;
-        ART;
-        EAN ART;DES;FOUR;QTE;PBRUT;PNET;TOTNET;POIDS;ref cde;Code UGA"""
+
 if __name__ == '__main__':
     import argparse
 
