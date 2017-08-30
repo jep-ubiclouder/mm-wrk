@@ -220,7 +220,8 @@ def processFile(fname):
 
         try:
             sf.Commande__c.upsert('keyforupsert__c/%')
-        
+        except all_errors as e:
+            print(e)
 
 if __name__ == '__main__':
     import argparse
