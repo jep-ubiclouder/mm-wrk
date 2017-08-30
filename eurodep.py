@@ -202,7 +202,7 @@ def processFile(fname):
     # print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
     print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
     
-    for 
+    
     
     for r in dujour:
         print(r)
