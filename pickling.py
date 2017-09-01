@@ -8,4 +8,4 @@ credentials ={'user':'jep@assembdev.com', 'passwd':'ubi$2017', 'security_token':
 strCreds =  json.dumps(credentials)
 print(strCreds)
 cipher =  Fernet(clef)
-print(cipher.encrypt(strCreds))
+print(cipher.encrypt(bytes(strCreds,'UTF-8'))
