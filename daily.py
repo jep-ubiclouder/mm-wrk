@@ -11,7 +11,17 @@ import sys
 from _datetime import timedelta
 from datetime import date
 
-
+def getCredentials():
+    from cryptography.fernet import Fernet
+    clef =b'y1RrSzZel5RRjMjCZwwLVnVppKzqHQT0v-Mm96WNdS4='
+    data =b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918JxLi3He-46-rcoIZ_BgrwD9VvdYRA5_6G5k8FySU0m7qpPnV6UDh6ayqPlR-mvo8Dp3DTi8xElZVhp2tKtZBL95tl-5e2XtNsz67D1lkHui856v2G5jTh6zYNMS3ifjvnl1DQ0SuEKZ2FZay031QRu1q7Wg=='
+    import json
+    cipher =  Fernet(clef)
+    creds = json.loads(cipher.decrypt(data).decode())
+    return creds
+    
+    
+    
 def tr(s):
     return '<tr>%s</tr>' % s
 
@@ -114,7 +124,10 @@ def process(parmDate, now):
         SalesforceGeneralError,
         SalesforceMalformedRequest
     )
-    sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
+    
+    creds  = getCredentials()
+    ## sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
+    sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=True)
     import os.path
     import csv
     mapFields = {}
@@ -144,8 +157,6 @@ def process(parmDate, now):
             clientStx = row['CLIENT']
             action = row['STATUT']
 
-            if commande == '123456':
-                continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
                 if clef == 'IND':
@@ -170,27 +181,7 @@ def process(parmDate, now):
                     deletions.append(row['COMMANDE'])
                 inserer =True
                 no_op[Index_STOCKX__c] = record
-                '''try:
-                    lc = sf.Lignes_commande__c.get_by_custom_id('Index_STOCKX__c', Index_STOCKX__c)
-                    for k in record.keys():
-                        if k == 'CLIENT_FINAL__c':
-                            continue
-                        if k in lc.keys():
-                            if k in ('Brut_Total__c', 'Brut_Editeur__c'):
-                                lc[k] = "%10.2f" % float(lc[k])
-                                record[k] = "%10.2f" % float(record[k])
-
-                            if lc[k] != record[k]:  # une difference sur un des champs qui  nous interesse
-                                print('InstockX', Index_STOCKX__c, 'key', k, 'lc', lc[k], 'rec', record[k])
-                                inserer = True
-                                break
-
-                except Exception as err:
-                    print(err, Index_STOCKX__c)
-                    inserer = True
-                    '''
-                    
-            
+                            
             try:
                 if action == 'C' :
                     insertions[Index_STOCKX__c] = record
@@ -257,13 +248,9 @@ def process(parmDate, now):
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
-    ## print('insert',insertions)
-    ## print('errors',errors)
-    ## print('no op',no_op)
-    ## print('delete',deletions)        
+      
     sendmail(now, insertions, errors, fullUpdate,no_op)
-    # if len(errors)>0:
-    #    sendmailE(now,errors)
+
 
 
 if __name__ == '__main__':
