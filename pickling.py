@@ -4,7 +4,7 @@ data =b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918J
 import json
 
 
-strCreds =  json.dumps(credentials)
+#strCreds =  json.dumps(credentials)
 print(strCreds)
 cipher =  Fernet(clef)
 print(cipher.decrypt(data))
