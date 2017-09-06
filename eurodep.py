@@ -172,8 +172,18 @@ def processFile(fname):
     for acc in les_ids['records']:
         connus.append(acc['Code_EURODEP__c'])
         #byEurodep[acc['Code_EURODEP__c']] = acc['Id']
-    clientsInconnus = findUnknownItems(connus, codes_cli)
-
+    ## clientsInconnus = findUnknownItems(connus, codes_cli)
+    
+    eurodep_inconnus =[]
+    
+    for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
+        if k not in connus:
+            for r in byCODCLI[k]:
+                eurodep_inconnus.append(r)
+        
+    print(eurodep_inconnus)
+    sys.exit()
+    
     connus = []
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
         "\'%s\'" % c for c in eans]) + ')'
@@ -219,7 +229,7 @@ def processFile(fname):
         # tmp['keyforupsert__c'] = r['NOFAC'] + str(r['NOFAC'])
 
         try:
-            sf.Commande__c.upsert('keyforupsert__c/%')
+            sf.Commande__c.upsert('keyforupsert__c/%s' % )
         except all_errors as e:
             print(e)
 
@@ -235,6 +245,8 @@ if __name__ == '__main__':
         now = datetime.strptime(args.parmDate, '%Y-%m-%d')
     if args.parmDate is None:
         now = datetime.now() - timedelta(days=1)
+        
+    
     compactDate = '%s%02i%02i' % (now.year, now.month, now.day)
     fn = getfromFTP(compactDate)
     if fn != False:
