@@ -179,8 +179,8 @@ def processFile(fname):
     
     for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
         if k not in connus:
-            for r in byCODCLI[k]:
-                eurodep_inconnus.append(r)
+            #for r in byCODCLI[k]:
+            eurodep_inconnus.append(byCODCLI[k])
         
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(eurodep_inconnus)
