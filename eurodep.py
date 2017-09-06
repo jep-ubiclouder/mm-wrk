@@ -183,7 +183,7 @@ def processFile(fname):
         
     print(eurodep_inconnus)
     sys.exit()
-    
+    """
     connus = []
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
         "\'%s\'" % c for c in eans]) + ')'
@@ -232,7 +232,7 @@ def processFile(fname):
             sf.Commande__c.upsert('keyforupsert__c/%s' % )
         except all_errors as e:
             print(e)
-
+"""
 if __name__ == '__main__':
     import argparse
 
