@@ -28,6 +28,7 @@ import codecs
 import os.path
 import csv
 
+import pprint
 
 def tr(s):
     return '<tr>%s</tr>\n' % s
@@ -181,7 +182,8 @@ def processFile(fname):
             for r in byCODCLI[k]:
                 eurodep_inconnus.append(r)
         
-    print(eurodep_inconnus)
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(eurodep_inconnus)
     sys.exit()
     """
     connus = []
