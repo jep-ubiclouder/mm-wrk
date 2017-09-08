@@ -110,7 +110,31 @@ def findFile(parmDate):
 
     base = './bucket-mm-daily/EXPORT_%s.CSV' % parmDate
     return base
+def sendErrorMail():
+    import smtplib
+        html = """\
+<html>
+  <head></head>
+  <body>
+    <p>Bonjour !<br>
+        Je ne suis pas arrivé à me connecter sur l'org de production de maison moderne avec le login <b> conrad.heron@maisonmoderne.lu </b>
+        Veuillez verifier le mot de passe et le token de sécurité et prévenez Jean eric pour qu'il adapte le script. 
+        Bien à vous,
+        Votre bot préféré !
+    </p>
+  </body>
+</html>
+"""
+    from email.mime.text import MIMEText
+    msg = MIMEText(html, 'html')
+    msg['Subject'] = 'Erreur de connection'
+    msg['From'] = 'lignesdecommandes@mm-aws.com'
+    msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com, hp@ubiclouder.com, ea@ubiclouder.com'
 
+    # Send the message via our own SMTP server.
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
 
 def process(parmDate, now):
 
@@ -128,9 +152,13 @@ def process(parmDate, now):
     )
     
     creds  = getCredentials()
-    ## sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
-    sf = Salesforce(username='conrad.heron@maisonmoderne.lu', password='ubiClouder$2017', security_token='8LACJsNZAL3n19xoVceczkjoC')
-    sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'])
+
+    try:
+        sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'])
+    except Exception as err:
+        sendErrorMail()
+        import sys
+        sys.exit() 
     import os.path
     import csv
     mapFields = {}
