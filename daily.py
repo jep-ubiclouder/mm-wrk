@@ -112,7 +112,7 @@ def findFile(parmDate):
     return base
 def sendErrorMail():
     import smtplib
-        html = """\
+    html = """\
 <html>
   <head></head>
   <body>
