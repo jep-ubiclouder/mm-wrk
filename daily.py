@@ -74,7 +74,7 @@ def maketable(summary):
     return table
 
 
-def sendmail(now, summary, errors, fullUpdate, no_op):
+def sendmail(now, summary, errors, fullUpdate, no_op, isTest):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -104,10 +104,14 @@ def sendmail(now, summary, errors, fullUpdate, no_op):
 """ % ('%02i-%02i-%s' % (now.day, now.month, now.year), maketable(summary), maketable(no_op))
     from email.mime.text import MIMEText
     msg = MIMEText(html, 'html')
-    msg['Subject'] = 'resultat du jour'
-    msg['From'] = 'lignesdecommandes@mm-aws.com'
-    msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
-
+    if isTest:
+        msg['Subject'] = 'resultat du jour SANDBOX'
+        msg['From'] = 'lignesdecommandes@mm-aws.com'
+        msg['To'] = 'jean-eric.preis@ubiclouder.com'
+    else:
+        msg['Subject'] = 'resultat du jour'
+        msg['From'] = 'lignesdecommandes@mm-aws.com'
+        msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
@@ -294,7 +298,7 @@ def process(parmDate, now, isTest):
             print(err)
             errors[clef] = insertions[clef]
 
-    sendmail(now, insertions, errors, fullUpdate, no_op)
+    sendmail(now, insertions, errors, fullUpdate, no_op, isTest)
 
 
 if __name__ == '__main__':
@@ -315,4 +319,7 @@ if __name__ == '__main__':
         isTest = False
     else:
         isTest = True
+        
+    print(isTest)
+    sys.exit()
     process(compactDate, now, isTest)
