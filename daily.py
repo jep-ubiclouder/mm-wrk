@@ -11,19 +11,23 @@ import sys
 from _datetime import timedelta
 from datetime import date
 
-def getCredentials():
+
+def getCredentials(isTest):
     from cryptography.fernet import Fernet
-    clef =b'y1RrSzZel5RRjMjCZwwLVnVppKzqHQT0v-Mm96WNdS4='
-    ## data =b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918JxLi3He-46-rcoIZ_BgrwD9VvdYRA5_6G5k8FySU0m7qpPnV6UDh6ayqPlR-mvo8Dp3DTi8xElZVhp2tKtZBL95tl-5e2XtNsz67D1lkHui856v2G5jTh6zYNMS3ifjvnl1DQ0SuEKZ2FZay031QRu1q7Wg=='
-    data =b'gAAAAABZskV89Fcos1HfRBkUkcbf_hry000Mr1fcAYs_TuSuC_-CmiO3BU6MnYm_jlgaCqOu4MCkZtGiBi032uD1mT8d-PKXDfsfFkFftYAuvJNgrI5kfm_7b8etZxhiCTewpzvtRQnq9Sc6K50VGc7owO0H-qeYHQda_SGJylqc9lFHRDkmk7qCzVhVMygS_U4-PKH_u5DmJbtCIPwk83VryLhryzCwg2zNBTUMqj2OvWedkXo5Yv4='
+    clef = b'y1RrSzZel5RRjMjCZwwLVnVppKzqHQT0v-Mm96WNdS4='
+    dataTest = b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918JxLi3He-46-rcoIZ_BgrwD9VvdYRA5_6G5k8FySU0m7qpPnV6UDh6ayqPlR-mvo8Dp3DTi8xElZVhp2tKtZBL95tl-5e2XtNsz67D1lkHui856v2G5jTh6zYNMS3ifjvnl1DQ0SuEKZ2FZay031QRu1q7Wg=='
+    dataProd = b'gAAAAABZskV89Fcos1HfRBkUkcbf_hry000Mr1fcAYs_TuSuC_-CmiO3BU6MnYm_jlgaCqOu4MCkZtGiBi032uD1mT8d-PKXDfsfFkFftYAuvJNgrI5kfm_7b8etZxhiCTewpzvtRQnq9Sc6K50VGc7owO0H-qeYHQda_SGJylqc9lFHRDkmk7qCzVhVMygS_U4-PKH_u5DmJbtCIPwk83VryLhryzCwg2zNBTUMqj2OvWedkXo5Yv4='
+    if isTest:
+        data = dataTest
+    else:
+        data = dataProd
     import json
-    cipher =  Fernet(clef)
+    cipher = Fernet(clef)
     creds = json.loads(cipher.decrypt(data).decode())
     print(creds)
     return creds
-    
-    
-    
+
+
 def tr(s):
     return '<tr>%s</tr>' % s
 
@@ -33,7 +37,7 @@ def td(arr):
 
     for s in arr:
         ligne += '<td>%s</td>' % s
-    #print(ligne)
+    # print(ligne)
 
     return ligne
 
@@ -43,7 +47,11 @@ def maketable(summary):
         return 'Vide'
     table = ''
     liste = []
-    for clef in summary.keys():
+    orderedList = []
+    for k in summary.keys():
+        orderedList.append(k)
+    orderedList.sort()
+    for clef in orderedList:
         liste = []
         liste.append(clef)
         try:
@@ -66,7 +74,7 @@ def maketable(summary):
     return table
 
 
-def sendmail(now, summary, errors, fullUpdate,no_op):
+def sendmail(now, summary, errors, fullUpdate, no_op):
 
     # Import smtplib for the actual sending function
     import smtplib
@@ -110,6 +118,8 @@ def findFile(parmDate):
 
     base = './bucket-mm-daily/EXPORT_%s.CSV' % parmDate
     return base
+
+
 def sendErrorMail():
     import smtplib
     html = """\
@@ -136,7 +146,8 @@ def sendErrorMail():
     s.send_message(msg)
     s.quit()
 
-def process(parmDate, now):
+
+def process(parmDate, now, isTest):
 
     from simple_salesforce import (
         Salesforce,
@@ -150,16 +161,16 @@ def process(parmDate, now):
         SalesforceGeneralError,
         SalesforceMalformedRequest
     )
-    
-    creds  = getCredentials()
+
+    creds = getCredentials(isTest)
 
     try:
-        sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'])
+        sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
     except Exception as err:
         sendErrorMail()
         import sys
-        sys.exit() 
-        
+        sys.exit()
+
     import os.path
     import csv
     mapFields = {}
@@ -169,14 +180,14 @@ def process(parmDate, now):
             continue
         (clefSTX, clefSF) = l.split('=')
         mapFields[clefSTX] = clefSF[:-1]
-    ## print(mapFields)
+    # print(mapFields)
     i = 0
     updates = {}
     insertions = {}
     deletions = []
     lstCLients = []
     errors = {}
-    no_op ={}
+    no_op = {}
     with open(findFile(parmDate), 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         for row in reader:
@@ -211,40 +222,39 @@ def process(parmDate, now):
             if action == 'M':  # une modification
                 if row['COMMANDE'] not in deletions:
                     deletions.append(row['COMMANDE'])
-                inserer =True
+                inserer = True
                 no_op[Index_STOCKX__c] = record
-                            
+
             try:
-                if action == 'C' :
+                if action == 'C':
                     insertions[Index_STOCKX__c] = record
                     # deletions[Index_STOCKX__c] = record
                 elif action == 'S':
-                    pass ## deletions[Index_STOCKX__c] = record
+                    pass  # deletions[Index_STOCKX__c] = record
                 elif action == 'M' and inserer == False:
                     no_op[Index_STOCKX__c] = record
-                    
+
             except Exception as err:
                 print('Erreur', err)
         i = 1
     summary = {}
-    
-    
+
     lstCommandesToBeDel = ""
     for comm in deletions:
-        lstCommandesToBeDel += "'%s',"%comm
-    qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1] # on omet la derniere virgule !! 
-    ## print(qryForIDtoBEDel) 
-    rex= sf.query(qryForIDtoBEDel)
-    tobedel=[]
+        lstCommandesToBeDel += "'%s'," % comm
+    qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
+    # print(qryForIDtoBEDel)
+    rex = sf.query(qryForIDtoBEDel)
+    tobedel = []
     for r in rex['records']:
         # print(rex)
-        tobedel.append({'Id':r['Id']})
-    if len(tobedel)>0:
+        tobedel.append({'Id': r['Id']})
+    if len(tobedel) > 0:
         print(' Je vais effacer des records')
-        
+
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
-        ## print(resDel)
-    fullUpdate ={}
+        # print(resDel)
+    fullUpdate = {}
     for clef in insertions.keys():
         try:
             ccstx = insertions[clef]['Cle_Client_STX__c']
@@ -260,7 +270,7 @@ def process(parmDate, now):
             print('exception', err)
         try:
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, insertions[clef], raw_response=True)
-            ## print(reponse,insertions[clef])
+            # print(reponse,insertions[clef])
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
@@ -277,15 +287,14 @@ def process(parmDate, now):
         except Exception as err:
             print('exception', err)
         try:
-            print('Je vais inserer')
+
             reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, no_op[clef], raw_response=True)
-            ## print(reponse,insertions[clef])
+            # print(reponse,insertions[clef])
         except Exception as err:
             print(err)
             errors[clef] = insertions[clef]
-      
-    sendmail(now, insertions, errors, fullUpdate,no_op)
 
+    sendmail(now, insertions, errors, fullUpdate, no_op)
 
 
 if __name__ == '__main__':
@@ -293,7 +302,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Short sample app')
     parser.add_argument('-d', '--date', action="store", dest="parmDate")
-
+    parser.add_argument('-t', '--test', action="store", dest="test")
     args = parser.parse_args()
     from datetime import datetime, timedelta
     if args.parmDate:
@@ -301,4 +310,9 @@ if __name__ == '__main__':
     if args.parmDate is None:
         now = datetime.now() - timedelta(days=1)
     compactDate = '%s%02i%02i' % (now.year, now.month, now.day)
-    process(compactDate, now)
+
+    if args.test is None:
+        isTest = False
+    else:
+        isTest = True
+    process(compactDate, now, isTest)
