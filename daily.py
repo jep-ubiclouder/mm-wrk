@@ -24,8 +24,8 @@ def getCredentials(isTest):
     import json
     cipher = Fernet(clef)
     creds = json.loads(cipher.decrypt(data).decode())
-    print(creds)
-    sys.exit()
+    # print(creds)
+    # sys.exit()
     return creds
 
 
@@ -307,7 +307,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Short sample app')
     parser.add_argument('-d', '--date', action="store", dest="parmDate")
-    parser.add_argument('-t', '--test',action='store_true', default=False)
+    parser.add_argument('-t', '--test', action='store_true', default=False)
     args = parser.parse_args()
     from datetime import datetime, timedelta
     if args.parmDate:
@@ -320,6 +320,5 @@ if __name__ == '__main__':
         isTest = False
     else:
         isTest = True
-        
 
     process(compactDate, now, isTest)
