@@ -239,7 +239,9 @@ def process(parmDate, now):
         # print(rex)
         tobedel.append({'Id':r['Id']})
     if len(tobedel)>0:
-        resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
+        print(' Je vais effacer des records')
+        
+        ## resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
         ## print(resDel)
     fullUpdate ={}
     for clef in insertions.keys():
@@ -274,7 +276,8 @@ def process(parmDate, now):
         except Exception as err:
             print('exception', err)
         try:
-            reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, no_op[clef], raw_response=True)
+            print('Je vais inserer')
+            ## reponse = sf.Lignes_commande__c.upsert('Index_STOCKX__c/%s' % clef, no_op[clef], raw_response=True)
             ## print(reponse,insertions[clef])
         except Exception as err:
             print(err)
