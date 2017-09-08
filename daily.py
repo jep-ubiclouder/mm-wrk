@@ -25,6 +25,7 @@ def getCredentials(isTest):
     cipher = Fernet(clef)
     creds = json.loads(cipher.decrypt(data).decode())
     print(creds)
+    sys.exit()
     return creds
 
 
@@ -320,6 +321,5 @@ if __name__ == '__main__':
     else:
         isTest = True
         
-    print(isTest)
-    sys.exit()
+
     process(compactDate, now, isTest)
