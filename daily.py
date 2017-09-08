@@ -14,10 +14,12 @@ from datetime import date
 def getCredentials():
     from cryptography.fernet import Fernet
     clef =b'y1RrSzZel5RRjMjCZwwLVnVppKzqHQT0v-Mm96WNdS4='
-    data =b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918JxLi3He-46-rcoIZ_BgrwD9VvdYRA5_6G5k8FySU0m7qpPnV6UDh6ayqPlR-mvo8Dp3DTi8xElZVhp2tKtZBL95tl-5e2XtNsz67D1lkHui856v2G5jTh6zYNMS3ifjvnl1DQ0SuEKZ2FZay031QRu1q7Wg=='
+    ## data =b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918JxLi3He-46-rcoIZ_BgrwD9VvdYRA5_6G5k8FySU0m7qpPnV6UDh6ayqPlR-mvo8Dp3DTi8xElZVhp2tKtZBL95tl-5e2XtNsz67D1lkHui856v2G5jTh6zYNMS3ifjvnl1DQ0SuEKZ2FZay031QRu1q7Wg=='
+    data =b'gAAAAABZskV89Fcos1HfRBkUkcbf_hry000Mr1fcAYs_TuSuC_-CmiO3BU6MnYm_jlgaCqOu4MCkZtGiBi032uD1mT8d-PKXDfsfFkFftYAuvJNgrI5kfm_7b8etZxhiCTewpzvtRQnq9Sc6K50VGc7owO0H-qeYHQda_SGJylqc9lFHRDkmk7qCzVhVMygS_U4-PKH_u5DmJbtCIPwk83VryLhryzCwg2zNBTUMqj2OvWedkXo5Yv4='
     import json
     cipher =  Fernet(clef)
     creds = json.loads(cipher.decrypt(data).decode())
+    print(creds)
     return creds
     
     
@@ -127,7 +129,8 @@ def process(parmDate, now):
     
     creds  = getCredentials()
     ## sf = Salesforce(username='jep@assembdev.com', password='ubi$2017', security_token='aMddugz7oc45l1uhqWAE308Z', sandbox=True)
-    sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=True)
+    sf = Salesforce(username='conrad.heron@maisonmoderne.lu', password='ubiClouder$2017', security_token='8LACJsNZAL3n19xoVceczkjoC')
+    sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'])
     import os.path
     import csv
     mapFields = {}
