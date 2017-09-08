@@ -24,8 +24,6 @@ def getCredentials(isTest):
     import json
     cipher = Fernet(clef)
     creds = json.loads(cipher.decrypt(data).decode())
-    # print(creds)
-    # sys.exit()
     return creds
 
 
@@ -76,11 +74,7 @@ def maketable(summary):
 
 
 def sendmail(now, summary, errors, fullUpdate, no_op, isTest):
-
-    # Import smtplib for the actual sending function
     import smtplib
-    # print(summary)
-    # Import the email modules we'll need
 
     html = """\
 <html>
@@ -255,10 +249,7 @@ def process(parmDate, now, isTest):
         # print(rex)
         tobedel.append({'Id': r['Id']})
     if len(tobedel) > 0:
-        print(' Je vais effacer des records')
-
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
-        # print(resDel)
     fullUpdate = {}
     for clef in insertions.keys():
         try:
