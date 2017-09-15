@@ -16,7 +16,7 @@ def getCredentials(isTest):
     from cryptography.fernet import Fernet
     clef = b'y1RrSzZel5RRjMjCZwwLVnVppKzqHQT0v-Mm96WNdS4='
     dataTest = b'gAAAAABZqXG7ztOFfBzQyWInJBGi2ug_TnFsZFLM0fbCCx6POD8ki_qCJRIlIm8jBh9Z918JxLi3He-46-rcoIZ_BgrwD9VvdYRA5_6G5k8FySU0m7qpPnV6UDh6ayqPlR-mvo8Dp3DTi8xElZVhp2tKtZBL95tl-5e2XtNsz67D1lkHui856v2G5jTh6zYNMS3ifjvnl1DQ0SuEKZ2FZay031QRu1q7Wg=='
-    dataProd = b'gAAAAABZskV89Fcos1HfRBkUkcbf_hry000Mr1fcAYs_TuSuC_-CmiO3BU6MnYm_jlgaCqOu4MCkZtGiBi032uD1mT8d-PKXDfsfFkFftYAuvJNgrI5kfm_7b8etZxhiCTewpzvtRQnq9Sc6K50VGc7owO0H-qeYHQda_SGJylqc9lFHRDkmk7qCzVhVMygS_U4-PKH_u5DmJbtCIPwk83VryLhryzCwg2zNBTUMqj2OvWedkXo5Yv4='
+    dataProd = b'gAAAAABZu4MLAoZXiIJnPwf-pn59_WKdt18um9Pn6K2AKOhT62GUsCXyDlFo4ArqrOnB08fL4p3ZJosIorRbllXa0mqOQiDTc7Bwv2Xneg3_UlN3z5hxR3sc8D2wNNiPcpoy3ofnr43e403TWulo60FOOAKr7mfWJSL8IpepcPVOWhv9CLltgvMHjqtmzJO621gKAtpuW2uYwv5dWx_VQXvSdDpoyl0SKw=='
     if isTest:
         data = dataTest
     else:
