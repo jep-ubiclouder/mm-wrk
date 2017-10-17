@@ -226,9 +226,12 @@ def process(parmDate, now, isTest):
 
             try:
                 if action == 'C':
+                    
                     insertions[Index_STOCKX__c] = record
                     # deletions[Index_STOCKX__c] = record
                 elif action == 'S':
+                    if row['COMMANDE'] not in deletions:
+                        deletions.append(row['COMMANDE'])
                     pass  # deletions[Index_STOCKX__c] = record
                 elif action == 'M' and inserer == False:
                     no_op[Index_STOCKX__c] = record
@@ -250,6 +253,7 @@ def process(parmDate, now, isTest):
         tobedel.append({'Id': r['Id']})
     if len(tobedel) > 0:
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
+    #qryForIDtoBEDel = "select id from commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
     fullUpdate = {}
     for clef in insertions.keys():
         try:
