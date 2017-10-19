@@ -231,7 +231,7 @@ def processFile(fname):
         keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
 
         try:
-            sf.Commande__c.upsert('keyforupsert__c/%s' % keyforupsert__c, tmp, raw_response=True))
+            sf.Commande__c.upsert('keyforupsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
         except all_errors as e:
             print(e)
 
