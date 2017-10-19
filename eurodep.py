@@ -180,7 +180,7 @@ def processFile(fname):
     for c in codes_cli :
         print(c)
         if c not in byEurodep.keys():
-            oldEurodep000.append[c[:-3]+'000']
+            oldEurodep000.append(c[:-3]+'000')
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in oldEurodep000]) + ')'
 
