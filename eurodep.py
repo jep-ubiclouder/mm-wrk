@@ -283,7 +283,7 @@ def TryConnectComptes():
     pass
     pathFile = './ComptesInconnus.txt'
     cpteDump = open(pathFile,'r')
-    for l in cpteDump.readline():
+    for l in cpteDump.readlines():
         print(l)
     cpteDump.close() 
 
