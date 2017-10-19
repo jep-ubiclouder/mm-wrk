@@ -220,7 +220,7 @@ def processFile(fname):
                 tmp['Ligne__c'] = r['LIGNE FAC']
                 tmp['Compte__c'] =  byEurodep[r['CODCLI']]
                 keyforupsert = r['NOFAC'] + str(r['NOFAC'])
-                print(tmp)
+                ## print(tmp)
                 try:
                     sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
                 except all_errors as e:
