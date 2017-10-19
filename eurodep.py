@@ -164,7 +164,7 @@ def processFile(fname):
             
     # print(codes_cli)
 
-    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\'' + ','.join([
+    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\',' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
     print(qry_code_eurodep)
     les_ids = sf.query(qry_code_eurodep)
@@ -183,7 +183,7 @@ def processFile(fname):
         if c not in byEurodep.keys():
             oldEurodep000.append(c[:-3]+'000')
             
-    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\'' + ','.join([
+    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\',' + ','.join([
         "\'%s\'" % c for c in oldEurodep000]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
