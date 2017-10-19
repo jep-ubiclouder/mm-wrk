@@ -271,8 +271,8 @@ def processFile(fname):
                     
     print(EANInconnus)
     print(CompteInconnus)
-    pathFIle = './ComptesInconnus.txt'
-    cpteDump =  open(path,'a')
+    pathFile = './ComptesInconnus.txt'
+    cpteDump =  open(pathFile,'a')
     for k in CompteInconnus.keys:
         cpteDump.write(CompteInconnus[k])
     cpteDump.close()
