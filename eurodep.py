@@ -207,7 +207,7 @@ def processFile(fname):
                 print(r['EAN ART'] )
         else:
             print('pas de clef CODECLI pour ' )
-                print(r['CODCLI'] )
+            print(r['CODCLI'] )
     #try:
     #    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
     #except all_errors as e:
