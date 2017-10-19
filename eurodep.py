@@ -219,16 +219,54 @@ def processFile(fname):
                 tmp['Quantite__c'] = r['QTE']
                 tmp['Ligne__c'] = r['LIGNE FAC']
                 tmp['Compte__c'] =  byEurodep[r['CODCLI']]
+                
                 keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
+                
                 ## print(tmp)
                 try:
                     sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
                 except all_errors as e:
                     print(e)
             else:
+                tmp ={}
+                tmp['Facture__c']=r['NOFAC']
+                tmp['Bon_de_livraison__c']=r['NOCDE']
+                tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+                tmp['Prix_Brut__c'] = r['PBRUT']
+                tmp['Quantite__c'] = r['QTE']
+                tmp['Prix_Net__c'] = r['PNET']
+                tmp['Code_EAN_EURODEP__c'] = r['EAN ART']
+                tmp['Quantite__c'] = r['QTE']
+                tmp['Ligne__c'] = r['LIGNE FAC']
+                tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
+                
+                keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
+                try:
+                    sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+                except all_errors as e:
+                    print(e)
                 if r['EAN ART'] not in EANInconnus.keys():
                         EANInconnus[r['EAN ART']] = [r['EAN ART'],r['DES']]
+                    
+                        
         else:
+            tmp ={}
+            tmp['Facture__c']=r['NOFAC']
+            tmp['Bon_de_livraison__c']=r['NOCDE']
+            tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+            tmp['Prix_Brut__c'] = r['PBRUT']
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Prix_Net__c'] = r['PNET']
+            tmp['Produit__c'] = byEAN[r['EAN ART']]
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['LIGNE FAC']
+            tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
+            
+            keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)
             if  r['CODCLI'] not in CompteInconnus.keys():
                 CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE']]
                     
