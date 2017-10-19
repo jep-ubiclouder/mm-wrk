@@ -182,7 +182,7 @@ def processFile(fname):
     
     les_codes_produits = sf.query(qry_code_byEAN)
     for acc in les_codes_produits['records']:
-        byEAN[acc[EAN__c]] = acc['Id'] 
+        byEAN[acc['EAN__c']] = acc['Id'] 
     print(byEAN)
     '''eurodep_inconnus =[]
     
