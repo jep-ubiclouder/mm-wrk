@@ -163,10 +163,8 @@ def processFile(fname):
             byACL[row['ART']].append(row)
             
     # print(codes_cli)
-    if len(codes_cli)==1:
-        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c =\''  + codes_cli[0] + '\''
-    else:
-        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
+
+    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\'' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
@@ -184,16 +182,16 @@ def processFile(fname):
         ## print(c)
         if c not in byEurodep.keys():
             oldEurodep000.append(c[:-3]+'000')
-    if len(oldEurodep000) >0: 
-        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
-            "\'%s\'" % c for c in oldEurodep000]) + ')'
+            
+    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\'' + ','.join([
+        "\'%s\'" % c for c in oldEurodep000]) + ')'
+
+    les_ids = sf.query(qry_code_eurodep)
+    for acc in les_ids['records']:
+        print(acc)
+        connus.append(acc['Code_EURODEP__c'][:-3]+'515')
+        byEurodep[acc['Code_EURODEP__c'][:-3]+'515'] = acc['Id']
     
-        les_ids = sf.query(qry_code_eurodep)
-        for acc in les_ids['records']:
-            print(acc)
-            connus.append(acc['Code_EURODEP__c'][:-3]+'515')
-            byEurodep[acc['Code_EURODEP__c'][:-3]+'515'] = acc['Id']
-        
  
     
     
