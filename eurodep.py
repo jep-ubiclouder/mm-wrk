@@ -166,7 +166,7 @@ def processFile(fname):
 
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\'' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
-
+    print(qry_code_eurodep)
     les_ids = sf.query(qry_code_eurodep)
     byEurodep = {}
     byEAN = {}
