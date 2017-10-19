@@ -212,7 +212,7 @@ def processFile(fname):
     ## sf.Commande__c.insert({})
     produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
     # print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
-    print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
+    ## print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
     
     
     
@@ -230,10 +230,11 @@ def processFile(fname):
         tmp['Ligne__c'] =r['NOFAC']
         keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
 
-        try:
+        '''try:
             sf.Commande__c.upsert('keyforupsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
         except all_errors as e:
-            print(e)
+            print(e)'''
+    print(tmp)    
 
 if __name__ == '__main__':
     import argparse
