@@ -202,7 +202,8 @@ def processFile(fname):
             keyforupsert = r['NOFAC'] + str(r['NOFAC'])
             print(tmp)
         else:
-            print('pas de clef pour ' + r)
+            print('pas de clef pour ' )
+            print(r)
     
     #try:
     #    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
