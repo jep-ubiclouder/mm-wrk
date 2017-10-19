@@ -219,7 +219,7 @@ def processFile(fname):
                 tmp['Quantite__c'] = r['QTE']
                 tmp['Ligne__c'] = r['LIGNE FAC']
                 tmp['Compte__c'] =  byEurodep[r['CODCLI']]
-                keyforupsert = r['NOFAC'] + str(r['NOFAC'])
+                keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
                 ## print(tmp)
                 try:
                     sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
