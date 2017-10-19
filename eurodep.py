@@ -184,7 +184,10 @@ def processFile(fname):
         ## print(c)
         if c not in byEurodep.keys():
             oldEurodep000.append(c[:-3]+'000')
-    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
+    if len(oldEurodep000)==1:
+        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c =\''  + oldEurodep000[0] + '\''
+    else:            
+        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in oldEurodep000]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
