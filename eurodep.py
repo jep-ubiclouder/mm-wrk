@@ -184,6 +184,30 @@ def processFile(fname):
     for acc in les_codes_produits['records']:
         byEAN[acc['EAN__c']] = acc['Id'] 
     print(byEAN)
+    
+    for r in dujour:
+    # print(r)
+        if r['COMPTE'] in byEurodep.keys() and r['EAN'] in byEAN.keys():
+            tmp ={}
+            tmp['Facture__c']=r['NOFAC']
+            tmp['Bon_de_livraison__c']=r['NOCDE']
+            tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+            tmp['Prix_Brut__c'] = r['PBRUT']
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Prix_Net__c'] = r['PNET']
+            tmp['Produit__c'] = byEAN[r['EAN']]
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] =r['LIGNE FAC']
+            tmp['Compte__c'] byEurodep[r['COMPTE']]
+            keyforupsert = r['NOFAC'] + str(r['NOFAC'])
+            print(tmp)
+        else:
+            print('pas de clef pour ' + r)
+    
+    #try:
+    #    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
+    #except all_errors as e:
+    #    print(e)
     '''eurodep_inconnus =[]
     
     for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
