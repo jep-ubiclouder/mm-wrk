@@ -197,8 +197,8 @@ def processFile(fname):
             tmp['Prix_Net__c'] = r['PNET']
             tmp['Produit__c'] = byEAN[r['EAN']]
             tmp['Quantite__c'] = r['QTE']
-            tmp['Ligne__c'] =r['LIGNE FAC']
-            tmp['Compte__c'] byEurodep[r['COMPTE']]
+            tmp['Ligne__c'] = r['LIGNE FAC']
+            tmp['Compte__c'] =  byEurodep[r['COMPTE']]
             keyforupsert = r['NOFAC'] + str(r['NOFAC'])
             print(tmp)
         else:
