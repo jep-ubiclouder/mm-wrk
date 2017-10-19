@@ -174,8 +174,8 @@ def processFile(fname):
         connus.append(acc['Code_EURODEP__c'])
         #byEurodep[acc['Code_EURODEP__c']] = acc['Id']
     ## clientsInconnus = findUnknownItems(connus, codes_cli)
-    
-    eurodep_inconnus =[]
+    print(connus)
+    '''eurodep_inconnus =[]
     
     for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
         if k not in connus:
@@ -230,11 +230,11 @@ def processFile(fname):
         tmp['Ligne__c'] =r['LIGNE FAC']
         keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
 
-        '''try:
+        try:
             sf.Commande__c.upsert('keyforupsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
         except all_errors as e:
             print(e)'''
-    print(tmp)    
+        
 
 if __name__ == '__main__':
     import argparse
