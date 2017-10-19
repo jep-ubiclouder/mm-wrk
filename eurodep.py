@@ -163,8 +163,8 @@ def processFile(fname):
             byACL[row['ART']].append(row)
             
     # print(codes_cli)
-    if len(codes_cli)<1:
-        sys.exit()
+    print('Code_cli')
+    print(codes_cli)
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
