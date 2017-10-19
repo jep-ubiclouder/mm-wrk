@@ -284,7 +284,7 @@ def TryConnectComptes():
     pathFile = './ComptesInconnus.txt'
     cpteDump = open(pathFile,'r')
     for l in cpteDump.readlines():
-        print(l)
+        print(l[:-1])
     cpteDump.close() 
 
 if __name__ == '__main__':
