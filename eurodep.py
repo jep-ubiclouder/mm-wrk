@@ -184,7 +184,7 @@ def processFile(fname):
         
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(eurodep_inconnus)
-    sys.exit()
+    # sys.exit()
     
     connus = []
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
