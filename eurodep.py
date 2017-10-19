@@ -221,6 +221,10 @@ def processFile(fname):
                 tmp['Compte__c'] =  byEurodep[r['CODCLI']]
                 keyforupsert = r['NOFAC'] + str(r['NOFAC'])
                 print(tmp)
+                try:
+                    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
+                except all_errors as e:
+                    print(e)
             else:
                 if r['EAN ART'] not in EANInconnus.keys():
                         EANInconnus[r['EAN ART']] = [r['EAN ART'],r['DES']]
@@ -230,10 +234,7 @@ def processFile(fname):
                     
     print(EANInconnus)
     print(CompteInconnus)
-    #try:
-    #    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
-    #except all_errors as e:
-    #    print(e)
+    
     '''eurodep_inconnus =[]
     
     for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
