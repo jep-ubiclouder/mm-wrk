@@ -208,9 +208,9 @@ def processFile(fname):
             else:
                 if r['EAN ART'] not in EANInconnus.keys():
                         EANInconnus[r['EAN ART']] = [r['EAN ART'],r['DES']]
-            else:
-                if  r['CODCLI'] not in CompteInconnus.keys():
-                    CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE']]
+        else:
+            if  r['CODCLI'] not in CompteInconnus.keys():
+                CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE']]
                     
         print(EANInconnus)
         print(CompteInconnus)
