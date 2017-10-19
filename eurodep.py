@@ -212,8 +212,8 @@ def processFile(fname):
             if  r['CODCLI'] not in CompteInconnus.keys():
                 CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE']]
                     
-        print(EANInconnus)
-        print(CompteInconnus)
+    print(EANInconnus)
+    print(CompteInconnus)
     #try:
     #    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
     #except all_errors as e:
