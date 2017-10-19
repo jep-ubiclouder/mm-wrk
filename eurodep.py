@@ -274,7 +274,7 @@ def processFile(fname):
     pathFile = './ComptesInconnus.txt'
     cpteDump =  open(pathFile,'a')
     for k in CompteInconnus.keys():
-        cpteDump.write(CompteInconnus[k][0])
+        cpteDump.write(CompteInconnus[k][0] + '\n')
     cpteDump.close()
     ## TODO
     ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
