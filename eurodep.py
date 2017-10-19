@@ -168,7 +168,7 @@ def processFile(fname):
 
     les_ids = sf.query(qry_code_eurodep)
     byEurodep = {}
-    #byEAN = {}
+    byEAN = {}
     #byACL = {}
     for acc in les_ids['records']:
         print(acc)
@@ -176,6 +176,14 @@ def processFile(fname):
         byEurodep[acc['Code_EURODEP__c']] = acc['Id']
     ## clientsInconnus = findUnknownItems(connus, codes_cli)
     print(byEurodep)
+    
+    qry_code_byEAN = 'select id,name,EAN__C from Product2 where EAN__c  in ('+','.join([
+        "\'%s\'" % c for c in eans]) + ')'
+    
+    les_codes_produits = sf.query(qry_code_byEAN)
+    for acc in les_codes_produits['records']:
+        byEAN[acc[EAN__c]] = acc['Id'] 
+    print(byEAN)
     '''eurodep_inconnus =[]
     
     for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
