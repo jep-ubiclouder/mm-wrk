@@ -279,7 +279,7 @@ def processFile(fname):
     ## TODO
     ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
 
-def TryConnectComptes:
+def TryConnectComptes():
     pass
 
 
