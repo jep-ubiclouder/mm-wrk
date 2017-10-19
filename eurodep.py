@@ -176,6 +176,21 @@ def processFile(fname):
         byEurodep[acc['Code_EURODEP__c']] = acc['Id']
     ## clientsInconnus = findUnknownItems(connus, codes_cli)
     print(byEurodep)
+    oldEurodep000 =[]
+    for c in codes_cli :
+        if c not in byEurodep.keys():
+            oldEurodep000.append[c[:-3]+'000']
+    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
+        "\'%s\'" % c for c in oldEurodep000]) + ')'
+
+    les_ids = sf.query(qry_code_eurodep)
+    for acc in les_ids['records']:
+        print(acc)
+        connus.append(acc['Code_EURODEP__c'])
+        byEurodep[acc['Code_EURODEP__c']] = acc['Id']
+    
+ 
+    
     
     qry_code_byEAN = 'select id,name,EAN__C from Product2 where EAN__c  in ('+','.join([
         "\'%s\'" % c for c in eans]) + ')'
