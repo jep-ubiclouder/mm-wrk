@@ -227,7 +227,7 @@ def processFile(fname):
         tmp['Prix_Net__c'] = r['PNET']
         tmp['Produit__c'] = r['ART']
         tmp['Quantite__c'] = r['QTE']
-        tmp['Ligne__c'] =r['NOFAC']
+        tmp['Ligne__c'] =r['LIGNE FAC']
         keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
 
         '''try:
