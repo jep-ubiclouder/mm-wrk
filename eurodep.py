@@ -270,7 +270,7 @@ def processFile(fname):
             except all_errors as e:
                 print(e)
             if  r['CODCLI'] not in CompteInconnus.keys():
-                CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE'],r[]]
+                CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE'],r['CP'],r['VILLE']]
                     
     print(EANInconnus)
     print(CompteInconnus)
