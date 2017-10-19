@@ -222,7 +222,7 @@ def processFile(fname):
                 keyforupsert = r['NOFAC'] + str(r['NOFAC'])
                 print(tmp)
                 try:
-                    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
+                    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
                 except all_errors as e:
                     print(e)
             else:
