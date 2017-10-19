@@ -187,8 +187,8 @@ def processFile(fname):
     les_ids = sf.query(qry_code_eurodep)
     for acc in les_ids['records']:
         print(acc)
-        connus.append(acc['Code_EURODEP__c'[:-3]+'515'])
-        byEurodep[acc['Code_EURODEP__c'[:-3]+'515']] = acc['Id']
+        connus.append(acc['Code_EURODEP__c'][:-3]+'515')
+        byEurodep[acc['Code_EURODEP__c'][:-3]+'515'] = acc['Id']
     
  
     
