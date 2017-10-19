@@ -185,6 +185,9 @@ def processFile(fname):
         byEAN[acc['EAN__c']] = acc['Id'] 
     print(byEAN)
     
+    CompteInconnus  = {}
+    EANInconnus = {}
+    
     for r in dujour:
     # print(r)
         if r['CODCLI'] in byEurodep.keys(): 
@@ -203,11 +206,14 @@ def processFile(fname):
                 keyforupsert = r['NOFAC'] + str(r['NOFAC'])
                 print(tmp)
             else:
-                print('pas de clef EAN pour ' )
-                print(r['EAN ART'] )
-        else:
-            print('pas de clef CODECLI pour ' )
-            print(r['CODCLI'] )
+                if r['EAN ART'] not in EANInconnus,keys():
+                        EANInconnus[r['EAN ART']] = [r['EAN ART'],r['DES']]
+            else:
+                if  r['CODCLI'] not in CompteInconnus.keys():
+                    CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE']]
+                    
+        print(EANInconnus)
+        print(CompteInconnus)
     #try:
     #    sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
     #except all_errors as e:
@@ -268,7 +274,7 @@ def processFile(fname):
         keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
 
         try:
-            sf.Commande__c.upsert('keyforupsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
+            sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
         except all_errors as e:
             print(e)'''
         
