@@ -281,7 +281,11 @@ def processFile(fname):
 
 def TryConnectComptes():
     pass
-
+    pathFile = './ComptesInconnus.txt'
+    cpteDump = open(pathFile,'r')
+    for l in cpteDump.read():
+        print(l)
+    cpteDump.close() 
 
 if __name__ == '__main__':
     import argparse
