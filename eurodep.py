@@ -163,6 +163,8 @@ def processFile(fname):
             byACL[row['ART']].append(row)
             
     # print(codes_cli)
+    if len(codes_cli)<1:
+        sys.exit()
     qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
@@ -268,70 +270,12 @@ def processFile(fname):
             except all_errors as e:
                 print(e)
             if  r['CODCLI'] not in CompteInconnus.keys():
-                CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE']]
+                CompteInconnus[r['CODCLI']] = [r['CODCLI'],r['NOM'],r['ADRESSE'],r[]]
                     
     print(EANInconnus)
     print(CompteInconnus)
     
-    '''eurodep_inconnus =[]
-    
-    for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
-        if k not in connus:
-            #for r in byCODCLI[k]:
-            eurodep_inconnus.append(byCODCLI[k])
-        
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(eurodep_inconnus)
-    # sys.exit()
-    
-    connus = []
-    qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
-        "\'%s\'" % c for c in eans]) + ')'
-    les_eans = sf.query(qry_eans)
-    for prod in les_eans['records']:
-        # print("EAN",prod)
-        connus.append(prod['EAN__c'])
-        #byEAN[prod['EAN__c']] = prod['Id']
-    EANInconnus = findUnknownItems(connus, eans)
 
-    connus = []
-    qry_arts = 'select id,name,Code_ACL__c,EAN__c from product2 where Code_ACL__c in (' + ','.join([
-        "\'%s\'" % c for c in arts]) + ')'
-    les_Acl = sf.query(qry_arts)
-
-    for prod in les_Acl['records']:
-        connus.append(prod['Code_ACL__c'])
-        #byACL[prod['Code_ACL__c']] = prod['Id']
-    ACLInconnus = findUnknownItems(connus, arts)
-    # sf.Contact.update('003e0000003GuNXAA0',{'LastName': 'Jones', 'FirstName': 'John'})
-    
-    
-    
-    ## sf.Commande__c.insert({})
-    produitsInconnus = findProduitsInconnus(byEAN, byACL, EANInconnus, ACLInconnus)
-    # print("Client Inconnus", clientsInconnus, "\nean inconnus", EANInconnus, "\nACL Inconnus", ACLInconnus, "\nProduits Inconnus", produitsInconnus)
-    ## print(maketable(clientsInconnus, byCODCLI, entetesClientsInconnus))
-    
-    
-    
-    for r in dujour:
-        # print(r)
-        tmp ={}
-        tmp['Facture__c']=r['NOFAC']
-        tmp['Bon_de_livraison__c']=r['NOCDE']
-        tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
-        tmp['Prix_Brut__c'] = r['PBRUT']
-        tmp['Quantite__c'] = r['QTE']
-        tmp['Prix_Net__c'] = r['PNET']
-        tmp['Produit__c'] = r['ART']
-        tmp['Quantite__c'] = r['QTE']
-        tmp['Ligne__c'] =r['LIGNE FAC']
-        keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
-
-        try:
-            sf.Commande__c.upsert('key4upsert__c/%s' % keyforupsert__c, tmp, raw_response=True)
-        except all_errors as e:
-            print(e)'''
         
 
 if __name__ == '__main__':
