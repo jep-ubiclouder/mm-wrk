@@ -163,9 +163,10 @@ def processFile(fname):
             byACL[row['ART']].append(row)
             
     # print(codes_cli)
-    print('Code_cli')
-    print(codes_cli)
-    qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
+    if len(codes_cli)==1:
+        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + codes_cli[0]) + ')'
+    else:
+        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (' + ','.join([
         "\'%s\'" % c for c in codes_cli]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
