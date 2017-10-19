@@ -185,7 +185,7 @@ def processFile(fname):
     pp = pprint.PrettyPrinter(indent=4)
     pp.pprint(eurodep_inconnus)
     sys.exit()
-    """
+    
     connus = []
     qry_eans = 'select id,name,Code_ACL__c,EAN__c from product2 where EAN__c in (' + ','.join([
         "\'%s\'" % c for c in eans]) + ')'
@@ -217,7 +217,7 @@ def processFile(fname):
     
     
     for r in dujour:
-        print(r)
+        // print(r)
         tmp ={}
         tmp['Facture__c']=r['NOFAC']
         tmp['Bon_de_livraison__c']=r['NOCDE']
@@ -228,13 +228,13 @@ def processFile(fname):
         tmp['Produit__c'] = r['ART']
         tmp['Quantite__c'] = r['QTE']
         tmp['Ligne__c'] =r['NOFAC']
-        # tmp['keyforupsert__c'] = r['NOFAC'] + str(r['NOFAC'])
+        keyforupsert__c = r['NOFAC'] + str(r['NOFAC'])
 
         try:
-            sf.Commande__c.upsert('keyforupsert__c/%s' % )
+            sf.Commande__c.upsert('keyforupsert__c/%s' % keyforupsert__c, tmp, raw_response=True))
         except all_errors as e:
             print(e)
-"""
+
 if __name__ == '__main__':
     import argparse
 
