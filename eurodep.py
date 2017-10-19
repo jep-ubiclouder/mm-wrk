@@ -206,7 +206,7 @@ def processFile(fname):
                 keyforupsert = r['NOFAC'] + str(r['NOFAC'])
                 print(tmp)
             else:
-                if r['EAN ART'] not in EANInconnus,keys():
+                if r['EAN ART'] not in EANInconnus.keys():
                         EANInconnus[r['EAN ART']] = [r['EAN ART'],r['DES']]
             else:
                 if  r['CODCLI'] not in CompteInconnus.keys():
