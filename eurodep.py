@@ -257,7 +257,7 @@ def processFile(fname):
             tmp['Prix_Brut__c'] = r['PBRUT']
             tmp['Quantite__c'] = r['QTE']
             tmp['Prix_Net__c'] = r['PNET']
-            tmp['Produit__c'] = r['EAN ART']
+            tmp['Code_EAN_EURODEP__c'] = r['EAN ART']
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
             tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
