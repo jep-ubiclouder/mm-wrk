@@ -171,6 +171,7 @@ def processFile(fname):
     #byEAN = {}
     #byACL = {}
     for acc in les_ids['records']:
+        print(acc)
         connus.append(acc['Code_EURODEP__c'])
         #byEurodep[acc['Code_EURODEP__c']] = acc['Id']
     ## clientsInconnus = findUnknownItems(connus, codes_cli)
