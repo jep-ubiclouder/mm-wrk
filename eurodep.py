@@ -191,10 +191,7 @@ def processFile(fname):
             print(acc)
             connus.append(acc['Code_EURODEP__c'][:-3]+'515')
             byEurodep[acc['Code_EURODEP__c'][:-3]+'515'] = acc['Id']
-    
  
-    
-    
     qry_code_byEAN = 'select id,name,EAN__C from Product2 where EAN__c  in ('+','.join([
         "\'%s\'" % c for c in eans]) + ')'
     
@@ -274,16 +271,24 @@ def processFile(fname):
                     
     print(EANInconnus)
     print(CompteInconnus)
-    
+    pathFIle = './ComptesInconnus.txt'
+    cpteDump =  open(path,'a')
+    for k in CompteInconnus.keys:
+        cpteDump.write(CompteInconnus[k])
+    cpteDump.close()
+    ## TODO
+    ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
 
-        
+def TryConnectComptes:
+    pass
+
 
 if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='Short sample app')
     parser.add_argument('-d', '--date', action="store", dest="parmDate")
-
+    parser.add_argument('-r', '--reconnect', action='store_true', default=False)
     args = parser.parse_args()
     from datetime import datetime, timedelta
     if args.parmDate:
@@ -291,8 +296,11 @@ if __name__ == '__main__':
     if args.parmDate is None:
         now = datetime.now() - timedelta(days=1)
         
-    
-    compactDate = '%s%02i%02i' % (now.year, now.month, now.day)
-    fn = getfromFTP(compactDate)
-    if fn != False:
-        processFile(fn)
+    if args.reconnect is None or args.reconnect == False:
+        compactDate = '%s%02i%02i' % (now.year, now.month, now.day)
+        fn = getfromFTP(compactDate)
+        if fn != False:
+            processFile(fn)
+    else:
+        TryConnectComptes()
+        
