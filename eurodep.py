@@ -167,15 +167,15 @@ def processFile(fname):
         "\'%s\'" % c for c in codes_cli]) + ')'
 
     les_ids = sf.query(qry_code_eurodep)
-    #byEurodep = {}
+    byEurodep = {}
     #byEAN = {}
     #byACL = {}
     for acc in les_ids['records']:
         print(acc)
         connus.append(acc['Code_EURODEP__c'])
-        #byEurodep[acc['Code_EURODEP__c']] = acc['Id']
+        byEurodep[acc['Code_EURODEP__c']] = acc['Id']
     ## clientsInconnus = findUnknownItems(connus, codes_cli)
-    print(connus)
+    print(byEurodep)
     '''eurodep_inconnus =[]
     
     for k in byCODCLI.keys():  ## je cherche les codes EURODEP qui ne sont pas dans SF 
