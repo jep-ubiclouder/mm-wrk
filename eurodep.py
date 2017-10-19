@@ -187,7 +187,7 @@ def processFile(fname):
     
     for r in dujour:
     # print(r)
-        if r['CODCLI'] in byEurodep.keys() and r['EAN'] in byEAN.keys():
+        if r['CODCLI'] in byEurodep.keys() and r['EAN ART'] in byEAN.keys():
             tmp ={}
             tmp['Facture__c']=r['NOFAC']
             tmp['Bon_de_livraison__c']=r['NOCDE']
@@ -195,7 +195,7 @@ def processFile(fname):
             tmp['Prix_Brut__c'] = r['PBRUT']
             tmp['Quantite__c'] = r['QTE']
             tmp['Prix_Net__c'] = r['PNET']
-            tmp['Produit__c'] = byEAN[r['EAN']]
+            tmp['Produit__c'] = byEAN[r['EAN ART']]
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
             tmp['Compte__c'] =  byEurodep[r['CODCLI']]
