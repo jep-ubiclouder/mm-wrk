@@ -78,7 +78,7 @@ def getfromFTP(compactDate):
 def envoieEmailAnomalieProduit(Liste):
     ''' Envoie une liste des anomalie de EAN survenues lors de l'import Eurodep'''
     ## [r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']]
-    texteHTML"""
+    texteHTML="""
     Bonjour,<br/>
     Voici une liste des anomalies en rapport aux Codes EAN survenus lors de l'importaion EURODEP de ce jour.<br/>
     Le rattachement sera effectué une fois par heure entre 9 heures du matin et 14 heures tout les jours<br/>
@@ -107,7 +107,7 @@ def envoieEmailCI(clientsInconnus):
     ''' Envoie une liste de compte qui ont un code EURODEP mais qui ne sont pas trouvé cette clef dans Salesforce'''
     
     # [r['CODCLI'],r['NOM'],r['ADRESSE'],r['CP'],r['VILLE']]
-    texteHTML"""
+    texteHTML= """
     Bonjour,<br/>
     Voici une liste des clients présents dans le fichier EURODEP que je n'ai pas pu trouver dans SalesForce.<br/>
     Pouvez-vous les créer ou attacher le code Eurodep dans leur fiche, afin que je puisse ratacher les commandes.<br/>
