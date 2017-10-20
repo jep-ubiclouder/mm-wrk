@@ -116,7 +116,8 @@ def envoieEmailCI(clientsInconnus):
     """  
     tableau = '''<table>
     <tr><th>Code Eurodep </th><th> Nom </th><th> Adresse </th><th> Code Postal </th><th> Ville</th></tr>'''
-    for r in clientsInconnus:
+    for k in clientsInconnus.keys():
+        r=clientsInconnus[k]
         record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r[0],r[1],r[2],r[3],r[4])
         tableau += record
     tableau +='</table>'
