@@ -75,42 +75,63 @@ def getfromFTP(compactDate):
     for t in truc:
         eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
     return truc[0]
-
-
-def envoieEmail(clientsInconnus, produitsInconnus):
-
-    pass
-
-
-def findUnknownItems(connus, fournis):
+def envoieEmailAnomalieProduit(Liste):
+    ''' Envoie une liste des anomalie de EAN survenues lors de l'import Eurodep'''
+    ## [r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']]
+    texteHTML"""
+    Bonjour,<br/>
+    Voici une liste des anomalies en rapport aux Codes EAN survenus lors de l'importaion EURODEP de ce jour.<br/>
+    Le rattachement sera effectué une fois par heure entre 9 heures du matin et 14 heures tout les jours<br/>
     """
-    renvoie un tableau des elements de fournis qui ne sont pas connus
-    """
-    resultat = []
-    for k in fournis:
-        if k not in connus:
-            resultat.append(k)
-    return resultat
-
-
-def findProduitsInconnus(ean, acl, EANInconnus, ACLInconnus):
-    """
-    cherche si on arrive a retrouver les EANn par des acl ou reciproquement
-    """
-    produitsInconnus = []
-    for k in EANInconnus:
-        if ean[k][0]['ART'] not in acl.keys():
-            produitsInconnus.append(ean[k])
-        else:
-            print('found unkown EAN k', k, 'by', ean[k][0]['ART'])
-
-    for k in ACLInconnus:
-        if acl[k][0]['EAN ART'] not in ean.keys():
-            produitsInconnus.append(acl[k])
-        else:
-            print('found unkown ACL k', k, 'by', acl[k][0]['EAN ART'])
-    return produitsInconnus
-
+    tableau = '''<table>
+    <tr><th>Code Eurodep </th><th> Description </th><th> Facture </th><th> Ligne  </th></tr>'''
+    for r in clientsInconnus:
+        record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r[0],r[1],r[2],r[3])
+        tableau + = record
+    tableau +='</table>'
+    texteHTML += tableau
+    
+    
+    from email.mime.text import MIMEText
+    msg = MIMEText(texteHTML, 'html')
+    msg['Subject'] = 'Compte Inconnus'
+    msg['From'] = 'lignesdecommandes@mm-aws.com'
+    msg['To'] = 'jean-eric.preis@ubiclouder.com, LBRONNER@homme-de-fer.com'
+    # Send the message via our own SMTP server.
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+    
+    
+def envoieEmailCI(clientsInconnus):
+    ''' Envoie une liste de compte qui ont un code EURODEP mais qui ne sont pas trouvé cette clef dans Salesforce'''
+    
+    # [r['CODCLI'],r['NOM'],r['ADRESSE'],r['CP'],r['VILLE']]
+    texteHTML"""
+    Bonjour,<br/>
+    Voici une liste des clients présents dans le fichier EURODEP que je n'ai pas pu trouver dans SalesForce.<br/>
+    Pouvez-vous les créer ou attacher le code Eurodep dans leur fiche, afin que je puisse ratacher les commandes.<br/>
+    Le rattachement sera effectué une fois par heure entre 9 heures du matin et 14 heures tout les jours<br/>
+    """  
+    tableau = '''<table>
+    <tr><th>Code Eurodep </th><th> Nom </th><th> Adresse </th><th> Code Postal </th><th> Ville</th></tr>'''
+    for r in clientsInconnus:
+        record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r[0],r[1],r[2],r[3],r[4])
+        tableau + = record
+    tableau +='</table>'
+    texteHTML += tableau
+    
+    
+    from email.mime.text import MIMEText
+    msg = MIMEText(texteHTML, 'html')
+    msg['Subject'] = 'Compte Inconnus'
+    msg['From'] = 'lignesdecommandes@mm-aws.com'
+    msg['To'] = 'jean-eric.preis@ubiclouder.com, LBRONNER@homme-de-fer.com'
+    # Send the message via our own SMTP server.
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+    
 
 def processFile(fname):
 
@@ -201,7 +222,7 @@ def processFile(fname):
     print(byEAN)
     
     CompteInconnus  = {}
-    EANInconnus = {}
+    EANInconnus = []
     
     for r in dujour:
     # print(r)
@@ -245,7 +266,7 @@ def processFile(fname):
                 except all_errors as e:
                     print(e)
                 if r['EAN ART'] not in EANInconnus.keys():
-                        EANInconnus[r['EAN ART']] = [r['EAN ART'],r['DES']]
+                        EANInconnus.append([r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']])
                     
                         
         else:
@@ -278,13 +299,31 @@ def processFile(fname):
     cpteDump.close()
     ## TODO
     ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
-
+    envoieEmailCI(CompteInconnus)
+    envoieEmailAnomalieProduit(EANInconnus)
 def TryConnectComptes():
     pass
     pathFile = './ComptesInconnus.txt'
     cpteDump = open(pathFile,'r')
+    ComptesInconnus =[]
     for l in cpteDump.readlines():
-        print(l[:-1])
+        id=l[:-1] 
+        if id not in ComptesInconnus:
+            ComptesInconnus.append(id)
+    if len(ComptesInconnus)>0:
+        sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+        qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in ComptesInconnus]) + ')'
+        result = sf.query(qry_code_eurodep)
+        records =  result['records']
+        if len(records)>0:
+            bulkUpdates= []
+            for r in records:
+                AccId = r['Id']
+                qryUpdateLignes = ' select id, Ligne__c, Code_Client_EURODEP__c,Compte__c from Commande__c where  Code_Client_EURODEP__c=\'%s\' '%r['Code_EURODEP__c']
+                resUpdate = sf.query(qryUpdateLignes)
+                for rec in resUpdate['records']:
+                    bulkUpdates.append({'Id': rec['Id'],'Compte__c':AccId})
+            sf.bulk.update(bulkUpdates)
     cpteDump.close() 
 
 if __name__ == '__main__':
