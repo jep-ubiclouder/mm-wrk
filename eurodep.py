@@ -267,8 +267,8 @@ def processFile(fname):
                     sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
                 except all_errors as e:
                     print(e)
-                if r['EAN ART'] not in EANInconnus.keys():
-                        EANInconnus.append([r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']])
+                
+                EANInconnus.append([r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']])
                     
                         
         else:
