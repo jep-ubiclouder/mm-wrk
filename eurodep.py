@@ -87,7 +87,7 @@ def envoieEmailAnomalieProduit(Liste):
     <tr><th>Code Eurodep </th><th> Description </th><th> Facture </th><th> Ligne  </th></tr>'''
     for r in clientsInconnus:
         record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r[0],r[1],r[2],r[3])
-        tableau + = record
+        tableau += record
     tableau +='</table>'
     texteHTML += tableau
     
@@ -117,7 +117,7 @@ def envoieEmailCI(clientsInconnus):
     <tr><th>Code Eurodep </th><th> Nom </th><th> Adresse </th><th> Code Postal </th><th> Ville</th></tr>'''
     for r in clientsInconnus:
         record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r[0],r[1],r[2],r[3],r[4])
-        tableau + = record
+        tableau += record
     tableau +='</table>'
     texteHTML += tableau
     
