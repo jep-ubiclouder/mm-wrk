@@ -76,6 +76,7 @@ def getfromFTP(compactDate):
         eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
     return truc[0]
 def envoieEmailAnomalieProduit(Liste):
+    import smtplib
     ''' Envoie une liste des anomalie de EAN survenues lors de l'import Eurodep'''
     ## [r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']]
     texteHTML="""
@@ -85,7 +86,7 @@ def envoieEmailAnomalieProduit(Liste):
     """
     tableau = '''<table>
     <tr><th>Code Eurodep </th><th> Description </th><th> Facture </th><th> Ligne  </th></tr>'''
-    for r in clientsInconnus:
+    for r in Liste:
         record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r[0],r[1],r[2],r[3])
         tableau += record
     tableau +='</table>'
@@ -105,7 +106,7 @@ def envoieEmailAnomalieProduit(Liste):
     
 def envoieEmailCI(clientsInconnus):
     ''' Envoie une liste de compte qui ont un code EURODEP mais qui ne sont pas trouvé cette clef dans Salesforce'''
-    
+    import smtplib
     # [r['CODCLI'],r['NOM'],r['ADRESSE'],r['CP'],r['VILLE']]
     texteHTML= """
     Bonjour,<br/>
