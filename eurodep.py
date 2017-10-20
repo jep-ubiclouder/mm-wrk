@@ -30,36 +30,6 @@ import csv
 
 import pprint
 
-def tr(s):
-    return '<tr>%s</tr>\n' % s
-
-
-def td(arr):
-    ligne = ''
-    for s in arr:
-        ligne += '<td>%s</td>' % s
-    return ligne
-
-
-def th(arr):
-    ligne = ''
-    for s in arr:
-        ligne += '<th>%s</th>' % s
-    return ligne
-
-
-def maketable(clefs, dico, entetes):
-    """ Renvoie une table propre HTML pour inclusion dans le mail resultant"""
-    result = ''
-    if len(clefs) < 1:
-        return 'Vide'
-    ent = entetes.values()
-    result += tr(th(ent))
-    for inconnu in clefs:
-        result += tr(td([dico[inconnu][0][k] for k in entetes.keys()]))
-    return result
-
-
 def getfromFTP(compactDate):
     """ 
     Telecharge le fichier du jour de la date passée en parammètre format YYYYMMDD
@@ -102,7 +72,7 @@ def envoieEmailAnomalieProduit(Liste):
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
-    
+    print('Email EAN envoyé')
     
 def envoieEmailCI(clientsInconnus):
     ''' Envoie une liste de compte qui ont un code EURODEP mais qui ne sont pas trouvé cette clef dans Salesforce'''
@@ -133,7 +103,7 @@ def envoieEmailCI(clientsInconnus):
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
     s.quit()
-    
+    print('Email Comptes envoyé')
 
 def processFile(fname):
 
