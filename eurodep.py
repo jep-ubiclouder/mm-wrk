@@ -62,7 +62,7 @@ def envoieEmailAnomalieProduit(Liste):
     tableau +='</table>'
     texteHTML += tableau
     
-    
+    print(texteHTML)
     from email.mime.text import MIMEText
     msg = MIMEText(texteHTML, 'html')
     msg['Subject'] = 'Compte Inconnus'
@@ -93,7 +93,7 @@ def envoieEmailCI(clientsInconnus):
     tableau +='</table>'
     texteHTML += tableau
     
-    
+    print(texteHTML)
     from email.mime.text import MIMEText
     msg = MIMEText(texteHTML, 'html')
     msg['Subject'] = 'Compte Inconnus'
