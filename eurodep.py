@@ -271,8 +271,10 @@ def processFile(fname):
     cpteDump.close()
     ## TODO
     ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
-    envoieEmailCI(CompteInconnus)
-    envoieEmailAnomalieProduit(EANInconnus)
+    if len(CompteInconnus.keys())>0:
+        envoieEmailCI(CompteInconnus)
+    if len(EANInconnus)>0:
+        envoieEmailAnomalieProduit(EANInconnus)
 def TryConnectComptes():
     pass
     pathFile = './ComptesInconnus.txt'
