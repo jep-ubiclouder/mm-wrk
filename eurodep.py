@@ -278,6 +278,7 @@ def processFile(fname):
 def TryConnectComptes():
     pass
     pathFile = './ComptesInconnus.txt'
+    stackTrouves =[]
     cpteDump = open(pathFile,'r')
     ComptesInconnus =[]
     for l in cpteDump.readlines():
@@ -289,17 +290,30 @@ def TryConnectComptes():
         qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in ComptesInconnus]) + ')'
         result = sf.query(qry_code_eurodep)
         records =  result['records']
+        stackTrouves =[]
         if len(records)>0:
             bulkUpdates= []
             for r in records:
                 AccId = r['Id']
                 qryUpdateLignes = ' select id, Ligne__c, Code_Client_EURODEP__c,Compte__c from Commande__c where  Code_Client_EURODEP__c=\'%s\' '%r['Code_EURODEP__c']
                 resUpdate = sf.query(qryUpdateLignes)
+                if r['Code_Client_EURODEP__c'] not in stackTrouves:
+                    stackTrouves.append(r['Code_Client_EURODEP__c'])
                 for rec in resUpdate['records']:
                     bulkUpdates.append({'Id': rec['Id'],'Compte__c':AccId})
+                    
             print(bulkUpdates)
-            #sf.bulk.Commande__c,update(bulkUpdates)
-    cpteDump.close() 
+            sf.bulk.Commande__c,update(bulkUpdates)
+            
+    
+    cpteDump.close()
+    
+    cpteDump = open(pathFile,'W')
+    for s in ComptesInconnus:
+        if s not in stackTrouves:
+            cpteDump.write(s+'\n')
+    cpteDump.close()
+     
 
 if __name__ == '__main__':
     import argparse
