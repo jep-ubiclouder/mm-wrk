@@ -297,7 +297,8 @@ def TryConnectComptes():
                 resUpdate = sf.query(qryUpdateLignes)
                 for rec in resUpdate['records']:
                     bulkUpdates.append({'Id': rec['Id'],'Compte__c':AccId})
-            sf.bulk.update(bulkUpdates)
+            print(bulkUpdates)
+            #sf.bulk.Commande__c,update(bulkUpdates)
     cpteDump.close() 
 
 if __name__ == '__main__':
