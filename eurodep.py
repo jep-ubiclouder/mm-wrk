@@ -297,10 +297,11 @@ def TryConnectComptes():
                 AccId = r['Id']
                 qryUpdateLignes = ' select id, Ligne__c, Code_Client_EURODEP__c,Compte__c from Commande__c where  Code_Client_EURODEP__c=\'%s\' '%r['Code_EURODEP__c']
                 resUpdate = sf.query(qryUpdateLignes)
-                if r['Code_Client_EURODEP__c'] not in stackTrouves:
-                    stackTrouves.append(r['Code_Client_EURODEP__c'])
+                
                 for rec in resUpdate['records']:
                     bulkUpdates.append({'Id': rec['Id'],'Compte__c':AccId})
+                    if rec['Code_Client_EURODEP__c'] not in stackTrouves:
+                        stackTrouves.append(rec['Code_Client_EURODEP__c'])
                     
             print(bulkUpdates)
             sf.bulk.Commande__c,update(bulkUpdates)
