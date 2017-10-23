@@ -198,7 +198,10 @@ def process(parmDate, now, isTest):
             # clients uniques
             clientStx = row['CLIENT']
             action = row['STATUT']
-
+            if action == 'S':
+                if row['COMMANDE'] not in deletions:
+                    deletions.append(row['COMMANDE'])
+                continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
                 if clef == 'IND':
@@ -230,8 +233,8 @@ def process(parmDate, now, isTest):
                     insertions[Index_STOCKX__c] = record
                     # deletions[Index_STOCKX__c] = record
                 elif action == 'S':
-                    if row['COMMANDE'] not in deletions:
-                        deletions.append(row['COMMANDE'])
+                    ## if row['COMMANDE'] not in deletions:
+                    ##    deletions.append(row['COMMANDE'])
                     pass  # deletions[Index_STOCKX__c] = record
                 elif action == 'M' and inserer == False:
                     no_op[Index_STOCKX__c] = record
