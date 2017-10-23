@@ -304,7 +304,7 @@ def TryConnectComptes():
                         stackTrouves.append(rec['Code_Client_EURODEP__c'])
                     
             print(bulkUpdates)
-            sf.bulk.Commande__c,update(bulkUpdates)
+            sf.bulk.Commande__c.update(bulkUpdates)
             
     
     cpteDump.close()
