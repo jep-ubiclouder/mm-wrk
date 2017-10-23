@@ -184,6 +184,7 @@ def process(parmDate, now, isTest):
     updates = {}
     insertions = {}
     deletions = []
+    deleteFactures =[]
     lstCLients = []
     errors = {}
     no_op = {}
@@ -201,6 +202,7 @@ def process(parmDate, now, isTest):
             if action == 'S':
                 if row['COMMANDE'] not in deletions:
                     deletions.append(row['COMMANDE'])
+                    deleteFactures.append(row['COMMANDE'])
                 continue
             Index_STOCKX__c = row['IND']
             for clef in row.keys():
@@ -256,7 +258,20 @@ def process(parmDate, now, isTest):
         tobedel.append({'Id': r['Id']})
     if len(tobedel) > 0:
         resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
+        
+    for comm in deleteFactures:
+        lstCommandesToBeDel += "'%s'," % comm    
+    qryForDeleteCommandes = "select id from Commandes__c where Commande_STX__c in (%s)" % lstCommandesToBeDel[:-1]
+    rex = sf.query(qryForDeleteCommandes)
+    tobedel = []
+    for r in rex['records']:
+        # print(rex)
+        tobedel.append({'Id': r['Id']})
+    if len(tobedel) > 0:
+        resDel = sf.bulk.Commandes__c.delete(tobedel)
     #qryForIDtoBEDel = "select id from commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
+    
+    
     fullUpdate = {}
     for clef in insertions.keys():
         try:
