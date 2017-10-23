@@ -309,7 +309,7 @@ def TryConnectComptes():
     
     cpteDump.close()
     
-    cpteDump = open(pathFile,'W')
+    cpteDump = open(pathFile,'w')
     for s in ComptesInconnus:
         if s not in stackTrouves:
             cpteDump.write(s+'\n')
