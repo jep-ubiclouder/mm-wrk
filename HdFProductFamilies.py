@@ -47,4 +47,5 @@ for rProd in lesProduits['records']:
     else:
         print('pas trouve',cf)
         
-print(updateList)
+if len(updateList)>0:
+    print(sf.bulk.Product2.update(updateList))
