@@ -40,7 +40,7 @@ for rec in hFamille:
 updateList=[]    
 for rProd in lesProduits['records']:
     
-    cf = Prod['Famille__c']
+    cf = rProd['Famille__c']
     id = rProd['Id']
     if cf in byCodeFamille.keys():
         updateList.append({'Id':id,'Famille_de_Produit__c':byCodeFamille[cf]})
