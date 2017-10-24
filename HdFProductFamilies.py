@@ -329,7 +329,7 @@ def TryConnectComptes():
     print(bulkUpdates)
 
 if __name__ == '__main__':
-    processFile(fn)
+    processFile()
         
 
 '''
