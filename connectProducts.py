@@ -27,7 +27,7 @@ def processFile():
             allMissing.append(r['Code_EAN_EURODEP__c'])
     print(allMissing)
     
-    qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\'' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
+    qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
     print(qrygetProducts)
     allProductId = sf.query(qrygetProducts)
     print(allProductId['records'])
