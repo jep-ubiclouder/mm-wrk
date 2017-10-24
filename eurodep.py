@@ -285,7 +285,7 @@ def TryConnectComptes():
         id=l[:-1] 
         racine=id[:-3]
         if id not in Original:
-            Original.append(racine)
+            Original.append(id)
             ComptesInconnus.append(racine+'000')
             ComptesInconnus.append(racine+'515')
     if len(ComptesInconnus)>0:
@@ -311,10 +311,11 @@ def TryConnectComptes():
     
     cpteDump = open(pathFile,'w')
     for s in Original:
-        if s not in stackTrouves:
+        if s[:-3] not in stackTrouves:
             cpteDump.write(s+'\n')
     cpteDump.close()
-     
+    print('reconcilé')
+    print(bulkUpdates)
 
 if __name__ == '__main__':
     import argparse
