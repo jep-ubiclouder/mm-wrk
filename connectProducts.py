@@ -31,6 +31,6 @@ def processFile():
     print(qrygetProducts)
     allProductId = sf.query(qrygetProducts)
     print(allProductId('records'))
-  pass
+    pass
 if __name__ == '__main__':
     processFile()
