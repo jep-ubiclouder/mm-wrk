@@ -157,11 +157,11 @@ def processFile():
             #    arts.append(row['ART'])
             #    byACL[row['ART']] = []
             # EAN
-            if row['EAN ART'] not in eans:
+            if row['Code Ean'] not in eans:
                 eans.append(row['Code Ean'])
                 byEAN[row['Code Ean']] = []
             # je popule les divers dictionnaires
-            byCODCLI[row['CODCLI']].append(row)
+            byCODCLI[row['code client Eurodep']].append(row)
             byEAN[row['Code Ean']].append(row)
             #byACL[row['ART']].append(row)
             
