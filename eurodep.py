@@ -65,7 +65,7 @@ def envoieEmailAnomalieProduit(Liste):
     print(texteHTML)
     from email.mime.text import MIMEText
     msg = MIMEText(texteHTML, 'html')
-    msg['Subject'] = 'Compte Inconnus'
+    msg['Subject'] = 'EAN Inconnus'
     msg['From'] = 'lignesdecommandes@mm-aws.com'
     msg['To'] = 'jean-eric.preis@ubiclouder.com, LBRONNER@homme-de-fer.com'
     # Send the message via our own SMTP server.
