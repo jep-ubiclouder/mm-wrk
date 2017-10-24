@@ -39,7 +39,7 @@ def processFile():
     updateRex = []
     for r in recs :
         if r['Code_EAN_EURODEP__c'] in byEAN.keys():
-           updateRex.append({'Id':r['Id'],Produit__c:byEAN['Code_EAN_EURODEP__c'],'Code_EAN_EURODEP__c':''})
+           updateRex.append({'Id':r['Id'],'Produit__c':byEAN['Code_EAN_EURODEP__c'],'Code_EAN_EURODEP__c':''})
     sf.bulk.Commande__c.update(updateRex)
 if __name__ == '__main__':
     processFile()
