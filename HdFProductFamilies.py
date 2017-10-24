@@ -39,8 +39,9 @@ for rec in hFamille:
 
 updateList=[]    
 for rProd in lesProduits:
-    cf = rProd['Famille__c']
-    id = rProd['Id']
+    
+    cf = lesProduits[rProd]['Famille__c']
+    id = lesProduits[rProd]['Id']
     if cf in byCodeFamille.keys():
         updateList.append({'Id':id,'Famille_de_Produit__c':byCodeFamille[cf]})
     else:
