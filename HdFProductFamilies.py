@@ -213,7 +213,7 @@ def processFile():
                 tmp ={}
                 tmp['Facture__c']=r['nofac']
                 tmp['Bon_de_livraison__c']=r['bl']
-                tmp['Date_de_commande__c']='-'.join(((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
+                tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
                 tmp['Prix_Brut__c'] = r['pbrut']
                 tmp['Quantite__c'] = r['QTE']
                 tmp['Prix_Net__c'] = r['prinet']
@@ -255,7 +255,7 @@ def processFile():
             tmp ={}
             tmp['Facture__c']=r['nofac']
             tmp['Bon_de_livraison__c']=r['bl']
-            tmp['Date_de_commande__c']=-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
+            tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
             tmp['Prix_Brut__c'] = r['pbrut']
             tmp['Quantite__c'] = r['QTE']
             tmp['Prix_Net__c'] = r['prinet']
