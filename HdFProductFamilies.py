@@ -33,10 +33,15 @@ recs = lesContacts['records']
 print(len(recs))
 
 updates=[]
+i=1
 for r in recs:
     updates.append({'Id':r['Id'],'Fonction__c':r['Title']})
+    i += 1
+    if i % 2500 == 0:
+        result =sf.bulk.Contact.update(updates)
+        updates = []
+        print(i)
 result =sf.bulk.Contact.update(updates)
-
 '''
 qryallProducts = "select id,Famille_de_Produit__c,Famille__c from Product2"
 qryallFamily = "select id,Code_Famille__c from Famille_de_Produit__c "
