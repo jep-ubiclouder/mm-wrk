@@ -35,5 +35,13 @@ hFamille = lesFamilles['records']
 byCodeFamille = {}
 for rec in hFamille:
     byCodeFamille[rec['Code_Famille__c']] =rec['Id']
-    
-print(lesProduits)
+
+
+updateList=[]    
+for rProd in lesProduits:
+    cf = rProd['Famille__c']
+    id = rProd['Id']
+    if cf in byCodeFamille.keys():
+        updateList.append({'Id':id,'Famille_de_Produit__c':byCodeFamille[cf]})
+    else:
+        print('pas trouve',cf)
