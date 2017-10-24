@@ -215,7 +215,7 @@ def processFile():
                 tmp['Bon_de_livraison__c']=r['bl']
                 tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
                 tmp['Prix_Brut__c'] = '.'.join(r['pbrut'].split(','))
-                tmp['Quantite__c'] = r['QTE']
+                tmp['Quantite__c'] = '.'.join(r['QTE'].split(','))
                 tmp['Prix_Net__c'] = '.'.join(r['prinet'].split(','))
                 tmp['Produit__c'] = byEAN[r['Code Ean']]
                 # tmp['Quantite__c'] = r['QTE']
@@ -235,7 +235,7 @@ def processFile():
                 tmp['Bon_de_livraison__c']=r['bl']
                 tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
                 tmp['Prix_Brut__c'] = '.'.join(r['pbrut'].split(','))
-                tmp['Quantite__c'] = r['QTE']
+                tmp['Quantite__c'] = '.'.join(r['QTE'].split(','))
                 tmp['Prix_Net__c'] = '.'.join(r['prinet'].split(','))
                 tmp['Code_EAN_EURODEP__c'] = r['Code Ean']
                 # tmp['Quantite__c'] = r['QTE']
@@ -257,7 +257,7 @@ def processFile():
             tmp['Bon_de_livraison__c']=r['bl']
             tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
             tmp['Prix_Brut__c'] = '.'.join(r['pbrut'].split(','))
-            tmp['Quantite__c'] = r['QTE']
+            tmp['Quantite__c'] = '.'.join(r['QTE'].split(','))
             tmp['Prix_Net__c'] = '.'.join(r['prinet'].split(','))
             tmp['Code_EAN_EURODEP__c'] = r['Code Ean']
             # tmp['Quantite__c'] = r['QTE']
