@@ -34,7 +34,7 @@ print(len(recs))
 
 updates=[]
 for r in recs:
-    updates.append({'Id':r['Id'],'Fonction__c'=r['Title']})
+    updates.append({'Id':r['Id'],'Fonction__c':r['Title']})
 result =sf.bulk.Contact.update(updates)
 
 '''
