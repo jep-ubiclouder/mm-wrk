@@ -34,6 +34,6 @@ lesFamilles =sf.query(qryallFamily)
 hFamille = lesFamilles['records']
 byCodeFamille = {}
 for rec in hFamille:
-    byCodeFamille[rec['Famille_de_Produit__c']] =rec['Id']
+    byCodeFamille[rec['Code_Famille__c']] =rec['Id']
     
 print(lesProduits)
