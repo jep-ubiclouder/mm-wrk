@@ -26,6 +26,18 @@ from datetime import date
 
 sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
 
+qryAllContact = 'select id,Fonction__c,Title,Service__c,Services__c from Contact'
+
+lesContacts = sf.query_all(qryAllContact)
+recs = lesContacts['records']
+print(len(recs))
+
+updates=[]
+for r in recs:
+    updates.append({'Id':r['Id'],'Fonction__c'=r['Title']})
+result =sf.bulk.Contact.update(updates)
+
+'''
 qryallProducts = "select id,Famille_de_Produit__c,Famille__c from Product2"
 qryallFamily = "select id,Code_Famille__c from Famille_de_Produit__c "
 lesProduits =les_ids = sf.query(qryallProducts)
@@ -49,3 +61,4 @@ for rProd in lesProduits['records']:
         
 if len(updateList)>0:
     print(sf.bulk.Product2.update(updateList))
+'''
