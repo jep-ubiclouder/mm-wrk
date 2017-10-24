@@ -208,8 +208,8 @@ def processFile():
     
     for r in dujour:
     # print(r)
-        if r['CODCLI'] in byEurodep.keys(): 
-            if r['EAN ART'] in byEAN.keys():
+        if r['code client Eurodep'] in byEurodep.keys(): 
+            if r['Code Ean'] in byEAN.keys():
                 tmp ={}
                 tmp['Facture__c']=r['nofac']
                 tmp['Bon_de_livraison__c']=r['bl']
