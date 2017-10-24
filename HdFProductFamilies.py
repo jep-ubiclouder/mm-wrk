@@ -46,3 +46,5 @@ for rProd in lesProduits['records']:
         updateList.append({'Id':id,'Famille_de_Produit__c':byCodeFamille[cf]})
     else:
         print('pas trouve',cf)
+        
+print(updateList)
