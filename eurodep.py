@@ -306,7 +306,8 @@ def TryConnectComptes():
                     if rec['Code_Client_EURODEP__c'][:-3] not in stackTrouves:
                         stackTrouves.append(rec['Code_Client_EURODEP__c'][:-3])                    
             print(bulkUpdates)
-            sf.bulk.Commande__c.update(bulkUpdates)
+            if(len(bulkUpdates))>0:
+                sf.bulk.Commande__c.update(bulkUpdates)
     cpteDump.close()
     
     cpteDump = open(pathFile,'w')
