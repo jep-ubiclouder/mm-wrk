@@ -30,7 +30,16 @@ def processFile():
     qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
     print(qrygetProducts)
     allProductId = sf.query(qrygetProducts)
-    print(allProductId['records'])
-    pass
+    Produits = allProductId['records']
+    byEAN = {}
+    
+    for p in Produits:
+        if p['EAN__c'] not in byEAN.keys():
+            byEAN[p['EAN__c']] = p['Id'] 
+    updateRex = []
+    for r in recs :
+        if r['Code_EAN_EURODEP__c'] in byEAN.keys():
+           updateRex.append{'Id':r['Id'],Produit__c:byEAN['Code_EAN_EURODEP__c'],'Code_EAN_EURODEP__c':''})
+    sf.bulk.Commande__c.update(updateRex)
 if __name__ == '__main__':
     processFile()
