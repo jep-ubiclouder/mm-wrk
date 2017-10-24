@@ -276,15 +276,18 @@ def processFile(fname):
     if len(EANInconnus)>0:
         envoieEmailAnomalieProduit(EANInconnus)
 def TryConnectComptes():
-    pass
     pathFile = './ComptesInconnus.txt'
     stackTrouves =[]
     cpteDump = open(pathFile,'r')
     ComptesInconnus =[]
+    Original = []
     for l in cpteDump.readlines():
         id=l[:-1] 
-        if id not in ComptesInconnus:
-            ComptesInconnus.append(id)
+        racine=id[:-3]
+        if id not in Original:
+            Original.append(racine)
+            ComptesInconnus.append(racine+'000')
+            ComptesInconnus.append(racine+'515')
     if len(ComptesInconnus)>0:
         sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
         qry_code_eurodep = 'select id,name,ShippingCity,Code_EURODEP__c from account where Code_EURODEP__c in (\'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in ComptesInconnus]) + ')'
@@ -300,17 +303,14 @@ def TryConnectComptes():
                 
                 for rec in resUpdate['records']:
                     bulkUpdates.append({'Id': rec['Id'],'Compte__c':AccId})
-                    if rec['Code_Client_EURODEP__c'] not in stackTrouves:
-                        stackTrouves.append(rec['Code_Client_EURODEP__c'])
-                    
+                    if rec['Code_Client_EURODEP__c'][:-3] not in stackTrouves:
+                        stackTrouves.append(rec['Code_Client_EURODEP__c'][:-3])                    
             print(bulkUpdates)
             sf.bulk.Commande__c.update(bulkUpdates)
-            
-    
     cpteDump.close()
     
     cpteDump = open(pathFile,'w')
-    for s in ComptesInconnus:
+    for s in Original:
         if s not in stackTrouves:
             cpteDump.write(s+'\n')
     cpteDump.close()
