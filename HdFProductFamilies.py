@@ -269,7 +269,7 @@ def processFile():
                 sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
             except all_errors as e:
                 print(e)
-            if  r['CODCLI'] not in CompteInconnus.keys():
+            if  r['code client Eurodep'] not in CompteInconnus.keys():
                  CompteInconnus[r['code client Eurodep']] = [r['code client Eurodep'],r['nom'],r['adresse'],r['cp'],r['ville']]
                     
     print(EANInconnus)
