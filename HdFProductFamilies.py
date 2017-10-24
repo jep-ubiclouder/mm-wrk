@@ -327,7 +327,7 @@ def TryConnectComptes():
     cpteDump.close()
     print('reconcilé')
     print(bulkUpdates)
-'''
+
 if __name__ == '__main__':
     processFile(fn)
         
