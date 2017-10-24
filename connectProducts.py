@@ -30,7 +30,7 @@ def processFile():
     qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
     print(qrygetProducts)
     allProductId = sf.query(qrygetProducts)
-    print(allProductId('records'))
+    print(allProductId['records'])
     pass
 if __name__ == '__main__':
     processFile()
