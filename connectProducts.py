@@ -23,11 +23,11 @@ def processFile():
     allMissing = []
     recs = allLignes['records']
     for r in recs:
-        if r['Code_EAN_EURODEP__c'][:-1] not in allMissing:
-            allMissing.append(r['Code_EAN_EURODEP__c'][:-1])
+        if r['Code_EAN_EURODEP__c'] not in allMissing:
+            allMissing.append(r['Code_EAN_EURODEP__c'])
     print(allMissing)
     
-    qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
+    qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\'' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
     print(qrygetProducts)
     allProductId = sf.query(qrygetProducts)
     print(allProductId['records'])
