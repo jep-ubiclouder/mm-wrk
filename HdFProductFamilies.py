@@ -350,7 +350,7 @@ def TryConnectComptes():
 if __name__ == '__main__':
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qryDelete = 'select id,Year_Month__c from Commande__c where Year_Month__c>=201702 and Year_Month__c<= 201706 order by Year_Month__c'
-    rexx =  sf.queryall(qryDelete)
+    rexx =  sf.query_all(qryDelete)
     tobeDel = []
     for r in rexx['records']:
         tobeDel.append({'Id':r['Id']})
