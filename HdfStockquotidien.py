@@ -47,4 +47,4 @@ if __name__ == '__main__':
     fn = getfromFTP(compactDate)
     csvFile =  open(fn,'r')
     for l in csvFile.readlines():
-        print(l)
+        print(l[:-1])
