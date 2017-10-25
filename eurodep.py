@@ -229,7 +229,7 @@ def processFile(fname):
             tmp['Code_EAN_EURODEP__c'] = r['EAN ART']
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
-            tmp['Code_Client_EURODEP__c'] =  byEurodep[r['CODCLI']]
+            tmp['Compte__c'] =  byEurodep[r['CODCLI']]
             
             keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
             try:
@@ -250,7 +250,7 @@ def processFile(fname):
             tmp['Produit__c'] = byEAN[r['EAN ART']]
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
-            tmp['Compte__c'] =  r['CODCLI']
+            tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
             
             keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
             
