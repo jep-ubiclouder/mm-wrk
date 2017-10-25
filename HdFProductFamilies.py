@@ -205,11 +205,10 @@ def processFile():
     
     CompteInconnus  = {}
     EANInconnus = []
-    
+    i = 1
     for r in dujour:
-        print(r)
-        import sys
-        sys.exit()
+        if  i %250 ==0:
+            print(i)
         if r['Code Ean'] in byEAN.keys() and r['code client Eurodep'] in byEurodep.keys():
             tmp ={}
             tmp['Facture__c']=r['nofac']
