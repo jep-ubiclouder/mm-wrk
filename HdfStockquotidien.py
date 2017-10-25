@@ -46,6 +46,13 @@ if __name__ == '__main__':
     print(compactDate)
     fn = getfromFTP(compactDate)
     csvFile =  open(fn,'r')
+    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    qryProd= 'select id,ProductCode from Product2'
+    res = sf.query_all(qryProd)
+    byCode = {}
+    for r in res['records']:
+        if r['ProductCode'] not in byCode.keys():
+            byCode[r['ProductCode']] = r['Id']
     for l in csvFile.readlines():
         ligne = l[:-1]
         rec = ligne.split(';')
@@ -56,4 +63,4 @@ if __name__ == '__main__':
         qte = rec[9]
         qteAll = rec[10]
         keyforupsert=acl+lot
-        print(keyforupsert,des,qte,acl,lot)
+        print(keyforupsert,des,qte,acl,lot,byCode[acl])
