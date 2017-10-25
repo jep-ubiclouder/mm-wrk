@@ -54,16 +54,19 @@ if __name__ == '__main__':
         if r['ProductCode'] not in byCode.keys():
             byCode[r['ProductCode']] = r['Id']
     for l in csvFile.readlines():
+        
         ligne = l[:-1]
         rec = ligne.split(';')
         acl =  rec[2]
         des = rec[4]
         lot= rec[5]
-        ddp = rec[6]
+        ddp = '%04i-%02i-%02i'%(rec[6][-4:],rec[6][2:4],rec[:2])
         qte = rec[9]
         qteAll = rec[10]
         keyforupsert=acl+lot
         if acl in byCode.keys():
-            print(keyforupsert,des,qte,acl,lot,byCode[acl])
+            record={'Lot__c':lot,'Produit__c':byCode[acl],'Qte_allouee__c':qteAll,'Unites_en_stock__c':qte,'name':keyforupsert}
+            ## print(keyforupsert,des,qte,acl,lot,byCode[acl])
+            ## reponse = sf.Stock_eurodep__c.upsert('KeyForUpsert__c/%s' % keyforupsert,record, raw_response=True)
         else:
             print(keyforupsert,des,qte,acl,lot,'ERROR')
