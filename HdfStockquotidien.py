@@ -71,6 +71,6 @@ if __name__ == '__main__':
             record={'Lot__c':lot,'Produit__c':byCode[acl],'Qte_allouee__c':qteAll,'Unites_en_stock__c':qte,'name':keyforupsert,'Peremption__c':ddp}
             print(record)
             ## print(keyforupsert,des,qte,acl,lot,byCode[acl])
-            ## reponse = sf.Stock_eurodep__c.upsert('KeyForUpsert__c/%s' % keyforupsert,record, raw_response=True)
+            reponse = sf.Stock_eurodep__c.upsert('KeyForUpsert__c/%s' % keyforupsert,record, raw_response=True)
         else:
             print(keyforupsert,des,qte,acl,lot,'ERROR')
