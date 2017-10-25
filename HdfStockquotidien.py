@@ -43,3 +43,4 @@ if __name__ == '__main__':
     now = datetime.now() - timedelta(days=1)
     compactDate = '%02i%02i%02i' % (now.year-2000, now.month, now.day)
     print(compactDate)
+    fn = getfromFTP(compactDate)
