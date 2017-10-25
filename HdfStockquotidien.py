@@ -60,7 +60,10 @@ if __name__ == '__main__':
         acl =  rec[2]
         des = rec[4]
         lot= rec[5]
-        ddp = '%04s-%02s-%02s'%(rec[7][-4:],rec[7][2:4],rec[7][:2])
+        if len(rec[7])==8:
+            ddp = '%04s-%02s-%02s'%(rec[7][-4:],rec[7][2:4],rec[7][:2])
+        else:
+            ddp = '2999-12-31'
         qte = rec[10]
         qteAll = rec[11]
         keyforupsert=acl+lot
