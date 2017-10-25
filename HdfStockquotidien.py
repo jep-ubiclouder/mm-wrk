@@ -19,9 +19,7 @@ from ftplib import FTP, all_errors
 import codecs
 import os.path
 import csv
-
 import pprint
-
 def getfromFTP(compactDate):
     """ 
     Telecharge le fichier du jour de la date passée en parammètre format YYYYMMDD
@@ -38,16 +36,38 @@ def getfromFTP(compactDate):
     for t in truc:
         eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
     return truc[0]
+def getMouvements(compactDate):
+    """ 
+    Telecharge le fichier du jour de la date passée en parammètre format YYYYMMDD
+    Renvoie le nom du fichier ecrit sur le disque ou False si une erreur est survenue
+    """
+    eurodep = FTP(host='ftp.eurodep.fr', user='HOMMEDEFER', passwd='lhdf515')
+    try:
+        eurodep.cwd('./OUT/MVT/')
+        truc = eurodep.nlst('./OMVT515%s*.CSV' % compactDate) #ftp://HOMMEDEFER@ftp.eurodep.fr/OUT/IMG/OIMG51517102400001.CSV
+    except all_errors as e:
+        print('No File today')
+        return False
+
+    for t in truc:
+        eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
+    return truc[0]
 
 if __name__ == '__main__':
     from datetime import datetime 
     now = datetime.now() - timedelta(days=1)
+    
     compactDate = '%02i%02i%02i' % (now.year-2000, now.month, now.day)
+    
+    
     print(compactDate)
+    ## sauvegarde des fichiers mouvempent
+    mvtFiles =  getMouvements(compactDate)
+    # telecharger le fichier image
     fn = getfromFTP(compactDate)
     if not fn:
         sys.exit()
-        
+    
     csvFile =  open(fn,'r')
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qryProd= 'select id,ProductCode from Product2'
@@ -58,8 +78,11 @@ if __name__ == '__main__':
         if r['ProductCode'] not in byCode.keys():
             byCode[r['ProductCode']] = r['Id']
             tobeDel.append(r['Id'])
-            
+    ## on efface les records de stock        
     sf.bulk.Stock_eurodep__c.delete(tobeDel)
+    
+    
+    ## et on les reintroduit
     for l in csvFile.readlines():
         
         ligne = l[:-1]
