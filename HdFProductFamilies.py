@@ -143,7 +143,7 @@ def processFile():
     '''
     # Je travaille dans le fichier temporaire qui en UTF8
     dujour=[]
-    with open("./EURODEP-2013-2017.csv", 'r', encoding='utf-8') as csvfile:
+    with open("./complement2017.csv", 'r', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=';')
         # dans chaque ligne je repère le champ clef
         for row in reader:
