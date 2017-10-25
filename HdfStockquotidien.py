@@ -45,3 +45,4 @@ if __name__ == '__main__':
     compactDate = '%02i%02i%02i' % (now.year-2000, now.month, now.day)
     print(compactDate)
     fn = getfromFTP(compactDate)
+    print(fn)
