@@ -77,7 +77,7 @@ if __name__ == '__main__':
     for r in res['records']:
         if r['ProductCode'] not in byCode.keys():
             byCode[r['ProductCode']] = r['Id']
-            tobeDel.append(r['Id'])
+            tobeDel.append({'Id': r['Id']})
     ## on efface les records de stock   
     print(tobeDel)     
     sf.bulk.Stock_eurodep__c.delete(tobeDel)
