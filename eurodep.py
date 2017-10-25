@@ -198,49 +198,67 @@ def processFile(fname):
     
     for r in dujour:
     # print(r)
-        if r['CODCLI'] in byEurodep.keys(): 
-            if r['EAN ART'] in byEAN.keys():
-                tmp ={}
-                tmp['Facture__c']=r['NOFAC']
-                tmp['Bon_de_livraison__c']=r['NOCDE']
-                tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
-                tmp['Prix_Brut__c'] = r['PBRUT']
-                tmp['Quantite__c'] = r['QTE']
-                tmp['Prix_Net__c'] = r['PNET']
-                tmp['Produit__c'] = byEAN[r['EAN ART']]
-                tmp['Quantite__c'] = r['QTE']
-                tmp['Ligne__c'] = r['LIGNE FAC']
-                tmp['Compte__c'] =  byEurodep[r['CODCLI']]
-                
-                keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
-                
-                ## print(tmp)
-                try:
-                    sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
-                except all_errors as e:
-                    print(e)
-            else:
-                tmp ={}
-                tmp['Facture__c']=r['NOFAC']
-                tmp['Bon_de_livraison__c']=r['NOCDE']
-                tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
-                tmp['Prix_Brut__c'] = r['PBRUT']
-                tmp['Quantite__c'] = r['QTE']
-                tmp['Prix_Net__c'] = r['PNET']
-                tmp['Code_EAN_EURODEP__c'] = r['EAN ART']
-                tmp['Quantite__c'] = r['QTE']
-                tmp['Ligne__c'] = r['LIGNE FAC']
-                tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
-                
-                keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
-                try:
-                    sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
-                except all_errors as e:
-                    print(e)
-                
-                EANInconnus.append([r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']])
+        if r['CODCLI'] in byEurodep.keys() and r['EAN ART'] in byEAN.keys():
+            tmp ={}
+            tmp['Facture__c']=r['NOFAC']
+            tmp['Bon_de_livraison__c']=r['NOCDE']
+            tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+            tmp['Prix_Brut__c'] = r['PBRUT']
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Prix_Net__c'] = r['PNET']
+            tmp['Produit__c'] = byEAN[r['EAN ART']]
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['LIGNE FAC']
+            tmp['Compte__c'] =  byEurodep[r['CODCLI']]
+            
+            keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
+            
+            ## print(tmp)
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)
+        elif r['CODCLI'] in byEurodep.keys() and r['EAN ART'] not in byEAN.keys():
+            tmp ={}
+            tmp['Facture__c']=r['NOFAC']
+            tmp['Bon_de_livraison__c']=r['NOCDE']
+            tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+            tmp['Prix_Brut__c'] = r['PBRUT']
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Prix_Net__c'] = r['PNET']
+            tmp['Code_EAN_EURODEP__c'] = r['EAN ART']
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['LIGNE FAC']
+            tmp['Code_Client_EURODEP__c'] =  byEurodep[r['CODCLI']]
+            
+            keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)
+            
+            EANInconnus.append([r['EAN ART'],r['DES'],r['NOFAC'],r['LIGNE FAC']])
                     
-                        
+        elif r['CODCLI'] not  in byEurodep.keys() and r['EAN ART']  in byEAN.keys(): 
+            tmp ={}
+            tmp['Facture__c']=r['NOFAC']
+            tmp['Bon_de_livraison__c']=r['NOCDE']
+            tmp['Date_de_commande__c']='-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+            tmp['Prix_Brut__c'] = r['PBRUT']
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Prix_Net__c'] = r['PNET']
+            tmp['Produit__c'] = byEAN[r['EAN ART']]
+            tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['LIGNE FAC']
+            tmp['Compte__c'] =  r['CODCLI']
+            
+            keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
+            
+            ## print(tmp)
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)                
         else:
             tmp ={}
             tmp['Facture__c']=r['NOFAC']
