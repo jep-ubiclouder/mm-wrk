@@ -40,7 +40,7 @@ def getfromFTP(compactDate):
     return truc[0]
 
 if __name__ == '__main__':
-    from datetime import datetime
+    from datetime import datetime 
     now = datetime.now() - timedelta(days=1)
     compactDate = '%02i%02i%02i' % (now.year-2000, now.month, now.day)
     print(compactDate)
