@@ -47,4 +47,13 @@ if __name__ == '__main__':
     fn = getfromFTP(compactDate)
     csvFile =  open(fn,'r')
     for l in csvFile.readlines():
-        print(l[:-1])
+        ligne = l[:-1]
+        rec = ligne.split(';')
+        acl =  rec[2]
+        des = rec[4]
+        lot= rec[5]
+        ddp = rec[6]
+        qte = rec[9]
+        qteAll = rec[10]
+        keyforupsert=acl+lot
+        print(keyforupsert,des,qte,acl,lot)
