@@ -45,14 +45,21 @@ if __name__ == '__main__':
     compactDate = '%02i%02i%02i' % (now.year-2000, now.month, now.day)
     print(compactDate)
     fn = getfromFTP(compactDate)
+    if not fn:
+        sys.exit()
+        
     csvFile =  open(fn,'r')
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qryProd= 'select id,ProductCode from Product2'
     res = sf.query_all(qryProd)
     byCode = {}
+    tobeDel = []
     for r in res['records']:
         if r['ProductCode'] not in byCode.keys():
             byCode[r['ProductCode']] = r['Id']
+            tobeDel.append(r['Id'])
+            
+    sf.bulk.Stock_eurodep__c.delete(tobeDel)
     for l in csvFile.readlines():
         
         ligne = l[:-1]
