@@ -229,7 +229,7 @@ def processFile():
                 sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
             except all_errors as e:
                 print(e)
-        elif r['Code Ean'] not in byEAN.keys() and r['code client Eurodep'] in byEurodep.keys():
+        elif r['Code Ean']  in byEAN.keys() and r['code client Eurodep'] not in byEurodep.keys():
             tmp ={}
             tmp['Facture__c']=r['nofac']
             tmp['Bon_de_livraison__c']=r['bl']
@@ -252,7 +252,7 @@ def processFile():
             # 
                 
                     
-        elif r['Code Ean'] in byEAN.keys() and r['code client Eurodep'] not in byEurodep.keys():
+        elif r['Code Ean'] not in byEAN.keys() and r['code client Eurodep']  in byEurodep.keys():
             tmp ={}
             tmp['Facture__c']=r['nofac']
             tmp['Bon_de_livraison__c']=r['bl']
