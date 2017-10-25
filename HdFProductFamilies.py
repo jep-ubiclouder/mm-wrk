@@ -247,7 +247,7 @@ def processFile():
             except all_errors as e:
                 print(e)
             
-            EANInconnus.append([r['Code Ean'],r['des'],r['nofac'],r['ligne']])
+            # 
                 
                     
         elif r['Code Ean'] in byEAN.keys() and r['code client Eurodep'] not in byEurodep.keys():
@@ -269,8 +269,7 @@ def processFile():
                 sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
             except all_errors as e:
                 print(e)
-            if  r['code client Eurodep'] not in CompteInconnus.keys():
-                 CompteInconnus[r['code client Eurodep']] = [r['code client Eurodep'],r['nom'],r['adresse'],r['cp'],r['ville']]
+            EANInconnus.append([r['Code Ean'],r['des'],r['nofac'],r['ligne']])
         else: 
             tmp ={}
             tmp['Facture__c']=r['nofac']
@@ -348,6 +347,7 @@ def TryConnectComptes():
     print(bulkUpdates)
 
 if __name__ == '__main__':
+    """
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qryDelete = 'select id,Year_Month__c from Commande__c where Year_Month__c>=201702 and Year_Month__c<= 201706 order by Year_Month__c'
     rexx =  sf.query_all(qryDelete)
@@ -356,8 +356,8 @@ if __name__ == '__main__':
         tobeDel.append({'Id':r['Id']})
         
     res = sf.bulk.Commande__c.delete(tobeDel)
-    
-    ##processFile()
+    """
+    processFile()
         
 
 '''
