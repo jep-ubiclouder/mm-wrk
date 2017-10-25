@@ -207,51 +207,71 @@ def processFile():
     EANInconnus = []
     
     for r in dujour:
-    # print(r)
-        if r['code client Eurodep'] in byEurodep.keys(): 
-            if r['Code Ean'] in byEAN.keys():
-                tmp ={}
-                tmp['Facture__c']=r['nofac']
-                tmp['Bon_de_livraison__c']=r['bl']
-                tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
-                tmp['Prix_Brut__c'] = ''.join('.'.join(r['pbrut'].split(',')).split(' '))
-                tmp['Quantite__c'] = ''.join('.'.join(r['QTE'].split(',')).split(' '))
-                tmp['Prix_Net__c'] = ''.join('.'.join(r['prinet'].split(',')).split(' '))
-                tmp['Produit__c'] = byEAN[r['Code Ean']]
-                # tmp['Quantite__c'] = r['QTE']
-                tmp['Ligne__c'] = r['ligne']
-                tmp['Compte__c'] =  byEurodep[r['code client Eurodep']]
+        if r['Code Ean'] in byEAN.keys() and r['code client Eurodep'] in byEurodep.keys():
+            tmp ={}
+            tmp['Facture__c']=r['nofac']
+            tmp['Bon_de_livraison__c']=r['bl']
+            tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
+            tmp['Prix_Brut__c'] = ''.join('.'.join(r['pbrut'].split(',')).split(' '))
+            tmp['Quantite__c'] = ''.join('.'.join(r['QTE'].split(',')).split(' '))
+            tmp['Prix_Net__c'] = ''.join('.'.join(r['prinet'].split(',')).split(' '))
+            tmp['Produit__c'] = byEAN[r['Code Ean']]
+            # tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['ligne']
+            tmp['Compte__c'] =  byEurodep[r['code client Eurodep']]
+            
+            keyforupsert = r['nofac'] + str(r['ligne'])
+            
+            ## print(tmp)
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)
+        elif r['Code Ean'] not in byEAN.keys() and r['code client Eurodep'] in byEurodep.keys():
+            tmp ={}
+            tmp['Facture__c']=r['nofac']
+            tmp['Bon_de_livraison__c']=r['bl']
+            tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
+            tmp['Prix_Brut__c'] = ''.join('.'.join(r['pbrut'].split(',')).split(' '))
+            tmp['Quantite__c'] = ''.join('.'.join(r['QTE'].split(',')).split(' '))
+            tmp['Prix_Net__c'] = ''.join('.'.join(r['prinet'].split(',')).split(' '))
+            # tmp['Code_EAN_EURODEP__c'] = r['Code Ean']
+            # tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['ligne']
+            tmp['Produit__c'] = byEAN[r['Code Ean']]
+            tmp['Code_Client_EURODEP__c'] =  r['code client Eurodep']
+            
+            keyforupsert = r['nofac'] + str(r['ligne'])
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)
+            
+            EANInconnus.append([r['Code Ean'],r['des'],r['nofac'],r['ligne']])
                 
-                keyforupsert = r['nofac'] + str(r['ligne'])
-                
-                ## print(tmp)
-                try:
-                    sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
-                except all_errors as e:
-                    print(e)
-            else:
-                tmp ={}
-                tmp['Facture__c']=r['nofac']
-                tmp['Bon_de_livraison__c']=r['bl']
-                tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
-                tmp['Prix_Brut__c'] = ''.join('.'.join(r['pbrut'].split(',')).split(' '))
-                tmp['Quantite__c'] = ''.join('.'.join(r['QTE'].split(',')).split(' '))
-                tmp['Prix_Net__c'] = ''.join('.'.join(r['prinet'].split(',')).split(' '))
-                tmp['Code_EAN_EURODEP__c'] = r['Code Ean']
-                # tmp['Quantite__c'] = r['QTE']
-                tmp['Ligne__c'] = r['ligne']
-                tmp['Code_Client_EURODEP__c'] =  r['code client Eurodep']
-                
-                keyforupsert = r['nofac'] + str(r['ligne'])
-                try:
-                    sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
-                except all_errors as e:
-                    print(e)
-                
-                EANInconnus.append([r['Code Ean'],r['des'],r['nofac'],r['ligne']])
                     
-                        
-        else:
+        elif r['Code Ean'] in byEAN.keys() and r['code client Eurodep'] not in byEurodep.keys():
+            tmp ={}
+            tmp['Facture__c']=r['nofac']
+            tmp['Bon_de_livraison__c']=r['bl']
+            tmp['Date_de_commande__c']='-'.join((r['datfac'][-4:],r['datfac'][3:5],r['datfac'][:2]))
+            tmp['Prix_Brut__c'] = ''.join('.'.join(r['pbrut'].split(',')).split(' '))
+            tmp['Quantite__c'] = ''.join('.'.join(r['QTE'].split(',')).split(' '))
+            tmp['Prix_Net__c'] = ''.join('.'.join(r['prinet'].split(',')).split(' '))
+            tmp['Code_EAN_EURODEP__c'] = r['Code Ean']
+            # tmp['Quantite__c'] = r['QTE']
+            tmp['Ligne__c'] = r['ligne']
+            tmp['Compte__c'] =  byEurodep[r['code client Eurodep']]
+            # tmp['Code_Client_EURODEP__c'] =  r['code client Eurodep']
+            
+            keyforupsert = r['nofac'] + str(r['ligne'])
+            try:
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+            except all_errors as e:
+                print(e)
+            if  r['code client Eurodep'] not in CompteInconnus.keys():
+                 CompteInconnus[r['code client Eurodep']] = [r['code client Eurodep'],r['nom'],r['adresse'],r['cp'],r['ville']]
+        else: 
             tmp ={}
             tmp['Facture__c']=r['nofac']
             tmp['Bon_de_livraison__c']=r['bl']
@@ -270,8 +290,7 @@ def processFile():
             except all_errors as e:
                 print(e)
             if  r['code client Eurodep'] not in CompteInconnus.keys():
-                 CompteInconnus[r['code client Eurodep']] = [r['code client Eurodep'],r['nom'],r['adresse'],r['cp'],r['ville']]
-                    
+                 CompteInconnus[r['code client Eurodep']] = [r['code client Eurodep'],r['nom'],r['adresse'],r['cp'],r['ville']]            
     print(EANInconnus)
     print(CompteInconnus)
     pathFile = './ComptesInconnusHisto.txt'
