@@ -348,7 +348,16 @@ def TryConnectComptes():
     print(bulkUpdates)
 
 if __name__ == '__main__':
-    processFile()
+    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    qryDelete = 'select id,Year_Month__c from Commande__c where Year_Month__c>=201702 and Year_Month__c<= 201706 order by Year_Month__c'
+    rexx =  sf.queryall(qryDelete)
+    tobeDel = []
+    for r in rexx['records']:
+        tobeDel.append({'Id':r['Id']})
+        
+    res = sf.bulk.Commande__c.delete(tobeDel)
+    
+    ##processFile()
         
 
 '''
