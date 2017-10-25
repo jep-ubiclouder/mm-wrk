@@ -63,4 +63,7 @@ if __name__ == '__main__':
         qte = rec[9]
         qteAll = rec[10]
         keyforupsert=acl+lot
-        print(keyforupsert,des,qte,acl,lot,byCode[acl])
+        if acl in byCode.keys():
+            print(keyforupsert,des,qte,acl,lot,byCode[acl])
+        else:
+            print(keyforupsert,des,qte,acl,lot,'ERROR')
