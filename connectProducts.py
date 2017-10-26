@@ -18,7 +18,7 @@ from datetime import date
 def processFile():
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     #qry =  'select id,Code_EAN_EURODEP__c from Commande__c where Code_EAN_EURODEP__c != null'
-    qry = 'select Code_EAN_EURODEP__c,CALENDAR_YEAR(date_de_commande__c) , sum(Quantite__c) from Commande__c  where Code_EAN_EURODEP__c != null GROUP BY CALENDAR_YEAR(date_de_commande__c),Code_EAN_EURODEP__c'
+    qry = 'select produit__c,CALENDAR_YEAR(date_de_commande__c) , sum(Quantite__c) from Commande__c  where Code_EAN_EURODEP__c != null GROUP BY CALENDAR_YEAR(date_de_commande__c),produit__c'
     allLignes = sf.query_all(qry)
     print(allLignes['records'])
     '''
