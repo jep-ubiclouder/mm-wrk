@@ -20,7 +20,7 @@ def processFile():
     #qry =  'select id,Code_EAN_EURODEP__c from Commande__c where Code_EAN_EURODEP__c != null'
     qry = 'select Code_EAN_EURODEP__c,CALENDAR_YEAR(date_de_commande__c) , sum(Quantite__c) from Commande__c  where Code_EAN_EURODEP__c != null GROUP BY CALENDAR_YEAR(date_de_commande__c),Code_EAN_EURODEP__c'
     allLignes = sf.query_all(qry)
-    
+    print(allLignes['records'])
     '''
     allMissing = []
     recs = allLignes['records']
