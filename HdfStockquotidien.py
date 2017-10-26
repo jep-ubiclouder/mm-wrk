@@ -95,6 +95,9 @@ if __name__ == '__main__':
             ddp = '%04s-%02s-%02s'%(rec[7][-4:],rec[7][2:4],rec[7][:2])
         else:
             ddp = '2999-12-31'
+        statut = rec[9]
+        if statut != 'A':
+            continue
         qte = rec[10]
         qteAll = rec[11]
         keyforupsert=acl+lot
