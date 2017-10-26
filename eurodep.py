@@ -293,12 +293,15 @@ def processFile(fname):
             byId[r['Id']] ={'Id':r['Id']} 
         
         if r['expr0'] == anneeEnCours:
-            byId[r['Id']]['Conso_Mensuelle_annee_Courante__c'] =r['expr1']
+            byId[r['Id']]['Conso_Mensuelle_annee_Courante__c'] =r['expr1']/12
         else:
-            byId[r['Id']]['Conso_Mensuelle_N_1__c'] =r['expr1']
+            byId[r['Id']]['Conso_Mensuelle_N_1__c'] =r['expr1']/12
     for k in byId.keys():
         updateConso.append(byId[k])
-    print(updateConso)                  
+        
+    print(updateConso)
+    if len(updateConso)>0:
+        sf.bulk.Product2.update(updateConso)                  
     pathFile = './ComptesInconnus.txt'
     cpteDump =  open(pathFile,'a')
     for k in CompteInconnus.keys():
