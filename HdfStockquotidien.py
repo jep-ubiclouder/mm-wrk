@@ -66,7 +66,7 @@ if __name__ == '__main__':
     # telecharger le fichier image
     fn = getfromFTP(compactDate)
     if not fn:
-        sys.exit()
+        fn = './ OIMG51517102400001.CSV'
     
     csvFile =  open(fn,'r')
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
