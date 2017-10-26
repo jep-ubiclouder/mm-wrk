@@ -125,7 +125,7 @@ if __name__ == '__main__':
             print(keyforupsert,des,qte,acl,lot,'ERROR')
             
             
-     for k in byId.keys():
+    for k in byId.keys():
         updateConso.append(byId[k])
         print(updateConso)
     if len(updateConso)>0:
