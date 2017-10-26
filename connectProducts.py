@@ -17,9 +17,10 @@ from datetime import date
 
 def processFile():
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
-    qry =  'select Code_EAN_EURODEP__c,Year_Month__c,SUM(Quantite__c)  from Commande__c where Code_EAN_EURODEP__c != null and Year_Month__c > 201500 group by Code_EAN_EURODEP__c,Year_Month__c'
+    #qry =  'select id,Code_EAN_EURODEP__c from Commande__c where Code_EAN_EURODEP__c != null'
+    qry = 'select Code_EAN_EURODEP__c,YEAR(Date_de_commande__c) GROUPING(YEAR(Date_de_commande__c)) annee , sum(Quantite__c) from Commande__c  where Code_EAN_EURODEP__c != null GROUP BY ROLLUP(Code_EAN_EURODEP__c,YEAR(Date_de_commande__c))'
     allLignes = sf.query_all(qry)
-    print(allLignes['records'])
+    
     '''
     allMissing = []
     recs = allLignes['records']
