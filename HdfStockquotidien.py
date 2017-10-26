@@ -93,9 +93,9 @@ if __name__ == '__main__':
             byId[r['Id']] ={'Id':r['Id'], 'Stock_eurodep_total__c':0} 
         
         if r['expr0'] == anneeEnCours:
-            byId[r['Id']]['Conso_Mensuelle_annee_Courante__c'] =r['expr1']/12
+            byId[r['Id']]['Conso_Mensuelle_annee_Courante__c'] =float(r['expr1'])/12
         else:
-            byId[r['Id']]['Conso_Mensuelle_N_1__c'] =r['expr1']/12
+            byId[r['Id']]['Conso_Mensuelle_N_1__c'] =float(r['expr1'])/12
    
     ## et on les reintroduit
     for l in csvFile.readlines():
@@ -120,7 +120,7 @@ if __name__ == '__main__':
             print(record)
             ## print(keyforupsert,des,qte,acl,lot,byCode[acl])
             reponse = sf.Stock_eurodep__c.upsert('KeyForUpsert__c/%s' % keyforupsert,record, raw_response=True)
-            byId[byCode[acl]]['Stock_eurodep_total__c'] += qte
+            byId[byCode[acl]]['Stock_eurodep_total__c'] += integer(qte)
         else:
             print(keyforupsert,des,qte,acl,lot,'ERROR')
             
