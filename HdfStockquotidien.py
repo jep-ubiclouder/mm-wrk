@@ -120,7 +120,7 @@ if __name__ == '__main__':
             print(record)
             ## print(keyforupsert,des,qte,acl,lot,byCode[acl])
             reponse = sf.Stock_eurodep__c.upsert('KeyForUpsert__c/%s' % keyforupsert,record, raw_response=True)
-            byId[byCode[acl]]['Stock_eurodep_total__c'] += integer(qte)
+            byId[byCode[acl]]['Stock_eurodep_total__c'] += int(qte)
         else:
             print(keyforupsert,des,qte,acl,lot,'ERROR')
             
