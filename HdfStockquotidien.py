@@ -82,7 +82,21 @@ if __name__ == '__main__':
     print(tobeDel)     
     sf.bulk.Stock_eurodep__c.delete(tobeDel)
     
-    
+    now = datetime.now() - timedelta(days=1)
+    anneeEnCours = now.year
+    qry = """select produit__r.Id,CALENDAR_YEAR(date_de_commande__c) , sum(Quantite__c) from Commande__c  where produit__r.Id != null and CALENDAR_YEAR(date_de_commande__c)> %s GROUP BY produit__r.Id,CALENDAR_YEAR(date_de_commande__c)"""%(anneeEnCours-2)
+    resConso = sf.query(qry)
+    updateConso = []
+    byId ={}
+    for r in resConso['records']:
+        if r['Id'] not in byId.keys():
+            byId[r['Id']] ={'Id':r['Id'], 'Stock_eurodep_total__c':0} 
+        
+        if r['expr0'] == anneeEnCours:
+            byId[r['Id']]['Conso_Mensuelle_annee_Courante__c'] =r['expr1']/12
+        else:
+            byId[r['Id']]['Conso_Mensuelle_N_1__c'] =r['expr1']/12
+   
     ## et on les reintroduit
     for l in csvFile.readlines():
         
@@ -106,5 +120,13 @@ if __name__ == '__main__':
             print(record)
             ## print(keyforupsert,des,qte,acl,lot,byCode[acl])
             reponse = sf.Stock_eurodep__c.upsert('KeyForUpsert__c/%s' % keyforupsert,record, raw_response=True)
+            byId[byCode[acl]]['Stock_eurodep_total__c'] += qte
         else:
             print(keyforupsert,des,qte,acl,lot,'ERROR')
+            
+            
+     for k in byId.keys():
+        updateConso.append(byId[k])
+        print(updateConso)
+    if len(updateConso)>0:
+        sf.bulk.Product2.update(updateConso) 
