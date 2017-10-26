@@ -282,6 +282,23 @@ def processFile(fname):
                     
     print(EANInconnus)
     print(CompteInconnus)
+    now = datetime.now() - timedelta(days=1)
+    anneeEnCours = now.year
+    qry = """select produit__r.Id,CALENDAR_YEAR(date_de_commande__c) , sum(Quantite__c) from Commande__c  where produit__r.Id != null and CALENDAR_YEAR(date_de_commande__c)> %s GROUP BY produit__r.Id,CALENDAR_YEAR(date_de_commande__c)"""%(anneeEnCours-2)
+    resConso = sf.query(qry)
+    updateConso = []
+    byId ={}
+    for r in resConso['records']:
+        if r['Id'] not in byId.keys():
+            byId[r['Id']] ={'Id':r['Id']} 
+        
+        if r['expr0'] == anneeEnCours:
+            byId[r['Id']]['Conso_Mensuelle_annee_Courante__c'] =r['expr1']
+        else:
+            byId[r['Id']]['Conso_Mensuelle_N_1__c'] =r['expr1']
+    for k in byId.keys():
+        updateConso.append(byId[k])
+    print(updateConso)                  
     pathFile = './ComptesInconnus.txt'
     cpteDump =  open(pathFile,'a')
     for k in CompteInconnus.keys():
