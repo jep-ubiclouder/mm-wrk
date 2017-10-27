@@ -338,7 +338,35 @@ def TryConnectComptes():
     cpteDump.close()
     print('reconcilé')
     print(bulkUpdates)
-
+def PruneAndGraft():
+    qry = 'select id,Doublon__c,Compte_de_rattachement__c from Account where Doublon__c=true'
+    result = sf.query_all(qry)
+    
+    oldIds =[]
+    mapIds = {}
+    deleltions = []
+    for r in result['records']:
+        newId = r['Compte_de_rattachement__c']
+        oldId = r['Id']
+        oldIds.append(oldId)
+        deletions.append({'Id':oldId})
+        mapIds[oldId] = newId
+    if len(oldIds)>0:
+        updateCommandes= []
+        qryCommandes = ' select id, Compte__c from Commande__c where  Compte__c in (\'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in oldIds]) + ')'
+        resCommandes = sf.query_all(qryCommandes)
+        
+        for r in resCommandes['records']
+            updateCommandes.append{'Id':r['Id'],'Compte__c':mapIds[r['Compte__c']]} 
+        if len(updateCommandes) :
+            res = sf.bulk.Commande__c.update(updateCommandes)
+        qryContacts = 'select is, AccountId from contact where AccountId in (\'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in oldIds]) + ')'          
+        resContacts = sf.query_all(qryContacts)
+        updateContacts = []
+        for r in resContacts:
+            updateContacts.append({'Id':r['Id'],'AccountId':mapIds[r['AccountId']]})
+        if len(updateContacts)> 0:
+            sf.bulk.Contact.update(updateContacts)   
 if __name__ == '__main__':
     import argparse
 
