@@ -357,7 +357,7 @@ def PruneAndGraft():
         resCommandes = sf.query_all(qryCommandes)
         
         for r in resCommandes['records']:
-            updateCommandes.append{'Id':r['Id'],'Compte__c':mapIds[r['Compte__c']]} 
+            updateCommandes.append({'Id':r['Id'],'Compte__c':mapIds[r['Compte__c']]} )
         if len(updateCommandes) :
             res = sf.bulk.Commande__c.update(updateCommandes)
         qryContacts = 'select is, AccountId from contact where AccountId in (\'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in oldIds]) + ')'          
