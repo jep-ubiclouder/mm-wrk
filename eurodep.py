@@ -387,4 +387,4 @@ if __name__ == '__main__':
             processFile(fn)
     else:
         TryConnectComptes()
-        
+        PruneAndGraft()
