@@ -75,9 +75,11 @@ def process():
         w.writerow(r.keys())
         for rec in records:
             w.writerow(rec.values())
-    import json        
-    for rec in records[:5]:
-            pp.pprint(json.dumps(rec))            
+    import json     
+    with open('./resultat.json','w') as json:   
+        for rec in records:
+            json.write(pp.pprint(json.dumps(rec)))            
     
 if __name__ == '__main__':
     process()
+    
