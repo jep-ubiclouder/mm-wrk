@@ -16,7 +16,7 @@ def getCredentials(isTest):
 
 
 
-def process(parmDate, now, isTest):
+def process():
 
     from simple_salesforce import (
         Salesforce,
@@ -46,4 +46,4 @@ def process(parmDate, now, isTest):
         if i>15 :
             break
 if __name__ == '__main__':
-    import argparse
+    process()
