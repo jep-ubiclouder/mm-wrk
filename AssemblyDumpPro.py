@@ -35,7 +35,7 @@ def process():
     
     sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
     
-    queryAllAccount = 'select id, Name, ParentId,Descriptif__c from Account'
+    """queryAllAccount = 'select id, Name, ParentId,Descriptif__c from Account'
     
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
@@ -47,12 +47,17 @@ def process():
             print(rec['Descriptif__c'],rec['Name'])
     print('Nbre de records ds account')
     print(len(records))
-    
+    """
     import pprint
     pp = pprint.PrettyPrinter(indent=4)
+    fieldsToQuery =[]
     for t in  sf.Account.describe()['fields']:
-        print('name:',t['name'],' -- label: ',t['label'])
+        if not t['calculated']:
+            fieldsToQuery.append(t['name'])
     
+    
+    queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
+    print(queryAllAccount)
 
 if __name__ == '__main__':
     process()
