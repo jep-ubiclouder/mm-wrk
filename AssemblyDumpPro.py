@@ -54,7 +54,8 @@ def process():
     for t in  sf.Account.describe()['fields']:
         if not t['calculated']:
             fieldsToQuery.append(t['name'])
-    
+        if t['Name'] =='BillingAdress':
+            print(t)    
     
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
     print(queryAllAccount)
@@ -71,7 +72,9 @@ def process():
         r = records[0]
         w.writerow(r.keys())
         for rec in records:
-            w.writerow(rec.values())
+            w.writerow(rec.values()[1:])
+            
+                
     
 if __name__ == '__main__':
     process()
