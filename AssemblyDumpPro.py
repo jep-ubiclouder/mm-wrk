@@ -48,8 +48,10 @@ def process():
     print('Nbre de records ds account')
     print(len(records))
     
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
     describe = sf.Account.describe()
-    print(describe)
+    pp.pprint(describe)
 
 if __name__ == '__main__':
     process()
