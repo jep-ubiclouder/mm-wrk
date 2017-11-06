@@ -45,5 +45,8 @@ def process():
         i+=1
         if i>15 :
             break
+    print('Nbre de records ds account')
+    print(len(records))
+
 if __name__ == '__main__':
     process()
