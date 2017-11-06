@@ -76,9 +76,9 @@ def process():
         for rec in records:
             w.writerow(rec.values())
     import json     
-    with open('./resultat.json','w') as json:   
+    with open('./resultat.json','w') as js:   
         for rec in records:
-            json.write(pp.pprint(json.dumps(rec)))            
+            js.write(pp.pprint(json.dumps(rec)))            
     
 if __name__ == '__main__':
     process()
