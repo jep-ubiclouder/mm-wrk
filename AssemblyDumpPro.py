@@ -42,7 +42,8 @@ def process():
     i = 0
     for rec in records:
         ## print(rec)
-        if len(rec['Descriptif__c'])>0:
+        
+        if rec['Descriptif__c'] is not None and len(rec['Descriptif__c'])>0:
             print(rec['Descriptif__c'],rec['Name'])
     print('Nbre de records ds account')
     print(len(records))
