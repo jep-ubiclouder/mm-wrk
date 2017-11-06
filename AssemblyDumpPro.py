@@ -65,6 +65,7 @@ def process():
         
     print('Nbre de records ds account')
     print(len(records))
+    import csv
     with open('./Account.csv','wb') as f:
         w= csv.writer(f)
         r = records[0]
