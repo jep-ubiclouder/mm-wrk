@@ -34,7 +34,7 @@ def process():
     creds = getCredentials(isTest)
     
     sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
-    print(sf)
+    print(dir(sf))
     fieldsToQuery =[]
     fieldsToExclude = []
     for t in  sf.Account.describe()['fields']:
