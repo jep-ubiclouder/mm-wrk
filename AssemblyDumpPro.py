@@ -35,16 +35,15 @@ def process():
     
     sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
     
-    queryAllAccount = 'select id, Name, ParentId from Account'
+    queryAllAccount = 'select id, Name, ParentId,Descriptif__c from Account'
     
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
     i = 0
     for rec in records:
-        print(rec)
-        i+=1
-        if i>15 :
-            break
+        ## print(rec)
+        if len(rec['Descriptif__c'])>0:
+            print(rec['Descriptif__c'],rec['Name'])
     print('Nbre de records ds account')
     print(len(records))
     
