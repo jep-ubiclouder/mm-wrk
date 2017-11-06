@@ -35,7 +35,7 @@ def process():
     
     sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
     
-    queryAllAccount = 'select id, Name, Parent from Account'
+    queryAllAccount = 'select id, Name, ParentId from Account'
     
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
