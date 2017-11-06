@@ -58,7 +58,7 @@ def process():
     
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
     print(queryAllAccount)
-     cursor = sf.query_all(queryAllAccount)
+    cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
     i = 0
     for rec in records:
