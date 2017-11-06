@@ -67,7 +67,7 @@ def process():
     print(len(records))
     import csv
     with open('./Account.csv','w') as f:
-        w= csv.writer(f)
+        w= csv.writer(f,delimiter=';')
         r = records[0]
         w.writerow(r.keys())
         for rec in records:
