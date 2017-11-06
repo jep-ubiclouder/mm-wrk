@@ -78,7 +78,7 @@ def process():
     import json     
     with open('./resultat.json','w',encoding="utf-8") as js:   
         for rec in records:
-            js.write(json.dumps(rec, ensure_ascii=False))            
+            js.write(pp.pprint( json.dumps(rec, ensure_ascii=False)))            
     
 if __name__ == '__main__':
     process()
