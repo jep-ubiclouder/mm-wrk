@@ -60,14 +60,14 @@ def process():
             fieldsToQuery.append(t['name'])
 
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
-    print(queryAllAccount)
+    ## print(queryAllAccount)
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
     i = 0
     
         
-    print('Nbre de records ds account')
-    print(len(records))
+    ## print('Nbre de records ds account')
+    ## print(len(records))
     import csv
     with open('./Account.csv','w') as f:
         w= csv.writer(f,delimiter=';')
