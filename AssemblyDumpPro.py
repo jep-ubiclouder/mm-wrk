@@ -47,6 +47,9 @@ def process():
             break
     print('Nbre de records ds account')
     print(len(records))
+    
+    describe = sf.Account.describe()
+    print(describe)
 
 if __name__ == '__main__':
     process()
