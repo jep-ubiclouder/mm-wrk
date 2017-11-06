@@ -51,12 +51,14 @@ def process():
     import pprint
     pp = pprint.PrettyPrinter(indent=4)
     fieldsToQuery =[]
+    fieldsToExclude = []
     for t in  sf.Account.describe()['fields']:
-        if not t['calculated']:
+        if t['compoundFieldName'] is not None and t['compoundFieldName'] not in fieldsToExclude:
+            fieldsToExclude.append(t['compoundFieldName'])
+    for t in  sf.Account.describe()['fields']:
+        if t['compoundFieldName'] not in fieldsToExclude and t['calculated'] == False:
             fieldsToQuery.append(t['name'])
-        if t['name'] =='BillingAddress'  or t['name'] == 'BillingPostalCode':
-            print(t)    
-    
+
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
     print(queryAllAccount)
     cursor = sf.query_all(queryAllAccount)
