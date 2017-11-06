@@ -56,7 +56,7 @@ def process():
         if t['compoundFieldName'] is not None and t['compoundFieldName'] not in fieldsToExclude:
             fieldsToExclude.append(t['compoundFieldName'])
     for t in  sf.Account.describe()['fields']:
-        if t['compoundFieldName'] not in fieldsToExclude and t['calculated'] == False:
+        if t['name'] not in fieldsToExclude and t['calculated'] == False:
             fieldsToQuery.append(t['name'])
 
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
