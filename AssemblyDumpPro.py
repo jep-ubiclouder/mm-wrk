@@ -61,13 +61,16 @@ def process():
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
     i = 0
-    for rec in records:
-        ## print(rec)
+    
         
-        if rec['Descriptif__c'] is not None and len(rec['Descriptif__c'])>0:
-            print(rec['Descriptif__c'],rec['Name'])
     print('Nbre de records ds account')
     print(len(records))
+    with open('./Account.csv','wb') as f:
+        w= csv.writer(f)
+        r = records[0]
+        w.writerow(r.keys())
+        for rec in records:
+            w.writerow(rec.values())
     
 if __name__ == '__main__':
     process()
