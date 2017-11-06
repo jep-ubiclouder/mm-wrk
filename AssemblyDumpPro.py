@@ -34,25 +34,11 @@ def process():
     creds = getCredentials(isTest)
     
     sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
-    
-    """queryAllAccount = 'select id, Name, ParentId,Descriptif__c from Account'
-    
-    cursor = sf.query_all(queryAllAccount)
-    records =  cursor['records']
-    i = 0
-    for rec in records:
-        ## print(rec)
-        
-        if rec['Descriptif__c'] is not None and len(rec['Descriptif__c'])>0:
-            print(rec['Descriptif__c'],rec['Name'])
-    print('Nbre de records ds account')
-    print(len(records))
-    """
-    import pprint
-    pp = pprint.PrettyPrinter(indent=4)
+    print(sf)
     fieldsToQuery =[]
     fieldsToExclude = []
     for t in  sf.Account.describe()['fields']:
+        ''' Pour eviter les champ coumpoud: BillingAdrdress'''
         if t['compoundFieldName'] is not None and t['compoundFieldName'] not in fieldsToExclude:
             fieldsToExclude.append(t['compoundFieldName'])
     for t in  sf.Account.describe()['fields']:
@@ -60,14 +46,9 @@ def process():
             fieldsToQuery.append(t['name'])
 
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
-    ## print(queryAllAccount)
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
     i = 0
-    
-        
-    ## print('Nbre de records ds account')
-    ## print(len(records))
     import csv
     with open('./Account.csv','w') as f:
         w= csv.writer(f,delimiter=';')
