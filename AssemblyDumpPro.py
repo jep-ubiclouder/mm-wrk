@@ -75,9 +75,9 @@ def process():
         w.writerow(r.keys())
         for rec in records:
             w.writerow(rec.values())
-            
+    import json        
     for rec in records:
-            print(rec)            
+            print(json.dumps(rec))            
     
 if __name__ == '__main__':
     process()
