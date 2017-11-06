@@ -76,7 +76,8 @@ def process():
         for rec in records:
             w.writerow(rec.values())
             
-                
+    for rec in records:
+            print(rec)            
     
 if __name__ == '__main__':
     process()
