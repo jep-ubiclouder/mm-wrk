@@ -58,6 +58,16 @@ def process():
     
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
     print(queryAllAccount)
-
+     cursor = sf.query_all(queryAllAccount)
+    records =  cursor['records']
+    i = 0
+    for rec in records:
+        ## print(rec)
+        
+        if rec['Descriptif__c'] is not None and len(rec['Descriptif__c'])>0:
+            print(rec['Descriptif__c'],rec['Name'])
+    print('Nbre de records ds account')
+    print(len(records))
+    
 if __name__ == '__main__':
     process()
