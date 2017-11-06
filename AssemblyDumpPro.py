@@ -50,8 +50,9 @@ def process():
     
     import pprint
     pp = pprint.PrettyPrinter(indent=4)
-    describe = sf.Account.describe()
-    pp.pprint(describe)
+    for t in  sf.Account.describe()['fields']:
+        print('name:',t['name'],' -- label: 't['label'])
+    
 
 if __name__ == '__main__':
     process()
