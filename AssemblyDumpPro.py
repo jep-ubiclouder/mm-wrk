@@ -54,7 +54,7 @@ def process():
     for t in  sf.Account.describe()['fields']:
         if not t['calculated']:
             fieldsToQuery.append(t['name'])
-        if t['Name'] =='BillingAdress':
+        if t['name'] =='BillingAdress':
             print(t)    
     
     queryAllAccount = 'select '+','.join(fieldsToQuery) +' from Account'
