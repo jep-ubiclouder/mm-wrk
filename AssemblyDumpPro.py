@@ -72,7 +72,7 @@ def process():
         r = records[0]
         w.writerow(r.keys())
         for rec in records:
-            w.writerow(rec.values()[1:])
+            w.writerow(rec.values())
             
                 
     
