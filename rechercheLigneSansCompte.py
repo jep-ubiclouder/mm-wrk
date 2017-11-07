@@ -59,15 +59,15 @@ def process():
     tranche =1000
     bornesup = tranche
     borneinf = 0
-    while bornesup <= len(allSorifa):
+    while bornesup < len(allSorifa):
         ## Je cherche les id SF des code sorifa dont j'ai besoin
         qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
         borneinf = compteur*tranche
         bornesup = (compteur+1)*tranche
-        if bornesup > len(allSorifa):
-            bornesup = len(allSorifa)
+        if bornesup >= len(allSorifa):
+            bornesup = len(allSorifa)-1
         for r in csrSorifa:
             bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
     print('sorifa trouvés', len(bySorifa))
