@@ -34,26 +34,23 @@ def process():
     # Je mets en relation les facture__c et les id SF
     for r in result:
         dateclef = '%s%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7],r['Date_de_commande__c'][-2:])
-        
-        if r['Facture__c']+dateclef not in unknownCompteByFacture.keys():
+        print(r['Facture__c']+dateclef)
+        if (r['Facture__c']+dateclef) not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
         
         unknownCompteByFacture[r['Facture__c']+dateclef].append(r['Id'])
-        
-    ## print(unknownCompteByFacture['1032634'])  
-    #sys.exit()
-    
-    
+        sys.exit()
+      
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
     with open('./venteshisto.csv','r') as f:
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
-            print(l['date mouvement'])
+            # print(l['date mouvement'])
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
-            print(dateclef)
-            
+            # print(dateclef)
+            print(l['numero document']+dateclef)
             if l['numero document']+dateclef in unknownCompteByFacture.keys():
                 if l['numero document']+dateclef not in byFacture.keys():
                     byFacture[l['numero document']+dateclef] = l['Code client sorifa']
