@@ -35,7 +35,7 @@ def process():
     for r in result:
         d = datetime.datetime.strptime(r['Date_de_commande__c'], '%Y-%m-%d').date() + datetime.timedelta(days=1)
         dateclef = d.strftime('%Y%m%d')
-        print(dateclef,r['Facture__c'],r['Facture__c']+dateclef)
+        ## print(dateclef,r['Facture__c'],r['Facture__c']+dateclef)
         ## print(r['Facture__c']+dateclef)
         if (r['Facture__c']+dateclef) not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
@@ -53,8 +53,8 @@ def process():
         for l in reader:
             # print(l['date mouvement'])
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
-            print(dateclef)
-            print(l['numero document']+dateclef)
+            ## print(dateclef)
+            ## print(l['numero document']+dateclef)
             
             if (l['numero document']+dateclef) in unknownCompteByFacture.keys():
                 if (l['numero document']+dateclef) not in byFacture.keys():
