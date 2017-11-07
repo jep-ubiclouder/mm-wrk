@@ -102,7 +102,7 @@ def process():
     bornesup = tranche
     borneinf = 0
     
-    sys.exit())
+    sys.exit()
     while bornesup < len(readyToUpdate):
         r = sf.bulk.Commande__c.update(readyToUpdate[borneinf:bornesup])
         compteur += 1
