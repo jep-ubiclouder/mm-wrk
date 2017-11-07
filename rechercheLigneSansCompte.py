@@ -33,7 +33,7 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
-        dateclef = '%s%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7],r['Date_de_commande__c'][-2:]))
+        dateclef = '%s%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7],r['Date_de_commande__c'][-2:])
         
         if r['Facture__c']+dateclef not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
@@ -53,7 +53,7 @@ def process():
             print(l['date mouvement'])
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
             print(dateclef)
-            sys.exit()
+            
             if l['numero document']+dateclef in unknownCompteByFacture.keys():
                 if l['numero document']+dateclef not in byFacture.keys():
                     byFacture[l['numero document']+dateclef] = l['Code client sorifa']
@@ -101,6 +101,8 @@ def process():
     tranche =100
     bornesup = tranche
     borneinf = 0
+    
+    sys.exit())
     while bornesup < len(readyToUpdate):
         r = sf.bulk.Commande__c.update(readyToUpdate[borneinf:bornesup])
         compteur += 1
