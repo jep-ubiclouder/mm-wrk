@@ -39,7 +39,7 @@ def process():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
         
         unknownCompteByFacture[r['Facture__c']+dateclef].append(r['Id'])
-        sys.exit()
+        
       
     allSorifa =[]
     byFacture ={}
@@ -51,7 +51,8 @@ def process():
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
             # print(dateclef)
             print(l['numero document']+dateclef)
-            if l['numero document']+dateclef in unknownCompteByFacture.keys():
+            sys.exit()
+            if (l['numero document']+dateclef) in unknownCompteByFacture.keys():
                 if l['numero document']+dateclef not in byFacture.keys():
                     byFacture[l['numero document']+dateclef] = l['Code client sorifa']
                 
