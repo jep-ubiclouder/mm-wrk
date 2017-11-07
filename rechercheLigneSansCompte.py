@@ -32,6 +32,6 @@ def process():
         w= csv.reader(f,delimiter='')
         for l in w.readlines():
             pass
-        print l
+        print( l)
 if __name__ == '__main__':
     process()
