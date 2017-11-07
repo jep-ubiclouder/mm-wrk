@@ -33,6 +33,7 @@ def process():
     # Je mets en relation les facture__c et les id SF
     for r in result:
         print('%s%s%s'%(r['Date_de_commande__c'][-4:],r['Date_de_commande__c'][3:5],r['Date_de_commande__c'][:2]))
+        print(r['Date_de_commande__c'])
         if r['Facture__c'] not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']] = []
         
