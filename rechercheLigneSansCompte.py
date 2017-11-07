@@ -56,7 +56,7 @@ def process():
     print('test amazon', '020782' in allSorifa)
     bySorifa = {}
     compteur = 0
-    tranche =1000
+    tranche =199
     bornesup = tranche
     borneinf = 0
     while bornesup < len(allSorifa):
@@ -69,7 +69,7 @@ def process():
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
         else:
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
-        if '020782' in allSorifa :
+        if '020782' in allSorifa[borneinf:bornesup] :
             print(qryFindFromSorifa)
         
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
