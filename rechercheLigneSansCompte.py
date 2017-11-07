@@ -73,23 +73,34 @@ def process():
         ## Je cherche les id SF des code sorifa dont j'ai besoin
         
         if bornesup>len(allSorifa):
-            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
+            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Lead where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
         else:
-            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
-        
+            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Lead where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
+        '''
+        if bornesup>len(allSorifa):
+            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
+        else:
+            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
+        '''
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
         borneinf =compteur*tranche
         bornesup = (compteur+1)*tranche
-        print(len(csrSorifa))
+        ## print(len(csrSorifa))
         if bornesup >= len(allSorifa):
             bornesup = len(allSorifa)
         for r in csrSorifa:
-            bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
+            
+            bySorifa[r['Code_Client_SOFIRA__c']]=(r['Id'],r['Name'])
+            # pour la mise a jour
+            ## bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
         print('inf',borneinf)
         print('sup',bornesup)
+    for k in  bySorifa.keys():
+        print(bySorifa[k])
     print('sorifa trouvés', len(bySorifa))
     
+    """
     readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
     for k in unknownCompteByFacture.keys():
@@ -108,6 +119,11 @@ def process():
     
     
     r = sf.bulk.Commande__c.update(readyToUpdate)
-    
+    """
+def findLeads():
+    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    qry  ='SELECT id,Bon_de_livraison__c,Code_Client_EURODEP__c,Code_EAN_EURODEP__c,Compte__c,C_A_Brut__c,C_A_Net__c,Date_de_commande__c,Facture__c,Ligne__c,Prix_Brut__c,Prix_Net__c,Produit__c,Quantite__c,Reference_Client__c FROM Commande__c where compte__c = null and Code_Client_EURODEP__c = null  order by Date_de_commande__c desc'
+    result = sf.query_all(qry)['records']
+        
 if __name__ == '__main__':
     process()
