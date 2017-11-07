@@ -43,12 +43,13 @@ def process():
     with open('./venteshisto.csv','r') as f:
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
-            if l['numero document'] not in byFacture.keys():
-                byFacture[l['numero document']] = l['Code client sorifa']
-            
-            if l['Code client sorifa'] not in allSorifa:
-                allSorifa.append(l['Code client sorifa'])
-    
+            if l['numero document'] in unknownCompteByFacture.keys():
+                if l['numero document'] not in byFacture.keys():
+                    byFacture[l['numero document']] = l['Code client sorifa']
+                
+                if l['Code client sorifa'] not in allSorifa:
+                    allSorifa.append(l['Code client sorifa'])
+    print('All sorifa ',len(allSorifa))
     ## Je cherche les id SF des code sorifa dont j'ai besoin
     qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(allSorifa)+')'
     csrSorifa = sf.query_all(qryFindFromSorifa)['records']
