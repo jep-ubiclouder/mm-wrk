@@ -61,10 +61,17 @@ def process():
     borneinf = 0
     while bornesup < len(allSorifa):
         ## Je cherche les id SF des code sorifa dont j'ai besoin
+        print('inf',borneinf)
+        print('sup',bornesup)
+        
+        
         if bornesup>len(allSorifa):
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
         else:
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
+        if '020782' in allSorifa[borneinf:bornesup] :
+            print(qryFindFromSorifa)
+        
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
         borneinf = compteur*tranche
