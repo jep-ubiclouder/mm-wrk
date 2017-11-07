@@ -97,7 +97,7 @@ def process():
         ## print('inf',borneinf)
         # print('sup',bornesup)
     for k in  bySorifa.keys():
-        print("%s;%s;%"%(k,bySorifa[k][1],bySorifa[k][0])
+        print("%s;%s;%"%(k,bySorifa[k][1],bySorifa[k][0]))
     print('sorifa trouvés', len(bySorifa))
     
     """
