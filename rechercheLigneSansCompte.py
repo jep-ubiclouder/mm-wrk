@@ -33,7 +33,8 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
-        dateclef = '%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7])
+        d = datetime.datetime.strptime(r['Date_de_commande__c'], '%Y-%m-%d').date() +datetime.timedelta(days=1)
+        dateclef = d.strftime('%Y%m%d')
         ## print(r['Facture__c']+dateclef)
         if (r['Facture__c']+dateclef) not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
@@ -50,7 +51,7 @@ def process():
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             # print(l['date mouvement'])
-            dateclef='%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5])
+            dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][2:])
             # print(dateclef)
             ## print(l['numero document']+dateclef)
             
