@@ -71,6 +71,7 @@ def process():
         for r in csrSorifa:
             bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
     print('sorifa trouvés', len(bySorifa))
+    print('amazon', bySorifa['020782'])
     readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
     for k in unknownCompteByFacture.keys():
@@ -82,7 +83,7 @@ def process():
     print(len(readyToUpdate))
     print(readyToUpdate[-5:])
     compteur = 0
-    tranche =1000
+    tranche =100
     bornesup = tranche
     borneinf = 0
     while bornesup < len(readyToUpdate):
