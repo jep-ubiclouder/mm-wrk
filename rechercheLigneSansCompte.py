@@ -53,7 +53,7 @@ def process():
                 if l['Code client sorifa'] not in allSorifa:
                     allSorifa.append(l['Code client sorifa'])
     print('All sorifa ',len(allSorifa))
-    
+    print('test amazon', '020782' in allSorifa)
     bySorifa = {}
     compteur = 0
     tranche =1000
