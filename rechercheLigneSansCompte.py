@@ -30,8 +30,7 @@ def process():
     
     with open('./histoventes.csv','r') as f:
         reader = csv.DictReader(f, delimiter=',')
-        for l in reader:
-            pass
-        print( l)
+        
+        print( reader[-1])
 if __name__ == '__main__':
     process()
