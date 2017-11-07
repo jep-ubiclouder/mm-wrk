@@ -46,7 +46,8 @@ def process():
             if l['numero document'] in unknownCompteByFacture.keys():
                 if l['numero document'] not in byFacture.keys():
                     byFacture[l['numero document']] = l['Code client sorifa']
-                
+                if l['numero document'] == '1019701':
+                    print(l)
                 if l['Code client sorifa'] not in allSorifa:
                     allSorifa.append(l['Code client sorifa'])
     print('All sorifa ',len(allSorifa))
