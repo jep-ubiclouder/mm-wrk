@@ -94,10 +94,10 @@ def process():
             bySorifa[r['Code_Client_SOFIRA__c']]=(r['Id'],r['Name'])
             # pour la mise a jour
             ## bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
-        print('inf',borneinf)
-        print('sup',bornesup)
+        ## print('inf',borneinf)
+        # print('sup',bornesup)
     for k in  bySorifa.keys():
-        print(bySorifa[k])
+        print("%s;%s;%"%(k,bySorifa[k][1],bySorifa[k][0])
     print('sorifa trouvés', len(bySorifa))
     
     """
