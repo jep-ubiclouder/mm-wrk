@@ -51,14 +51,16 @@ def process():
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
             # print(dateclef)
             print(l['numero document']+dateclef)
-            sys.exit()
+            
             if (l['numero document']+dateclef) in unknownCompteByFacture.keys():
-                if l['numero document']+dateclef not in byFacture.keys():
+                if (l['numero document']+dateclef) not in byFacture.keys():
                     byFacture[l['numero document']+dateclef] = l['Code client sorifa']
                 
                 if l['Code client sorifa'] not in allSorifa:
                     allSorifa.append(l['Code client sorifa'])
-    ## print('All sorifa ',len(allSorifa))
+    print('All sorifa ',len(allSorifa))
+    
+    sys.exit()
     ## print('test amazon', '020782' in allSorifa)
     bySorifa = {}
     compteur = 0
