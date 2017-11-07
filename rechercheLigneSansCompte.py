@@ -37,10 +37,12 @@ def process():
         ## print(r['Facture__c']+dateclef)
         if (r['Facture__c']+dateclef) not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
-        
+            
         unknownCompteByFacture[r['Facture__c']+dateclef].append(r['Id'])
         
-    print(len(unknownCompteByFacture.keys()))  
+    for k in unknownCompteByFacture.keys():
+        print(k,unknownCompteByFacture[k])  
+    sys.exit()
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
