@@ -52,6 +52,7 @@ def process():
         for l in reader:
             print(l['date mouvement'])
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
+            print(dateclef)
             sys.exit()
             if l['numero document'] in unknownCompteByFacture.keys():
                 if l['numero document'] not in byFacture.keys():
