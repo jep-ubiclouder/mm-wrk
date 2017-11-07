@@ -73,7 +73,7 @@ def process():
         print('sup',bornesup)
         print(len(csrSorifa))
         if bornesup >= len(allSorifa):
-            bornesup = len(allSorifa)-1
+            bornesup = len(allSorifa)
         for r in csrSorifa:
             bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
     print('sorifa trouvés', len(bySorifa))
