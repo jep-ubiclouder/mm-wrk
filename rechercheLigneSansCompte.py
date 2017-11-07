@@ -67,7 +67,7 @@ def process():
             bornesup = len(allSorifa)
         for r in csrSorifa:
             bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
-    
+    print('sorifa trouvés', len(bySorifa))
     readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
     for k in unknownCompteByFacture.keys():
