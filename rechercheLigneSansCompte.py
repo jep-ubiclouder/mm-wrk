@@ -77,7 +77,8 @@ def process():
         
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
-        
+        borneinf =compteur*tranche
+        bornesup = (compteur+1)*tranche
         print(len(csrSorifa))
         if bornesup >= len(allSorifa):
             bornesup = len(allSorifa)
