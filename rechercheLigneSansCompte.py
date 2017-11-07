@@ -32,11 +32,16 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
+        print(r['Date_de_commande__c'])
         if r['Facture__c'] not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']] = []
         
         unknownCompteByFacture[r['Facture__c']].append(r['Id'])
-    print(unknownCompteByFacture['1032634'])  
+        
+    ## print(unknownCompteByFacture['1032634'])  
+    sys.exit()
+    
+    
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
