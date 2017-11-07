@@ -62,8 +62,6 @@ def process():
                     allSorifa.append(l['Code client sorifa'])
     print('All sorifa ',len(allSorifa))
     
-    sys.exit()
-    ## print('test amazon', '020782' in allSorifa)
     bySorifa = {}
     compteur = 0
     tranche =199
@@ -88,7 +86,7 @@ def process():
         print('inf',borneinf)
         print('sup',bornesup)
     print('sorifa trouvés', len(bySorifa))
-    print('amazon', bySorifa['020782'])
+    
     readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
     for k in unknownCompteByFacture.keys():
