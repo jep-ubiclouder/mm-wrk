@@ -29,7 +29,7 @@ def process():
     result = sf.query_all(qry)['records']
     unknownCompteByFacture = {} 
     
-    
+    print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
         if r['Facture__c'] not in unknownCompteByFacture.keys():
