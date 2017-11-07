@@ -24,7 +24,7 @@ from _datetime import timedelta
 from datetime import date
 import csv
 def process():
-    """
+    
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qry  ='SELECT id,Bon_de_livraison__c,Code_Client_EURODEP__c,Code_EAN_EURODEP__c,Compte__c,C_A_Brut__c,C_A_Net__c,Date_de_commande__c,Facture__c,Ligne__c,Prix_Brut__c,Prix_Net__c,Produit__c,Quantite__c,Reference_Client__c FROM Commande__c where compte__c = null and Code_Client_EURODEP__c = null  order by Date_de_commande__c desc'
     result = sf.query_all(qry)['records']
@@ -43,7 +43,7 @@ def process():
     ## print(unknownCompteByFacture['1032634'])  
     #sys.exit()
     
-    """
+    
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
@@ -54,17 +54,14 @@ def process():
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
             print(dateclef)
             sys.exit()
-            if l['numero document'] in unknownCompteByFacture.keys():
-                if l['numero document'] not in byFacture.keys():
-                    byFacture[l['numero document']] = l['Code client sorifa']
-                if l['Code client sorifa'] == '020782':
-                    print(l)
-                    
-                    print( l['Code client sorifa'] not in allSorifa)
+            if l['numero document']+dateclef in unknownCompteByFacture.keys():
+                if l['numero document']+dateclef not in byFacture.keys():
+                    byFacture[l['numero document']+dateclef] = l['Code client sorifa']
+                
                 if l['Code client sorifa'] not in allSorifa:
                     allSorifa.append(l['Code client sorifa'])
-    print('All sorifa ',len(allSorifa))
-    print('test amazon', '020782' in allSorifa)
+    ## print('All sorifa ',len(allSorifa))
+    ## print('test amazon', '020782' in allSorifa)
     bySorifa = {}
     compteur = 0
     tranche =199
@@ -72,21 +69,14 @@ def process():
     borneinf = 0
     while bornesup < len(allSorifa):
         ## Je cherche les id SF des code sorifa dont j'ai besoin
-        print('inf',borneinf)
-        print('sup',bornesup)
-        
         
         if bornesup>len(allSorifa):
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
         else:
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
-        if '020782' in allSorifa[borneinf:bornesup] :
-            print(qryFindFromSorifa)
         
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
-        borneinf = compteur*tranche
-        bornesup = (compteur+1)*tranche
         
         print(len(csrSorifa))
         if bornesup >= len(allSorifa):
