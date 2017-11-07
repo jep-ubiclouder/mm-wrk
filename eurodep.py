@@ -339,6 +339,7 @@ def TryConnectComptes():
     print('reconcilé')
     print(bulkUpdates)
 def PruneAndGraft():
+    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qry = 'select id,Doublon__c,Compte_de_rattachement__c from Account where Doublon__c=true'
     result = sf.query_all(qry)
     
