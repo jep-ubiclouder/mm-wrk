@@ -50,12 +50,23 @@ def process():
                 if l['Code client sorifa'] not in allSorifa:
                     allSorifa.append(l['Code client sorifa'])
     print('All sorifa ',len(allSorifa))
-    ## Je cherche les id SF des code sorifa dont j'ai besoin
-    qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(allSorifa)+')'
-    csrSorifa = sf.query_all(qryFindFromSorifa)['records']
+    
     bySorifa = {}
-    for r in csrSorifa:
-        bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
+    compteur = 0
+    tranche =1000
+    bornesup = tranche
+    borneinf = 0
+    while bornesup < len(allSorifa):
+        ## Je cherche les id SF des code sorifa dont j'ai besoin
+        qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(allSorifa[borneinf:bornesup])')'
+        csrSorifa = sf.query_all(qryFindFromSorifa)['records']
+        compteur += 1
+        borneinf = compteur*tranche
+        bornesup = (compteur+1)*tranche
+        if bornesup > len(allSorifa):
+            bornesup = len(allSorifa)
+        for r in csrSorifa:
+            bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
     
     readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
