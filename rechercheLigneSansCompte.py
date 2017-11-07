@@ -91,7 +91,8 @@ def process():
     for k in unknownCompteByFacture.keys():
         
         for idLC in unknownCompteByFacture[k] :
-            readyToUpdate.append({'Id':idLC,'Compte__c':bySorifa[byFacture[k]] })
+            if byFacture[k] in bySorifa.keys():
+                readyToUpdate.append({'Id':idLC,'Compte__c':bySorifa[byFacture[k]] })
     
     print(len(readyToUpdate))
     print(readyToUpdate[-5:])
