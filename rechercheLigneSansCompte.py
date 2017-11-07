@@ -33,16 +33,16 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
-        dateclef = '%s%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7],r['Date_de_commande__c'][-2:])
+        dateclef = '%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7])
         ## print(r['Facture__c']+dateclef)
         if (r['Facture__c']+dateclef) not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']+dateclef] = []
             
         unknownCompteByFacture[r['Facture__c']+dateclef].append(r['Id'])
         
-    for k in unknownCompteByFacture.keys():
-        print(k,unknownCompteByFacture[k])  
-    sys.exit()
+    #for k in unknownCompteByFacture.keys():
+    #    print(k,unknownCompteByFacture[k])  
+    
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
@@ -50,7 +50,7 @@ def process():
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             # print(l['date mouvement'])
-            dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
+            dateclef='%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5])
             # print(dateclef)
             ## print(l['numero document']+dateclef)
             
