@@ -107,7 +107,7 @@ def process():
     
     
     
-    r = sf.bulk.Commande__c.update(readyToUpdate[borneinf:bornesup])
+    r = sf.bulk.Commande__c.update(readyToUpdate)
     
 if __name__ == '__main__':
     process()
