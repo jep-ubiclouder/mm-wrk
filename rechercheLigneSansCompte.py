@@ -24,6 +24,7 @@ from _datetime import timedelta
 from datetime import date
 import csv
 def process():
+    """
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qry  ='SELECT id,Bon_de_livraison__c,Code_Client_EURODEP__c,Code_EAN_EURODEP__c,Compte__c,C_A_Brut__c,C_A_Net__c,Date_de_commande__c,Facture__c,Ligne__c,Prix_Brut__c,Prix_Net__c,Produit__c,Quantite__c,Reference_Client__c FROM Commande__c where compte__c = null and Code_Client_EURODEP__c = null  order by Date_de_commande__c desc'
     result = sf.query_all(qry)['records']
@@ -32,23 +33,26 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
-        print('%s%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7],r['Date_de_commande__c'][-2:]))
-        print(r['Date_de_commande__c'])
-        if r['Facture__c'] not in unknownCompteByFacture.keys():
-            unknownCompteByFacture[r['Facture__c']] = []
+        dateclef = '%s%s%s'%(r['Date_de_commande__c'][:4],r['Date_de_commande__c'][5:7],r['Date_de_commande__c'][-2:]))
         
-        unknownCompteByFacture[r['Facture__c']].append(r['Id'])
+        if r['Facture__c']+dateclef not in unknownCompteByFacture.keys():
+            unknownCompteByFacture[r['Facture__c']+dateclef] = []
+        
+        unknownCompteByFacture[r['Facture__c']+dateclef].append(r['Id'])
         
     ## print(unknownCompteByFacture['1032634'])  
-    sys.exit()
+    #sys.exit()
     
-    
+    """
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
     with open('./venteshisto.csv','r') as f:
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
+            print(l['date mouvement'])
+            
+            sys.exit()
             if l['numero document'] in unknownCompteByFacture.keys():
                 if l['numero document'] not in byFacture.keys():
                     byFacture[l['numero document']] = l['Code client sorifa']
