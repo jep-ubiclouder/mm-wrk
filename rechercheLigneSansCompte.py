@@ -78,5 +78,17 @@ def process():
     
     print(len(readyToUpdate))
     print(readyToUpdate[-5:])
+    compteur = 0
+    tranche =1000
+    bornesup = tranche
+    borneinf = 0
+    while bornesup < len(readyToUpdate):
+        r = sf.bulk.Commande__c.update(readyToUpdate[borneinf:bornesup])
+        compteur += 1
+        borneinf = compteur*tranche
+        bornesup = (compteur+1)*tranche
+        if bornesup > len(readyToUpdate):
+            bornesup = len(readyToUpdate)
+    
 if __name__ == '__main__':
     process()
