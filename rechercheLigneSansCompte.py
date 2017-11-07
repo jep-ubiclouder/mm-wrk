@@ -29,7 +29,7 @@ def process():
     ## result = sf.query_all(qry)['records']
     
     with open('./histoventes.csv','w') as f:
-        w= csv.reader(f,delimiter='')
+        w= csv.reader(f,delimiter=',')
         for l in w.readlines():
             pass
         print( l)
