@@ -36,7 +36,7 @@ def process():
             unknownCompteByFacture[r['Facture__c']] = []
         
         unknownCompteByFacture[r['Facture__c']].append(r['Id'])
-      
+    print(unknownCompteByFacture['1032634'])  
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
@@ -48,7 +48,7 @@ def process():
                     byFacture[l['numero document']] = l['Code client sorifa']
                 if l['Code client sorifa'] == '020782':
                     print(l)
-                    # print(unknownCompteByFacture['1019701'])
+                    
                     print( l['Code client sorifa'] not in allSorifa)
                 if l['Code client sorifa'] not in allSorifa:
                     allSorifa.append(l['Code client sorifa'])
