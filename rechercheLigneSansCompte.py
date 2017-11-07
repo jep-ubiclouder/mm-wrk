@@ -68,6 +68,7 @@ def process():
         bornesup = (compteur+1)*tranche
         print('inf',borneinf)
         print('sup',bornesup)
+        print(len(csrSorifa))
         if bornesup >= len(allSorifa):
             bornesup = len(allSorifa)-1
         for r in csrSorifa:
