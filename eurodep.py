@@ -345,7 +345,7 @@ def PruneAndGraft():
     
     oldIds =[]
     mapIds = {}
-    deleltions = []
+    deletions = []
     for r in result['records']:
         newId = r['Compte_de_rattachement__c']
         oldId = r['Id']
