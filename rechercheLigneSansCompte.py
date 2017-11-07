@@ -32,7 +32,7 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
-        print(r['Date_de_commande__c'])
+        print('%s%s%s'%(r['Date_de_commande__c'][-4:],r['Date_de_commande__c'][3:5],r['Date_de_commande__c'][:2]))
         if r['Facture__c'] not in unknownCompteByFacture.keys():
             unknownCompteByFacture[r['Facture__c']] = []
         
