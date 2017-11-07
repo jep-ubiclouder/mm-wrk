@@ -29,8 +29,8 @@ def process():
     ## result = sf.query_all(qry)['records']
     
     with open('./histoventes.csv','w') as f:
-        w= csv.reader(f,delimiter=',')
-        for l in w.readlines():
+        reader = csv.DictReader(f, delimiter=',')
+        for l in reader:
             pass
         print( l)
 if __name__ == '__main__':
