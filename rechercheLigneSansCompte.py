@@ -69,20 +69,21 @@ def process():
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
         else:
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
-        if 020782 in allSorifa[borneinf:bornesup] :
+        if '020782' in allSorifa[borneinf:bornesup] :
             print(qryFindFromSorifa)
         
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
         borneinf = compteur*tranche
         bornesup = (compteur+1)*tranche
-        print('inf',borneinf)
-        print('sup',bornesup)
+        
         print(len(csrSorifa))
         if bornesup >= len(allSorifa):
             bornesup = len(allSorifa)
         for r in csrSorifa:
             bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
+        print('inf',borneinf)
+        print('sup',bornesup)
     print('sorifa trouvés', len(bySorifa))
     print('amazon', bySorifa['020782'])
     readyToUpdate =[]
