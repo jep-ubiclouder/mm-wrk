@@ -33,7 +33,7 @@ def process():
     print('ldc trouvées',len(result))
     # Je mets en relation les facture__c et les id SF
     for r in result:
-        d = datetime.datetime.strptime(r['Date_de_commande__c'], '%Y-%m-%d').date() +d atetime.timedelta(days=1)
+        d = datetime.datetime.strptime(r['Date_de_commande__c'], '%Y-%m-%d').date() + datetime.timedelta(days=1)
         dateclef = d.strftime('%Y%m%d')
         print(dateclef,r['Facture__c'],r['Facture__c']+dateclef)
         ## print(r['Facture__c']+dateclef)
