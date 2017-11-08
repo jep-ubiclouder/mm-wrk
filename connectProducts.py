@@ -17,32 +17,33 @@ from datetime import date
 
 def processFile():
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
-    #qry =  'select id,Code_EAN_EURODEP__c from Commande__c where Code_EAN_EURODEP__c != null'
-    qry = """select produit__r.Id,CALENDAR_YEAR(date_de_commande__c) , sum(Quantite__c) from Commande__c  where produit__r.Id != null and CALENDAR_YEAR(date_de_commande__c)> 2015 GROUP BY produit__r.Id,CALENDAR_YEAR(date_de_commande__c)"""
-    allLignes = sf.query_all(qry)
-    print(allLignes['records'])
-    '''
-    allMissing = []
-    recs = allLignes['records']
-    for r in recs:
-        if r['Code_EAN_EURODEP__c'] not in allMissing:
-            allMissing.append(r['Code_EAN_EURODEP__c'])
-    print(allMissing)
     
-    qrygetProducts = 'select id,EAN__c from Product2 where EAN__C in ( \'PLACEHOLDER\',' + ','.join(["\'%s\'" % c for c in allMissing]) + ')'
-    print(qrygetProducts)
-    allProductId = sf.query(qrygetProducts)
-    Produits = allProductId['records']
-    byEAN = {}
+    allSorifa =[]
+    byFacture ={}
+    allProducts =[]
+    with('./complementfev2017.csv','r') as c:
+        reader = csv.DictReader(f, delimiter=';')
+        for l in reader:
+            # print(l['date mouvement'])
+            dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
+            ## print(dateclef)
+            ## print(l['numero document']+dateclef)
+            
+            if (l['numero document']) not in byFacture.keys():
+                byFacture[l['numero document']] = l['Code client sorifa']
+            
+            if l['Code client sorifa'] not in allSorifa:
+                allSorifa.append(l['Code client sorifa'])
+            if l['code article'] not in allProducts:
+                allProducts.append(l['code article'])
+               
+    print('All sorifa ',len(allSorifa))
     
-    for p in Produits:
-        if p['EAN__c'] not in byEAN.keys():
-            byEAN[p['EAN__c']] = p['Id'] 
-    updateRex = []
-    for r in recs :
-        if r['Code_EAN_EURODEP__c'] in byEAN.keys():
-           updateRex.append({'Id':r['Id'],'Produit__c':byEAN[r['Code_EAN_EURODEP__c']],'Code_EAN_EURODEP__c':''})
-    sf.bulk.Commande__c.update(updateRex)
-    '''
+    qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
+    
+    qryFindProduits =' select id, ProductCode from Product2 where ProductCode in ('+  ','.join(["\'%s\'" % c for c in allProducts])+')'
+    
+    
+       
 if __name__ == '__main__':
     processFile()
