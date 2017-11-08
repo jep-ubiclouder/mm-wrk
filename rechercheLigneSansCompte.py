@@ -107,7 +107,7 @@ def process():
         
         for idLC in unknownCompteByFacture[k] :
             if k in byFacture.keys() and byFacture[k] in bySorifa.keys():
-                readyToUpdate.append({'Id':idLC,'Compte__c':bySorifa[byFacture[k]] })
+                readyToUpdate.append({'Id':idLC,'Compte__c':bySorifa[byFacture[k]][0] })
     
     print(len(readyToUpdate))
     print(readyToUpdate[-5:])
@@ -119,7 +119,7 @@ def process():
     
     
     r = sf.bulk.Commande__c.update(readyToUpdate)
-    
+    print(r)
 def findLeads():
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     qry  ='SELECT id,Bon_de_livraison__c,Code_Client_EURODEP__c,Code_EAN_EURODEP__c,Compte__c,C_A_Brut__c,C_A_Net__c,Date_de_commande__c,Facture__c,Ligne__c,Prix_Brut__c,Prix_Net__c,Produit__c,Quantite__c,Reference_Client__c FROM Commande__c where compte__c = null and Code_Client_EURODEP__c = null  order by Date_de_commande__c desc'
