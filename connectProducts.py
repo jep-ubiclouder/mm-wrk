@@ -66,11 +66,11 @@ def processFile():
             okAcc = False
             okPro = False
             Record = {}
-            Record['Quantite__c'] = l['quantité'] 
+            Record['Quantite__c'] = int(l['quantité']) 
             Record['Facture__c'] = l['numero document']
             Record['Ligne__c'] =l['ligne document']
-            Record['Prix_Net__c'] =  ''.join('.'.join(l['prix vente'].split(',')).split(' ')) ## l['prix vente'] 
-            Record['Prix_Brut__c'] = ''.join('.'.join(l['prix vente'].split(',')).split(' '))
+            Record['Prix_Net__c'] =  float(''.join('.'.join(l['prix vente'].split(',')).split(' '))) ## l['prix vente'] 
+            Record['Prix_Brut__c'] = float(''.join('.'.join(l['prix vente'].split(',')).split(' ')))
             # total valeur
             # '-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
             dwrk = l['date mouvement']
