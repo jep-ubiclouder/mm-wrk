@@ -74,7 +74,7 @@ def processFile():
             # total valeur
             # '-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
             dwrk = l['date mouvement']
-            Record['Date_de_commande__c'] = '-'.join((dwrk[:4],dwrk[4:6],dwrk[6:]))
+            Record['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
             
             if l['code article'] in dictProds.keys():
                 Record['Produit__c'] = dictProds[l['code article']]
