@@ -90,7 +90,7 @@ def processFile():
     print(Insertions)
     print('Taille insertion',len(Insertions),'lignes ds fichier',cpt)
     
-    # sf.bulk.Commande__c.insert(Insertions)
+    sf.bulk.Commande__c.insert(Insertions)
     print('fini! ')
 if __name__ == '__main__':
     processFile()
