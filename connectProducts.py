@@ -86,7 +86,7 @@ def processFile():
             if okPro and okAcc:
                 Insertions.append(Record)
             else:
-                print('anomalie',l['code article'],[l['Code client sorifa'])
+                print('anomalie',l['code article'],l['Code client sorifa'])
     print(Insertions)
     print('Taille insertion',len(Insertions),'lignes ds fichier',cpt)
 if __name__ == '__main__':
