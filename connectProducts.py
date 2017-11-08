@@ -22,7 +22,7 @@ def processFile():
     allSorifa =[]
     byFacture ={}
     allProducts =[]
-    with('./complementfev2017.csv','r') as c:
+    with('./complementfev2017.csv','r') as f:
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             # print(l['date mouvement'])
@@ -59,7 +59,7 @@ def processFile():
     
     Insertions = []
     cpt = 0        
-    with('./complementfev2017.csv','r') as c:
+    with('./complementfev2017.csv','r') as f:
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             cpt += 1
