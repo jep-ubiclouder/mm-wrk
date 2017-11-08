@@ -89,5 +89,8 @@ def processFile():
                 print('anomalie',l['code article'],l['Code client sorifa'])
     print(Insertions)
     print('Taille insertion',len(Insertions),'lignes ds fichier',cpt)
+    
+    sf.bulk.Commande__c.insert(Insertions)
+    print('fini! ')
 if __name__ == '__main__':
     processFile()
