@@ -176,7 +176,7 @@ def ventesInternet():
         okPro = False
         rec = {}
         
-        rec['Quantite__c'] = -1*int(l['quantité'])
+        rec['Quantite__c'] = -1*float(l['quantité'])
         rec['Facture__c'] = l['numero document']
         rec['Ligne__c'] =l['ligne document']
         try:
