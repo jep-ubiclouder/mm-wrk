@@ -169,6 +169,7 @@ def ventesInternet():
             dictProds[r['ProductCode']] = r['Id']   
     
     readyToUpdate =[]
+    
     ## ya plus qu'a preparer un tableau de dict pour les update
     for l in allLignes:
         okAcc = False
@@ -180,7 +181,8 @@ def ventesInternet():
         rec['Ligne__c'] =l['ligne document']
         try:
             float(l['prix vente'])+0.00
-        except  e:
+        except  :
+            print(l)
             sys.exit()
         rec['Prix_Net__c'] =  l['prix vente']
         dwrk = l['date mouvement']
