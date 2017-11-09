@@ -177,7 +177,7 @@ def ventesInternet():
     print('sorifa trouvés', len(bySorifa))
     
     
-    readyToUpdate =[]
+    """readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
     for k in unknownCompteByFacture.keys():
         
@@ -192,7 +192,7 @@ def ventesInternet():
     bornesup = tranche
     borneinf = 0
     
-    
+    """
     
     ## r = sf.bulk.Commande__c.update(readyToUpdate)
             
