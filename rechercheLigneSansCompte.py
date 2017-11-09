@@ -171,6 +171,8 @@ def ventesInternet():
     readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
     for l in allLignes:
+        okAcc = False
+        okPro = False
         rec = {}
         
         rec['Quantite__c'] = l['quantité']
@@ -184,7 +186,7 @@ def ventesInternet():
             rec['Produit__c'] = dictProds[l['code article']]
             okPro = True
         if l['Code client sorifa'] in bySorifa.keys():
-            rec['Compte__c'] = dictAccounts[l['Code client sorifa']]
+            rec['Compte__c'] = bySorifa[l['Code client sorifa']]
             okAcc = True
         
         if okPro and okAcc:
