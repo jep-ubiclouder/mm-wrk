@@ -147,7 +147,7 @@ def ventesInternet():
     print('All sorifa ',len(allSorifa))
     
     bySorifa = {}
-    qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
+    qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
     print(qryFindFromSorifa)
     csrSorifa = sf.query_all(qryFindFromSorifa)['records']
     for r in csrSorifa:
