@@ -185,6 +185,7 @@ def ventesInternet():
             print(l)
             sys.exit()
         rec['Prix_Net__c'] =  l['prix vente']
+        rec['Prix_Brut__c'] = l['prix vente']
         dwrk = l['date mouvement']
         rec['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
         
