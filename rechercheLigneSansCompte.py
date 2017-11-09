@@ -185,6 +185,8 @@ def ventesInternet():
         if l['code article'] in dictProds.keys():
             rec['Produit__c'] = dictProds[l['code article']]
             okPro = True
+        else:
+            print('anomalie produit',l)
         if l['Code client sorifa'] in bySorifa.keys():
             rec['Compte__c'] = bySorifa[l['Code client sorifa']][0]
             okAcc = True
