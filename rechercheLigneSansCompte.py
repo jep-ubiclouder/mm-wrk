@@ -183,8 +183,8 @@ def ventesInternet():
         if l['Code client sorifa'] in dictAccounts.keys():
             Record['Compte__c'] = dictAccounts[l['Code client sorifa']]
             okAcc = True
-        if l['Code_Client_SOFIRA__c']][0] in bySorifa.keys():
-            rec['Compte__c'] = bySorifa[l['Code_Client_SOFIRA__c']][0]]
+        if l['Code_Client_SOFIRA__c'][0] in bySorifa.keys():
+            rec['Compte__c'] = bySorifa[l['Code_Client_SOFIRA__c'][0]]
         
         readyToUpdate.append(rec)
 
