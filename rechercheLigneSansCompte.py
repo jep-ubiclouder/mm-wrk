@@ -178,7 +178,7 @@ def ventesInternet():
         rec['Quantite__c'] = l['quantité']
         rec['Facture__c'] = l['numero document']
         rec['Ligne__c'] =l['ligne document']
-        rec['Prix_Net__c'] =  float(l['prix vente'])
+        rec['Prix_Net__c'] =  l['prix vente']
         dwrk = l['date mouvement']
         rec['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
         
