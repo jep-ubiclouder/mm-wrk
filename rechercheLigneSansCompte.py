@@ -190,7 +190,8 @@ def ventesInternet():
         if l['Code client sorifa'] in bySorifa.keys():
             rec['Compte__c'] = bySorifa[l['Code client sorifa']][0]
             okAcc = True
-        
+        else:
+            print('anomalie Compte',l)
         if okPro and okAcc:
             readyToUpdate.append(rec)
 
