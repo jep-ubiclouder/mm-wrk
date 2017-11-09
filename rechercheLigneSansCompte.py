@@ -207,7 +207,7 @@ def ventesInternet():
     
     
     
-    ## r = sf.bulk.Commande__c.insert(readyToUpdate)
+    r = sf.bulk.Commande__c.insert(readyToUpdate)
       
 if __name__ == '__main__':
     ## process()
