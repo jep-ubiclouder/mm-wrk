@@ -176,7 +176,7 @@ def ventesInternet():
         okPro = False
         rec = {}
         
-        rec['Quantite__c'] = -1*l['quantité']
+        rec['Quantite__c'] = -1*int(l['quantité'])
         rec['Facture__c'] = l['numero document']
         rec['Ligne__c'] =l['ligne document']
         try:
@@ -208,7 +208,7 @@ def ventesInternet():
     
     
     
-    r = sf.bulk.Commande__c.insert(readyToUpdate)
+    # r = sf.bulk.Commande__c.insert(readyToUpdate)
       
 if __name__ == '__main__':
     ## process()
