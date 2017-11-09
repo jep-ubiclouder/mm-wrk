@@ -128,7 +128,7 @@ def ventesInternet():
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     
     allSorifa = []
-    
+    byFacture ={}
     
     with open('./Internet2017.csv','r') as f: # Internet2017.csv venteshisto.csv
         reader = csv.DictReader(f, delimiter=';')
@@ -138,12 +138,12 @@ def ventesInternet():
             ## print(dateclef)
             ## print(l['numero document']+dateclef)
             
-            if (l['numero document']+dateclef) in unknownCompteByFacture.keys():
-                if (l['numero document']+dateclef) not in byFacture.keys():
-                    byFacture[l['numero document']+dateclef] = l['Code client sorifa']
-                
-                if l['Code client sorifa'] not in allSorifa:
-                    allSorifa.append(l['Code client sorifa'])
+            
+            if (l['numero document']+dateclef) not in byFacture.keys():
+                byFacture[l['numero document']+dateclef] = l['Code client sorifa']
+            
+            if l['Code client sorifa'] not in allSorifa:
+                allSorifa.append(l['Code client sorifa'])
     print('All sorifa ',len(allSorifa))
     
     bySorifa = {}
