@@ -157,7 +157,7 @@ def ventesInternet():
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
         else:
             qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
-        
+        print(qryFindFromSorifa)
         csrSorifa = sf.query_all(qryFindFromSorifa)['records']
         compteur += 1
         borneinf =compteur*tranche
