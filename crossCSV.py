@@ -13,5 +13,5 @@ with open('./venteshisto.csv','r') as ventes:
     reader = csv.DictReader(ventes, delimiter=';') 
     for l in reader:
         if l['Code client sorifa'] in leadbyHDF.keys():
-            print("%s;%s;%s;%s;%s;%s"%(l['Code client sorifa'],leadbyHDF[l['Code client sorifa']],l['date mouvement'],l['quantité'],l['Référence / code article'],l['prix vente'])
+            print("%s;%s;%s;%s;%s;%s"%(l['Code client sorifa'],leadbyHDF[l['Code client sorifa']],l['date mouvement'],l['quantité'],l['code article'],l['prix vente']))
             
