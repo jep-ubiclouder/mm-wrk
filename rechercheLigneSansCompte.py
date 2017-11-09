@@ -181,10 +181,10 @@ def ventesInternet():
         rec['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
         
         if l['code article'] in dictProds.keys():
-            Record['Produit__c'] = dictProds[l['code article']]
+            rec['Produit__c'] = dictProds[l['code article']]
             okPro = True
         if l['Code client sorifa'] in dictAccounts.keys():
-            Record['Compte__c'] = dictAccounts[l['Code client sorifa']]
+            rec['Compte__c'] = dictAccounts[l['Code client sorifa']]
             okAcc = True
         if l['Code_Client_SOFIRA__c'][0] in bySorifa.keys():
             rec['Compte__c'] = bySorifa[l['Code_Client_SOFIRA__c'][0]]
