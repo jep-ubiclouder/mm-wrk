@@ -147,31 +147,11 @@ def ventesInternet():
     print('All sorifa ',len(allSorifa))
     
     bySorifa = {}
-    compteur = 0
-    tranche =199
-    bornesup = tranche
-    borneinf = 0
-    while bornesup < len(allSorifa):
-        ## Je cherche les id SF des code sorifa dont j'ai besoin
-        if bornesup>len(allSorifa):
-            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:]])+')'
-        else:
-            qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
-        print(qryFindFromSorifa)
-        csrSorifa = sf.query_all(qryFindFromSorifa)['records']
-        compteur += 1
-        borneinf =compteur*tranche
-        bornesup = (compteur+1)*tranche
-        ## print(len(csrSorifa))
-        if bornesup >= len(allSorifa):
-            bornesup = len(allSorifa)
-        for r in csrSorifa:
-            
-            bySorifa[r['Code_Client_SOFIRA__c']]=(r['Id'],r['Name'])
-            # pour la mise a jour
-            ## bySorifa[r['Code_Client_SOFIRA__c']]=r['Id']
-        ## print('inf',borneinf)
-        # print('sup',bornesup)
+    qryFindFromSorifa = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa[borneinf:bornesup]])+')'
+    print(qryFindFromSorifa)
+    csrSorifa = sf.query_all(qryFindFromSorifa)['records']
+    for r in csrSorifa:
+        bySorifa[r['Code_Client_SOFIRA__c']]=(r['Id'],r['Name'])
     for k in  bySorifa.keys():
         print("%s;%s;%s"%(k,bySorifa[k][1],bySorifa[k][0]))
     print('sorifa trouvés', len(bySorifa))
