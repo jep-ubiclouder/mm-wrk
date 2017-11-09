@@ -192,10 +192,10 @@ def ventesInternet():
     print(len(readyToUpdate))
     print(readyToUpdate[-5:])
     
-    """
+    
     
     ## r = sf.bulk.Commande__c.update(readyToUpdate)
-            
+      
 if __name__ == '__main__':
     ## process()
     ventesInternet()
