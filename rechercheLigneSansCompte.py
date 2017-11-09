@@ -48,7 +48,7 @@ def process():
     allSorifa =[]
     byFacture ={}
     # je relie les factures avec les code SORIFA
-    with open('./venteshisto.csv','r') as f:
+    with open('./Internet2017.csv','r') as f: # Internet2017.csv venteshisto.csv
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             # print(l['date mouvement'])
@@ -118,7 +118,7 @@ def process():
     
     
     
-    r = sf.bulk.Commande__c.update(readyToUpdate)
+    ## r = sf.bulk.Commande__c.update(readyToUpdate)
     # print(r)
 def findLeads():
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
