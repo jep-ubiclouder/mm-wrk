@@ -130,6 +130,7 @@ def ventesInternet():
     allSorifa = []
     byFacture ={}
     allLignes= []
+    allProducts =[]
     with open('./Internet2017.csv','r') as f: # Internet2017.csv venteshisto.csv
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
@@ -141,7 +142,9 @@ def ventesInternet():
             
             if (l['numero document']+dateclef) not in byFacture.keys():
                 byFacture[l['numero document']+dateclef] = l['Code client sorifa']
-            
+            if l['code article'] not in allProducts:
+                allProducts.append(l['code article'])
+                
             if l['Code client sorifa'] not in allSorifa:
                 allSorifa.append(l['Code client sorifa'])
     print('All sorifa ',len(allSorifa))
