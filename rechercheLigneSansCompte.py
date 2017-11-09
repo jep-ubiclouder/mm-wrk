@@ -183,13 +183,12 @@ def ventesInternet():
         if l['code article'] in dictProds.keys():
             rec['Produit__c'] = dictProds[l['code article']]
             okPro = True
-        if l['Code client sorifa'] in dictAccounts.keys():
+        if l['Code client sorifa'] in bySorifa.keys():
             rec['Compte__c'] = dictAccounts[l['Code client sorifa']]
             okAcc = True
-        if l['Code_Client_SOFIRA__c'][0] in bySorifa.keys():
-            rec['Compte__c'] = bySorifa[l['Code_Client_SOFIRA__c'][0]]
         
-        readyToUpdate.append(rec)
+        if okPro and okAcc:
+            readyToUpdate.append(rec)
 
     
     print(len(readyToUpdate))
