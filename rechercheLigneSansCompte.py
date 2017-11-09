@@ -176,7 +176,7 @@ def ventesInternet():
         okPro = False
         rec = {}
         
-        rec['Quantite__c'] = l['quantité']
+        rec['Quantite__c'] = -1*l['quantité']
         rec['Facture__c'] = l['numero document']
         rec['Ligne__c'] =l['ligne document']
         try:
@@ -184,8 +184,8 @@ def ventesInternet():
         except  :
             print(l)
             sys.exit()
-        rec['Prix_Net__c'] =  -1*l['prix vente']
-        rec['Prix_Brut__c'] = -1*l['prix vente']
+        rec['Prix_Net__c'] =  l['prix vente']
+        rec['Prix_Brut__c'] = l['prix vente']
         dwrk = l['date mouvement']
         rec['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
         
