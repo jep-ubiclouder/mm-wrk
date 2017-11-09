@@ -186,7 +186,7 @@ def ventesInternet():
             rec['Produit__c'] = dictProds[l['code article']]
             okPro = True
         if l['Code client sorifa'] in bySorifa.keys():
-            rec['Compte__c'] = bySorifa[l['Code client sorifa']]
+            rec['Compte__c'] = bySorifa[l['Code client sorifa']][0]
             okAcc = True
         
         if okPro and okAcc:
