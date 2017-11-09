@@ -129,7 +129,7 @@ def ventesInternet():
     
     allSorifa = []
     byFacture ={}
-    
+    allLignes= []
     with open('./Internet2017.csv','r') as f: # Internet2017.csv venteshisto.csv
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
@@ -137,7 +137,7 @@ def ventesInternet():
             dateclef='%s%s%s' %(l['date mouvement'][-4:],l['date mouvement'][3:5],l['date mouvement'][:2])
             ## print(dateclef)
             ## print(l['numero document']+dateclef)
-            
+            allLignes.append(l)
             
             if (l['numero document']+dateclef) not in byFacture.keys():
                 byFacture[l['numero document']+dateclef] = l['Code client sorifa']
@@ -152,25 +152,45 @@ def ventesInternet():
     csrSorifa = sf.query_all(qryFindFromSorifa)['records']
     for r in csrSorifa:
         bySorifa[r['Code_Client_SOFIRA__c']]=(r['Id'],r['Name'])
-    for k in  bySorifa.keys():
-        print("%s;%s;%s"%(k,bySorifa[k][1],bySorifa[k][0]))
+    ## for k in  bySorifa.keys():
+    ##    print("%s;%s;%s"%(k,bySorifa[k][1],bySorifa[k][0]))
     print('sorifa trouvés', len(bySorifa))
     
     
-    """readyToUpdate =[]
+    qryFindProduits =' select id, ProductCode from Product2 where ProductCode in ('+  ','.join(["\'%s\'" % c for c in allProducts])+')'
+    allProductIds = sf.query_all(qryFindProduits)['records'] 
+    
+    dictProds ={}
+    for r in allProductIds:
+        if r['ProductCode'] not in dictProds.keys():
+            dictProds[r['ProductCode']] = r['Id']   
+    
+    readyToUpdate =[]
     ## ya plus qu'a preparer un tableau de dict pour les update
-    for k in unknownCompteByFacture.keys():
+    for l in allLignes:
+        rec = {}
         
-        for idLC in unknownCompteByFacture[k] :
-            if k in byFacture.keys() and byFacture[k] in bySorifa.keys():
-                readyToUpdate.append({'Id':idLC,'Compte__c':bySorifa[byFacture[k]][0] })
+        rec['Quantite__c'] = l['quantité']
+        rec['Facture__c'] = l['numero document']
+        rec['Ligne__c'] =l['ligne document']
+        rec['Prix_Net__c'] =  float(''.join('.'.join(l['prix vente'].split(',')).split(' ')))
+        dwrk = l['date mouvement']
+        rec['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
+        
+        if l['code article'] in dictProds.keys():
+                Record['Produit__c'] = dictProds[l['code article']]
+                okPro = True
+            if l['Code client sorifa'] in dictAccounts.keys():
+                Record['Compte__c'] = dictAccounts[l['Code client sorifa']]
+                okAcc = True
+        if l['Code_Client_SOFIRA__c']][0] in bySorifa.keys():
+            rec['Compte__c'] = bySorifa[l['Code_Client_SOFIRA__c']][0]]
+        
+        readyToUpdate.append(rec)
+
     
     print(len(readyToUpdate))
     print(readyToUpdate[-5:])
-    compteur = 0
-    tranche =100
-    bornesup = tranche
-    borneinf = 0
     
     """
     
