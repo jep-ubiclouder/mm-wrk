@@ -367,7 +367,32 @@ def PruneAndGraft():
         for r in resContacts['records']:
             updateContacts.append({'Id':r['Id'],'AccountId':mapIds[r['AccountId']]})
         if len(updateContacts)> 0:
-            sf.bulk.Contact.update(updateContacts)   
+            sf.bulk.Contact.update(updateContacts)
+def connectLignes():
+    """ Essai de reconnecter les lignes aux comptes"""
+    sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    
+    qry = 'select id, Code_Client_EURODEP__c,Compte__c from commande__c where Code_Client_EURODEP__c !=null  and Compte__c = null' 
+    allEurodep = []
+    Lignes =  sf.query_all('qry')['records']
+    for r in Lignes:
+        if r['Code_Client_EURODEP__c'] not in allEurodep:
+            allEurodep.append(r['Code_Client_EURODEP__c'])
+    print(len(allEurodep))  
+    
+    # on cherche les id
+    qryAccounts = 'select id, Code_EURODEP__c from Account where Code_EURODEP__c in (' +','.["\'%s\'" % c for c in allEurodep]) + ')'
+    Comptes =  sf.query_all(aryAccounts)['records']
+    dictCompte = {}
+    for r in Comptes:
+        dictComptes[r['Code_EURODEP__c']] = r['Id']
+    forUpdate =[]
+    for r in Lignes:
+        if r['Code_Client_EURODEP__c'] in dictComptes.keys():
+        forUpdate.append({'Id':r['Id'],'Compte__c':dictComptes[r['Code_EURODEP__c']]})
+    print(len(forUpdate))
+    print(forUpdate[-6:])
+     
 if __name__ == '__main__':
     import argparse
 
@@ -387,5 +412,6 @@ if __name__ == '__main__':
         if fn != False:
             processFile(fn)
     else:
-        TryConnectComptes()
+        # TryConnectComptes()
+        connectLignes())
         PruneAndGraft()
