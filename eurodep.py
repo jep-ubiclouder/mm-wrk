@@ -389,8 +389,8 @@ def connectLignes():
     forUpdate =[]
     for r in Lignes:
         if r['Code_Client_EURODEP__c'] in dictComptes.keys():
-            print( r)
-            forUpdate.append({'Id':r['Id'],'Compte__c':dictComptes[r['Code_EURODEP__c']]})
+            ## print( r)
+            forUpdate.append({'Id':r['Id'],'Compte__c':dictComptes[r['Code_Client_EURODEP__c']]})
     print(len(forUpdate))
     print(forUpdate[-6:])
      
