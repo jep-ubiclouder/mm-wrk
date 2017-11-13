@@ -398,7 +398,7 @@ def connectLignes():
             forUpdate.append({'Id':r['Id'],'Compte__c':dictComptes[clef]})
     print(len(forUpdate))
     print(forUpdate[-6:])
-    #res = sf.bulk.Commande__c.update(forUpdate) 
+    res = sf.bulk.Commande__c.update(forUpdate) 
 if __name__ == '__main__':
     import argparse
 
