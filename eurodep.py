@@ -374,7 +374,7 @@ def connectLignes():
     
     qry = 'select id, Code_Client_EURODEP__c,Compte__c from commande__c where Code_Client_EURODEP__c !=null  and Compte__c = null' 
     allEurodep = []
-    Lignes =  sf.query_all('qry')['records']
+    Lignes =  sf.query_all(qry)['records']
     for r in Lignes:
         if r['Code_Client_EURODEP__c'] not in allEurodep:
             allEurodep.append(r['Code_Client_EURODEP__c'])
@@ -382,7 +382,7 @@ def connectLignes():
     
     # on cherche les id
     qryAccounts = 'select id, Code_EURODEP__c from Account where Code_EURODEP__c in (' +','.join(["\'%s\'" % c for c in allEurodep]) + ')'
-    Comptes =  sf.query_all(aryAccounts)['records']
+    Comptes =  sf.query_all(qryAccounts)['records']
     dictCompte = {}
     for r in Comptes:
         dictComptes[r['Code_EURODEP__c']] = r['Id']
