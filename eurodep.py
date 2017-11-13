@@ -377,7 +377,8 @@ def connectLignes():
     Lignes =  sf.query_all(qry)['records']
     for r in Lignes:
         if r['Code_Client_EURODEP__c'] not in allEurodep:
-            allEurodep.append(r['Code_Client_EURODEP__c'])
+            allEurodep.append(r['Code_Client_EURODEP__c'][:-3]+'000')
+            allEurodep.append(r['Code_Client_EURODEP__c'][:-3]+'515')
     print(len(allEurodep))  
     
     # on cherche les id
@@ -388,12 +389,16 @@ def connectLignes():
         dictComptes[r['Code_EURODEP__c']] = r['Id']
     forUpdate =[]
     for r in Lignes:
-        if r['Code_Client_EURODEP__c'] in dictComptes.keys():
-            ## print( r)
-            forUpdate.append({'Id':r['Id'],'Compte__c':dictComptes[r['Code_Client_EURODEP__c']]})
+        clef = ''
+        if r['Code_Client_EURODEP__c'][:-3]+'515' in dictComptes.keys():
+            clef = r['Code_Client_EURODEP__c'][:-3]+'515'
+        if r['Code_Client_EURODEP__c'][:-3]+'000' in dictComptes.keys():
+            clef = r['Code_Client_EURODEP__c'][:-3]+'000'
+        if clef != '':
+            forUpdate.append({'Id':r['Id'],'Compte__c':dictComptes[clef]})
     print(len(forUpdate))
     print(forUpdate[-6:])
-    res = sf.bulk.Commande__c.update(forUpdate) 
+    #res = sf.bulk.Commande__c.update(forUpdate) 
 if __name__ == '__main__':
     import argparse
 
