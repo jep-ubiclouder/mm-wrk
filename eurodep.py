@@ -381,7 +381,7 @@ def connectLignes():
     print(len(allEurodep))  
     
     # on cherche les id
-    qryAccounts = 'select id, Code_EURODEP__c from Account where Code_EURODEP__c in (' +','.["\'%s\'" % c for c in allEurodep]) + ')'
+    qryAccounts = 'select id, Code_EURODEP__c from Account where Code_EURODEP__c in (' +','.join(["\'%s\'" % c for c in allEurodep]) + ')'
     Comptes =  sf.query_all(aryAccounts)['records']
     dictCompte = {}
     for r in Comptes:
