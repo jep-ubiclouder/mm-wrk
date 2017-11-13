@@ -383,7 +383,7 @@ def connectLignes():
     # on cherche les id
     qryAccounts = 'select id, Code_EURODEP__c from Account where Code_EURODEP__c in (' +','.join(["\'%s\'" % c for c in allEurodep]) + ')'
     Comptes =  sf.query_all(qryAccounts)['records']
-    dictCompte = {}
+    dictComptes = {}
     for r in Comptes:
         dictComptes[r['Code_EURODEP__c']] = r['Id']
     forUpdate =[]
