@@ -44,7 +44,11 @@ if __name__ == "__main__":
                 inserts.append(rec)
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
-            if cpt > 5:
+            if cpt > 350:
                 print(inserts)
-                sys.exit()
+                
+                ## sf.bulk.Lead.insert(inserts)
+                cpt = 0
+                inserts =[]
+                
     print(cpt)
