@@ -39,8 +39,8 @@ if __name__ == "__main__":
                     # print(elem,l[elem],mapChamps[elem])
             if len(rec)> 0:
                 rec['Categorie_de_client__c']='a020Y000002lgVTQAY'
-                rec['Tarif']= 'a030Y000003HzI2QAK'
-                rec['Reglement'] = 'a050Y000000kCUPQA2'
+                rec['Tarif__c']= 'a030Y000003HzI2QAK'
+                rec['Reglement__c'] = 'a050Y000000kCUPQA2'
                 ## rec['Status'] = 'Nouveau'
                 rec['Company'] =l['F_Raison_sociale']
                 rec['LastName'] =l['F_Raison_sociale']
