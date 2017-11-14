@@ -28,7 +28,7 @@ if __name__ == "__main__":
     cpte = 0
     recordstodelete = sf.query_all(qryDelete)['records']
     for r in recordstodelete:
-        tobeDel.append(r['Id'])
+        tobeDel.append({'Id':r['Id']})
         cpte += 1
         if cpte > 950:
             sf.bulk.lead.delete(tobeDel)
