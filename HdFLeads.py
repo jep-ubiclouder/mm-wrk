@@ -8,7 +8,10 @@ if __name__ == "__main__":
     dom1 = parse('./schema.xml')
     lines = dom1.getElementsByTagName("mapperTableEntries")
     for l in lines:
-        print(l.getAttribute('name'),'=>',l.getAttribute('expression').split('.')[1])
+        if l.getAttribute('expression') != None:
+            source = l.getAttribute('expression').split('.')[1]
+            dest = l.getAttribute('name') 
+        print(source ,'=>', dest)
     cpt = 0   
     with open('./finalImport.csv','r') as f: # Internet2017.csv venteshisto.csv
         reader = csv.DictReader(f, delimiter=';')
