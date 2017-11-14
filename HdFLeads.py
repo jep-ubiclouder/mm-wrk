@@ -61,7 +61,8 @@ if __name__ == "__main__":
                 rec['Type_TVA__c']='Soumis'
                 if len(l['Groupement_1'])> 0:
                     if l['Groupement_1'] in groupsByName.keys():
-                        print(group)
+                        print(groupsByName[l['Groupement_1']]) 
+                        # print(group)
                 inserts.append(rec)
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
