@@ -42,7 +42,8 @@ if __name__ == "__main__":
                 rec['Tarif']= 'a030Y000003HzI2QAK'
                 rec['Reglement'] = 'a050Y000000kCUPQA2'
                 rec['Status'] = 'Nouveau'
-                
+                rec['Company'] =l['F_Raison_sociale']
+                rec['LastName'] =l['F_Raison_sociale']
                 inserts.append(rec)
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
