@@ -9,6 +9,7 @@ if __name__ == "__main__":
     lines = dom1.getElementsByTagName("mapperTableEntries")
     for l in lines:
         if l.getAttribute('expression') != None:
+            print('source', l.getAttribute('expression'))
             source = l.getAttribute('expression').split('.')[1]
             dest = l.getAttribute('name') 
         print(source ,'=>', dest)
