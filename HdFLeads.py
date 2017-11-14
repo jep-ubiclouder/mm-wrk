@@ -41,19 +41,19 @@ if __name__ == "__main__":
                 rec['Categorie_de_client__c']='a020Y000002lgVTQAY'
                 rec['Tarif__c']= 'a030Y000003HzI2QAK'
                 rec['Reglement__c'] = 'a050Y000000kCUPQA2'
-                ## rec['Status'] = 'Nouveau'
+                rec['Status'] = 'Nouveau'
                 rec['Company'] =l['F_Raison_sociale']
                 rec['LastName'] =l['F_Raison_sociale']
                 rec['Type_TVA__c']='Soumis'
                 inserts.append(rec)
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
-            if cpt > 5:
+            if cpt > 350:
                 print(rec)
                 ## sys.exit()
                 sf.bulk.Lead.insert(inserts)
                 cpt = 0
                 inserts =[]
-                sys.exit()
+                # sys.exit()
     print(cpt)
-    ## sf.bulk.Lead.insert(inserts)
+    sf.bulk.Lead.insert(inserts)
