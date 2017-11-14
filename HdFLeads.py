@@ -12,7 +12,7 @@ if __name__ == "__main__":
     for l in lines:
         if len(l.getAttribute('expression'))> 3 :
             # print('source', l.getAttribute('expression'))
-            source = l.getAttribute('expression').split('.')[1]
+            source = l.getAttribute('expression').split('.')[1][:-1]
             dest = l.getAttribute('name')
             mapChamps[source] = dest 
             print(source ,'=>', dest)
