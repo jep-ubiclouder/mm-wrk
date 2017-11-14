@@ -6,4 +6,4 @@ import sys
 if __name__ == "__main__":
   pass
   dom1 = parse('./schema.xml')
-  print(dom1)
+  print(dom1.getElementsByTagName("mapperTableEntries"))
