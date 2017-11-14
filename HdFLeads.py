@@ -30,7 +30,7 @@ if __name__ == "__main__":
     for r in recordstodelete:
         tobeDel.append(r['Id'])
         cpte += 1
-        for cpte > 950:
+        if cpte > 950:
             sf.bulk.lead.delete(tobeDel)
             cpte= 0
             tobeDel=[]
