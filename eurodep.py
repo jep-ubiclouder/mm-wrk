@@ -245,8 +245,9 @@ def processFile(fname):
             
             ## print(tmp)
             try:
-                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
                 LigneTraitee.append(r)
+                sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+                
             except all_errors as e:
                 print(e)
         elif r['CODCLI'] in byEurodep.keys() and r['EAN ART'] not in byEAN.keys():
