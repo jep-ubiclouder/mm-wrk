@@ -8,7 +8,7 @@ if __name__ == "__main__":
     dom1 = parse('./schema.xml')
     lines = dom1.getElementsByTagName("mapperTableEntries")
     for l in lines:
-        if len(l.getAttribute('expression')> 3 :
+        if len(l.getAttribute('expression'))> 3 :
             print('source', l.getAttribute('expression'))
             source = l.getAttribute('expression').split('.')[1]
             dest = l.getAttribute('name') 
