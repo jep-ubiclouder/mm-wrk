@@ -322,8 +322,10 @@ def processFile(fname):
     for k in CompteInconnus.keys():
         cpteDump.write(CompteInconnus[k][0] + '\n')
     cpteDump.close()
+    
     if len(LigneTraitee)>0:
         envoiemailTraite(LigneTraitee)
+        
     ## TODO
     ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
     if len(CompteInconnus.keys())>0:
