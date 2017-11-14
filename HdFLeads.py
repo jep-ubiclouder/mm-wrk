@@ -34,7 +34,7 @@ if __name__ == "__main__":
             cpt +=1
             for elem in l :
                 if len(l[elem])>0:
-                    print(elem,l[elem])
+                    print(elem,l[elem],mapChamps[elem])
             # 'Categorie_de_client__c'='a020Y000002lgVTQAY''
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
