@@ -23,7 +23,7 @@ if __name__ == "__main__":
     qryGroupement =  'select id,Name from Groupement__c'            
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
     
-    """tobeDel =[]
+    tobeDel =[]
     qryDelete = 'SELECT Id from Lead WHERE CreatedDate >=2017-11-14T13:29:00Z'
     cpte = 0
     recordstodelete = sf.query_all(qryDelete)['records']
@@ -34,7 +34,7 @@ if __name__ == "__main__":
             sf.bulk.lead.delete(tobeDel)
             cpte= 0
             tobeDel=[]
-    sf.bulk.lead.delete(tobeDel)"""
+    sf.bulk.lead.delete(tobeDel)
     groups =  sf.query_all(qryGroupement)['records']
     groupsByName ={}
     for g in groups:
@@ -62,7 +62,7 @@ if __name__ == "__main__":
                 if len(l['Groupement_1'])> 0:
                     if l['Groupement_1'] in groupsByName.keys():
                         print(groupsByName[l['Groupement_1']]) 
-                        rec['Groupement1__c'] = l['Groupement_1']
+                        rec['Groupement1__c'] =groupsByName[l['Groupement_1']]
                         # print(group)
                 inserts.append(rec)
             #'Tarif'= 'a030Y000003HzI2QAK'
