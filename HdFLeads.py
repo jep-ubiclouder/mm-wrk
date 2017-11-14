@@ -22,6 +22,19 @@ if __name__ == "__main__":
                 
     qryGroupement =  'select id,Name from Groupement__c'            
     sf = Salesforce(username='projets@homme-de-fer.com', password='ubiclouder$2017', security_token='mQ8aTUVjtfoghbJSsZFhQqzJk')
+    
+    tobeDel =[]
+    qryDelete = 'SELECT Id from Lead WHERE CreatedDate >=2017-11-14T13:29:00Z'
+    cpte = 0
+    recordstodelete = sf.query_all(qryDelete)['records']
+    for r in recordstodelete:
+        tobeDel.append(r['Id'])
+        cpte += 1
+        for cpte > 950:
+            sf.bulk.lead.delete(tobeDel)
+            cpte= 0
+            tobeDel=[]
+    sf.bulk.lead.delete(tobeDel)
     groups =  sf.query_all(qryGroupement)['records']
     groupsByName ={}
     for g in groups:
@@ -42,18 +55,22 @@ if __name__ == "__main__":
                 rec['Tarif__c']= 'a030Y000003HzI2QAK'
                 rec['Reglement__c'] = 'a050Y000000kCUPQA2'
                 rec['Status'] = 'Nouveau'
+                
                 rec['Company'] =l['F_Raison_sociale']
                 rec['LastName'] =l['F_Raison_sociale']
                 rec['Type_TVA__c']='Soumis'
+                if len(l['Groupement_1'])> 0:
+                    if l['Groupement_1'] in groupsByName.keys():
+                        print(group)
                 inserts.append(rec)
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
             if cpt > 350:
                 print(rec)
                 ## sys.exit()
-                sf.bulk.Lead.insert(inserts)
+                ## sf.bulk.Lead.insert(inserts)
                 cpt = 0
                 inserts =[]
                 # sys.exit()
     print(cpt)
-    sf.bulk.Lead.insert(inserts)
+    # sf.bulk.Lead.insert(inserts)
