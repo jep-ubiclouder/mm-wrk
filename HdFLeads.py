@@ -33,7 +33,7 @@ if __name__ == "__main__":
         for l in reader:
             cpt +=1
             for elem in l:
-                print(l)
+                print(elem)
             # 'Categorie_de_client__c'='a020Y000002lgVTQAY''
             #'Tarif'= 'a030Y000003HzI2QAK'
             # 'Reglement' = 'a050Y000000kCUPQA2'
