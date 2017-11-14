@@ -45,6 +45,36 @@ def getfromFTP(compactDate):
     for t in truc:
         eurodep.retrbinary('RETR %s' % t, open('%s' % t, 'wb').write)
     return truc[0]
+def envoiemailTraite(LigneTraitee):
+    ''' Envoie une liste des lignes traitées'''
+    import smtplib
+    # [r['CODCLI'],r['NOM'],r['ADRESSE'],r['CP'],r['VILLE']]
+    texteHTML= """
+    Bonjour,<br/>
+    Voici une liste des lignes intégrées dans le fichier du jour<br/>
+    """  
+    tableau = '''<table>
+    <tr><th>Facture </th><th>Code Eurodep </th><th> Nom </th><th> Ville </th><th> Produit </th><th> Qté</th><th> Total Net</th></tr>'''
+    for r in LigneTraitee:
+        
+        record =  "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"%(r['NOFAC],'r['CODCLI'],r['NOM'],r['VILLE'],r['DES'],r['QTE'],r['TOTNET'])
+        tableau += record
+    tableau +='</table>'
+    texteHTML += tableau
+    
+    print(texteHTML)
+    from email.mime.text import MIMEText
+    msg = MIMEText(texteHTML, 'html')
+    msg['Subject'] = 'Lignes Integrées'
+    msg['From'] = 'lignesdecommandes@batch.sorifa.com'
+    msg['To'] = 'LBRONNER@homme-de-fer.com,jep@ubiclouder.com'
+    # Send the message via our own SMTP server.
+    s = smtplib.SMTP('localhost')
+    s.send_message(msg)
+    s.quit()
+    print('Email Comptes envoyé')
+    
+
 def envoieEmailAnomalieProduit(Liste):
     import smtplib
     ''' Envoie une liste des anomalie de EAN survenues lors de l'import Eurodep'''
@@ -66,8 +96,8 @@ def envoieEmailAnomalieProduit(Liste):
     from email.mime.text import MIMEText
     msg = MIMEText(texteHTML, 'html')
     msg['Subject'] = 'EAN Inconnus'
-    msg['From'] = 'lignesdecommandes@mm-aws.com'
-    msg['To'] = 'jean-eric.preis@ubiclouder.com, LBRONNER@homme-de-fer.com'
+    msg['From'] = 'lignesdecommandes@batch.sorifa.com'
+    msg['To'] = 'LBRONNER@homme-de-fer.com,jep@ubiclouder.com'
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
@@ -97,8 +127,8 @@ def envoieEmailCI(clientsInconnus):
     from email.mime.text import MIMEText
     msg = MIMEText(texteHTML, 'html')
     msg['Subject'] = 'Compte Inconnus'
-    msg['From'] = 'lignesdecommandes@mm-aws.com'
-    msg['To'] = 'jean-eric.preis@ubiclouder.com, LBRONNER@homme-de-fer.com'
+    msg['From'] = 'lignesdecommandes@batch.sorifa.com'
+    msg['To'] = 'LBRONNER@homme-de-fer.com,jep@ubiclouder.com'
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
@@ -195,7 +225,7 @@ def processFile(fname):
     
     CompteInconnus  = {}
     EANInconnus = []
-    
+    LigneTraitee =[]
     for r in dujour:
     # print(r)
         if r['CODCLI'] in byEurodep.keys() and r['EAN ART'] in byEAN.keys():
@@ -216,6 +246,7 @@ def processFile(fname):
             ## print(tmp)
             try:
                 sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
+                LigneTraitee.append(r)
             except all_errors as e:
                 print(e)
         elif r['CODCLI'] in byEurodep.keys() and r['EAN ART'] not in byEAN.keys():
@@ -290,6 +321,8 @@ def processFile(fname):
     for k in CompteInconnus.keys():
         cpteDump.write(CompteInconnus[k][0] + '\n')
     cpteDump.close()
+    if len(LigneTraitee)>0:
+        envoiemailTraite(LigneTraitee)
     ## TODO
     ## Dump les CompteInconnus dans un fichier COMPTESINCONNU a la fin
     if len(CompteInconnus.keys())>0:
