@@ -241,6 +241,7 @@ def processFile(fname):
             tmp['Ligne__c'] = r['LIGNE FAC']
             tmp['Compte__c'] =  byEurodep[r['CODCLI']]
             
+            tmp['CA_Eurodep__c'] = r['TOTNET']
             keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
             
             ## print(tmp)
@@ -262,7 +263,7 @@ def processFile(fname):
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
             tmp['Compte__c'] =  byEurodep[r['CODCLI']]
-            
+            tmp['CA_Eurodep__c'] = r['TOTNET']
             keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
             try:
                 sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
@@ -283,7 +284,7 @@ def processFile(fname):
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
             tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
-            
+            tmp['CA_Eurodep__c'] = r['TOTNET']
             keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
             
             ## print(tmp)
@@ -303,7 +304,7 @@ def processFile(fname):
             tmp['Quantite__c'] = r['QTE']
             tmp['Ligne__c'] = r['LIGNE FAC']
             tmp['Code_Client_EURODEP__c'] =  r['CODCLI']
-            
+            tmp['CA_Eurodep__c'] = r['TOTNET']
             keyforupsert = r['NOFAC'] + str(r['LIGNE FAC'])
             try:
                 sf.Commande__c.upsert('ky4upsert__c/%s' % keyforupsert, tmp, raw_response=True)
