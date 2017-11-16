@@ -52,7 +52,7 @@ def process():
     print(len(mapSorifaIds.keys()))
     with open('./ClentFactures.csv','r') as f: # Internet2017.csv venteshisto.csv
         allSorifa =[]
-        allupdate ={}
+        allupdate =[]
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             if l['Parent']  in mapSorifaIds.keys() and l['Sorifa']  in mapSorifaIds.keys() :
