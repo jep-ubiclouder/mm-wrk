@@ -31,6 +31,6 @@ def process():
     qry = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
     ## print(qry)
     ## allBysorifa =  sf.query_all(qry)
-    print(,len(allSorifa))
+    print(len(allSorifa))
 if __name__== '__main__':
     process()
