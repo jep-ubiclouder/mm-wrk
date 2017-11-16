@@ -43,12 +43,12 @@ def process():
         
         if len(allSorifa)>0:         
             qry = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
-            
+            print('lastquery')
             allBysorifa =  sf.query_all(qry)['records']
             for r in allBysorifa:
                 if r['Code_Client_SOFIRA__c'] not in mapSorifaIds.keys():
                     mapSorifaIds[r['Code_Client_SOFIRA__c']] = r['Id']
     ## allBysorifa =  sf.query_all(qry)
-    print(len(allSorifa))
+    print(len(mapSorifaIds.keys()))
 if __name__== '__main__':
     process()
