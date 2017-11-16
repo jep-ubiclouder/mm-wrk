@@ -39,7 +39,7 @@ def process():
                     if r['Code_Client_SOFIRA__c'] not in mapSorifaIds.keys():
                         mapSorifaIds[r['Code_Client_SOFIRA__c']] = r['Id']
                 cpt= 0
-                 allSorifa =[]
+                allSorifa =[]
         
         if len(allSorifa)>0:         
             qry = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
