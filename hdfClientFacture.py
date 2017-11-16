@@ -31,7 +31,7 @@ def process():
             if l['Parent']  not in mapSorifaIds.keys():
                 allSorifa.append(l['Parent'])
             cpt +=1
-            if cpt> 800:
+            if cpt> 500:
                 qry = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
                 
                 allBysorifa =  sf.query_all(qry)['records']
