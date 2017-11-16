@@ -56,7 +56,7 @@ def process():
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             if l['Parent']  in mapSorifaIds.keys() and l['Sorifa']  in mapSorifaIds.keys() :
-                allupdate.append({'Id': mapSorifaIds[l['Sorifa']],'ParentId':mapSorifaIds[l['Sorifa']]})
+                allupdate.append({'Id': mapSorifaIds[l['Sorifa']],'ParentId':mapSorifaIds[l['Parent']]})
     res = sf.bulk.Account.update(allupdate)  
              
 if __name__== '__main__':
