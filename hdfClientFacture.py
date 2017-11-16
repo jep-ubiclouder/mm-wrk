@@ -50,5 +50,13 @@ def process():
                     mapSorifaIds[r['Code_Client_SOFIRA__c']] = r['Id']
     ## allBysorifa =  sf.query_all(qry)
     print(len(mapSorifaIds.keys()))
+    with open('./ClentFactures.csv','r') as f: # Internet2017.csv venteshisto.csv
+        allSorifa =[]
+        allupdate ={}
+        reader = csv.DictReader(f, delimiter=';')
+        for l in reader:
+            if l['Parent']  in mapSorifaIds.keys() and l['Sorifa']  in mapSorifaIds.keys() :
+                allupdate.append({'Id': mapSorifaIds[l['Sorifa']],'ParentId':mapSorifaIds[l['Sorifa']]})
+    print(len(allupdate))            
 if __name__== '__main__':
     process()
