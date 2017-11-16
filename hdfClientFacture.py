@@ -29,7 +29,7 @@ def process():
             if l['Parent']  not in allSorifa:
                 allSorifa.append(l['Parent'])
     qry = 'select id,Code_Client_SOFIRA__c,Name from Account where Code_Client_SOFIRA__c in ('+','.join(["\'%s\'" % c for c in allSorifa])+')'
-    allBysorifa =  sf.query_all(qry)['records']
-    print(len(allBysorifa),len(allSorifa))
+    allBysorifa =  sf.query_all(qry)
+    print(len(allBysorifa['records']),len(allSorifa))
 if __name__== '__main__':
     process()
