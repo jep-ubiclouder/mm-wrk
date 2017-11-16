@@ -57,7 +57,7 @@ def process():
         for l in reader:
             if l['Parent']  in mapSorifaIds.keys() and l['Sorifa']  in mapSorifaIds.keys() :
                 allupdate.append({'Id': mapSorifaIds[l['Sorifa']],'ParentId':mapSorifaIds[l['Sorifa']]})
-    print(len(allupdate),allupdate[-1])   
+    res = sf.bulk.Account.update(allupdate)  
              
 if __name__== '__main__':
     process()
