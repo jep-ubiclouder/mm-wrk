@@ -53,7 +53,7 @@ def process():
                 ## Record['Ligne__c'] =l['ligne document']
                 Record['Prix_Net__c'] =  float(''.join('.'.join(l['prinet'].split(',')).split(' '))) ## l['prix vente'] 
                 Record['Prix_Brut__c'] = float(''.join('.'.join(l['pbrut'].split(',')).split(' ')))
-                Record['Commande__c']l['Commande'] 
+                Record['Commande__c']=l['Commande'] 
                 # total valeur
                 # '-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
                 dwrk = l['datfac']
