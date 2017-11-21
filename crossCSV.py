@@ -12,7 +12,7 @@ def process():
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             if l['article'] not in allProduits:
-                allProduits.append(l['Article'])
+                allProduits.append(l['article'])
 
     print(allProduits,len(allProduits))
 if __name__ == '__main__':
