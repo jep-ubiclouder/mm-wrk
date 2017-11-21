@@ -65,8 +65,8 @@ def process():
                 Record['Compte__c'] = ComptesByEurodep[clefEurodep]
             else:
                 continue
-            if l['Code_EURODEP__c'] in  ProduitsByEurodep.keys():
-                Record['Produit__c'] =  ProduitsByEurodep[l['Code_EURODEP__c']]  
+            if l['Code Ean'] in  ProduitsByEurodep.keys():
+                Record['Produit__c'] =  ProduitsByEurodep[l['Code Ean']]  
             else:
                 continue
             inserts.append(Record)
