@@ -8,8 +8,8 @@ def process():
     
     allProduits = []
     allComptes =[]
-    with open('./Fev2017.csv','r') as f: # Internet2017.csv venteshisto.csv
-        allSorifa =[]
+    allSorifa =[]
+    with open('./Fev2017.csv','r') as f: # Internet2017.csv venteshisto.csv        
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             if l['Code Ean'] not in allProduits:
@@ -29,12 +29,47 @@ def process():
     print(qryAllProductBySORIFA)
     recsP = sf.query_all(qryAllProductBySORIFA)['records']
     print(len(recsP))
+    ProduitsByEurodep = {}
     
+    for r in recsP:
+        ProduitsByEurodep[r['EAN__C']] = r['Id']
     print(allComptes,len(allComptes))
     qryAllComptes = 'select id,Code_EURODEP__c,Name from Account where Code_EURODEP__c in ('+','.join(["\'%s\'" % c for c in allComptes])+')'
     recsA = sf.query_all(qryAllComptes)['records']
     print(len(allComptes),  len(recsA))
+    ComptesByEurodep ={}
+    for r in recsA:
+        ComptesByEurodep[r['Code_EURODEP__c']] =  r['Id']
     
+    inserts =[]
+    with open('./Fev2017.csv','r') as f: # Internet2017.csv venteshisto.csv        
+        reader = csv.DictReader(f, delimiter=';')
+        for l in reader:
+            Record = {}
+            Record['Quantite__c'] = int(l['QTE']) 
+            Record['Facture__c'] = l['nofac']
+            ## Record['Ligne__c'] =l['ligne document']
+            Record['Prix_Net__c'] =  float(''.join('.'.join(l['prinet'].split(',')).split(' '))) ## l['prix vente'] 
+            Record['Prix_Brut__c'] = float(''.join('.'.join(l['pbrut'].split(',')).split(' ')))
+            # total valeur
+            # '-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
+            dwrk = l['datfac']
+            Record['Date_de_commande__c'] = '-'.join((dwrk[-4:],dwrk[3:5],dwrk[:2]))
+            clefEurodep =False
+            if l['code client Eurodep'][:-3]+'000' in ComptesByEurodep.keys():
+                clefEurodep = l['code client Eurodep'][:-3]+'000'
+            if l['code client Eurodep'][:-3]+'51' in ComptesByEurodep.keys():
+                clefEurodep = l['code client Eurodep'][:-3]+'515'
+            if clefEurodep != False:
+                Record['Compte__c'] = ComptesByEurodep[clefEurodep]
+            else:
+                continue
+            if l['EAN__C'] in  ProduitsByEurodep.keys():
+                Record['Produit__c'] =  ProduitsByEurodep[l['EAN__C']]  
+            else:
+                continue
+            inserts.append(Record)
+    print(len(inserts))
 if __name__ == '__main__':
     process()
 
