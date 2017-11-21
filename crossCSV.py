@@ -32,6 +32,7 @@ def process():
     ProduitsByEurodep = {}
     
     for r in recsP:
+        print(r)
         ProduitsByEurodep[r['EAN__C']] = r['Id']
     print(allComptes,len(allComptes))
     qryAllComptes = 'select id,Code_EURODEP__c,Name from Account where Code_EURODEP__c in ('+','.join(["\'%s\'" % c for c in allComptes])+')'
