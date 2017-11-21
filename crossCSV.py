@@ -11,11 +11,11 @@ def process():
         allSorifa =[]
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
-            if l['article'] not in allProduits:
-                allProduits.append(l['article'])
+            if l['Code Ean'] not in allProduits:
+                allProduits.append(l['Code Ean'])
 
     print(allProduits,len(allProduits))
-    qryAllProductBySORIFA = 'select id,ProductCode,Name from Product2 where ProductCode in ('+','.join(["\'%s\'" % c for c in allProduits])+')'
+    qryAllProductBySORIFA = 'select id,EAN__c,Name from Product2 where EAN__c in ('+','.join(["\'%s\'" % c for c in allProduits])+')'
     
     print(qryAllProductBySORIFA)
     recs = sf.query_all(qryAllProductBySORIFA)['records']
