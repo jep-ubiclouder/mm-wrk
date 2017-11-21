@@ -18,7 +18,7 @@ def process():
     qryAllProductBySORIFA = 'select id,ProductCode,Name from Product2 where ProductCode in ('+','.join(["\'%s\'" % c for c in allProduits])+')'
     
     print(qryAllProductBySORIFA)
-    recs = sf.qry_all(qryAllProductBySORIFA)
+    recs = sf.query_all(qryAllProductBySORIFA)['records']
     print(recs,len(recs))
 if __name__ == '__main__':
     process()
