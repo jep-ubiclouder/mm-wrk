@@ -48,12 +48,12 @@ def process():
         for l in reader:
             try:
                 Record = {}
-                Record['Quantite__c'] = int(l['QTE'].split(',')[0]) 
+                Record['Quantite__c'] = l['QTE'].split(',')[0] 
                 Record['Facture__c'] = l['nofac']
                 ## Record['Ligne__c'] =l['ligne document']
                 Record['Prix_Net__c'] =  float(''.join('.'.join(l['prinet'].split(',')).split(' '))) ## l['prix vente'] 
                 Record['Prix_Brut__c'] = float(''.join('.'.join(l['pbrut'].split(',')).split(' ')))
-                Record['Commande__c']=l['Commande'] 
+                
                 # total valeur
                 # '-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
                 dwrk = l['datfac']
