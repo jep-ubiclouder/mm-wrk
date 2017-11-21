@@ -64,8 +64,9 @@ def process():
                     clefEurodep = l['code client Eurodep'][:-3]+'515'
                 if clefEurodep != False:
                     Record['Compte__c'] = ComptesByEurodep[clefEurodep]
-                    print('PAS DE COMPTE',l)
+                    
                 else:
+                    print('PAS DE COMPTE',l)
                     continue
                 if l['Code Ean'] in  ProduitsByEurodep.keys():
                     Record['Produit__c'] =  ProduitsByEurodep[l['Code Ean']]  
