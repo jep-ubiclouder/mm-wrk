@@ -14,12 +14,14 @@ def process():
         for l in reader:
             if l['Code Ean'] not in allProduits:
                 allProduits.append(l['Code Ean'])
-            if l['code client Eurodep'] not in allComptes:
-                allComptes.append(l['code client Eurodep'])
-            if l['code client Eurodep'][:-3]+'515' not in allComptes:
-                allComptes.append(l['code client Eurodep'][:-3]+'515')
-            if l['code client Eurodep'][:-3]+'000' not in allComptes:
-                allComptes.append(l['code client Eurodep'][:-3]+'000')
+            
+            if len(l['code client Eurodep']) >3:
+                if l['code client Eurodep'] not in allComptes:
+                    allComptes.append(l['code client Eurodep'])
+                if l['code client Eurodep'][:-3]+'515' not in allComptes:
+                    allComptes.append(l['code client Eurodep'][:-3]+'515')
+                if l['code client Eurodep'][:-3]+'000' not in allComptes:
+                    allComptes.append(l['code client Eurodep'][:-3]+'000')
 
     print(allProduits,len(allProduits))
     qryAllProductBySORIFA = 'select id,EAN__c,Name from Product2 where EAN__c in ('+','.join(["\'%s\'" % c for c in allProduits])+')'
