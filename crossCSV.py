@@ -47,7 +47,7 @@ def process():
         reader = csv.DictReader(f, delimiter=';')
         for l in reader:
             Record = {}
-            Record['Quantite__c'] = int(l['QTE']) 
+            Record['Quantite__c'] = int(l['QTE'].split(',')[0]) 
             Record['Facture__c'] = l['nofac']
             ## Record['Ligne__c'] =l['ligne document']
             Record['Prix_Net__c'] =  float(''.join('.'.join(l['prinet'].split(',')).split(' '))) ## l['prix vente'] 
