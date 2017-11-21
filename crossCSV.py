@@ -53,6 +53,7 @@ def process():
                 ## Record['Ligne__c'] =l['ligne document']
                 Record['Prix_Net__c'] =  float(''.join('.'.join(l['prinet'].split(',')).split(' '))) ## l['prix vente'] 
                 Record['Prix_Brut__c'] = float(''.join('.'.join(l['pbrut'].split(',')).split(' ')))
+                Record['Commande__c']l['Commande'] 
                 # total valeur
                 # '-'.join((r['DATFAC'][:4],r['DATFAC'][4:6],r['DATFAC'][6:]))
                 dwrk = l['datfac']
@@ -76,7 +77,9 @@ def process():
             except Exception:
                 print(l) 
             inserts.append(Record)
+    
     print(len(inserts))
+    res =  sf.bulk.Commande__c.insert(inserts)
 if __name__ == '__main__':
     process()
 
