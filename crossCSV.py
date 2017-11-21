@@ -26,7 +26,7 @@ def process():
     
     qryAllComptes = 'select id,Code_EURODEP__c,Name from Account where Code_EURODEP__c in ('+','.join(["\'%s\'" % c for c in allComptes])+')'
     recsA = sf.query_all(qryAllComptes)['records']
-    print(len(recsA))
+    print(len(allcomptes), len(recsA))
     
 if __name__ == '__main__':
     process()
