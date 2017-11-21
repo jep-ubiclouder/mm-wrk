@@ -15,6 +15,9 @@ def process():
                 allProduits.append(l['article'])
 
     print(allProduits,len(allProduits))
+    qryAllProductBySORIFA = 'select id,ProductCode,Name from Product2 where ProductCode in ('+','.join(["\'%s\'" % c for c in allProduits])+')'
+    
+    print(qryAllProductBySORIFA)
 if __name__ == '__main__':
     process()
 
