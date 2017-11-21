@@ -24,9 +24,10 @@ def process():
     recsP = sf.query_all(qryAllProductBySORIFA)['records']
     print(len(recsP))
     
+    print(allComptes,len(allComptes))
     qryAllComptes = 'select id,Code_EURODEP__c,Name from Account where Code_EURODEP__c in ('+','.join(["\'%s\'" % c for c in allComptes])+')'
     recsA = sf.query_all(qryAllComptes)['records']
-    print(len(allcomptes), len(recsA))
+    print(len(allComptes), len(recsA))
     
 if __name__ == '__main__':
     process()
