@@ -67,7 +67,7 @@ def envoiemailTraite(LigneTraitee):
     msg = MIMEText(texteHTML, 'html')
     msg['Subject'] = 'Lignes Integrées'
     msg['From'] = 'lignesdecommandes@batch.sorifa.com'
-    msg['To'] = 'lbronner@homme-de-fer.com, jep@ubiclouder.com, dKannengieser@asyspro.fr'
+    msg['To'] = 'lbronner@homme-de-fer.com, jep@ubiclouder.com, dKannengieser@asyspro.fr, adevisme@homme-de-fer.com'
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
