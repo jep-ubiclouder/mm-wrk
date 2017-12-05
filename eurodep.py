@@ -61,7 +61,7 @@ def envoiemailTraite(LigneTraitee):
         tableau += record
     tableau +='</table>'
     texteHTML += tableau
-    
+     
     print(texteHTML)
     from email.mime.text import MIMEText
     msg = MIMEText(texteHTML, 'html')
