@@ -80,7 +80,7 @@ def sendmail(now, summary, errors, fullUpdate, no_op, isTest):
 <html>
   <head></head>
   <body>
-    <p>Bonjour Marie-Noëlle !<br>
+    <p>Bonjour Mirella !<br>
         Voici les resultats du batch pour la date:%s<br>
         <i>Enregistrements acceptés<i>
         <table>
@@ -106,7 +106,7 @@ def sendmail(now, summary, errors, fullUpdate, no_op, isTest):
     else:
         msg['Subject'] = 'resultat du jour'
         msg['From'] = 'lignesdecommandes@mm-aws.com'
-        msg['To'] = 'jean-eric.preis@ubiclouder.com, marie-noelle.marx@maisonmoderne.com'
+        msg['To'] = 'jean-eric.preis@ubiclouder.com, mirella.ciszewski@maisonmoderne.com, projets@ubiclouder.com'
     # Send the message via our own SMTP server.
     s = smtplib.SMTP('localhost')
     s.send_message(msg)
