@@ -62,7 +62,7 @@ def processData(mdc):
             
             recordSF ={}
             byLigne[ligne['field_club_soc_id_stockx']]={'Account':{},'Data_Integration_Account__c':mdc['internSF']['Data_Integration_Account__c'],'Data_Origin_Account__c':mdc['internSF']['Data_Origin_Account__c']}
-            pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
+            #pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
             ##  pp.pprint(ligne)
             for clef in ligne.keys():
                 if clef in mdc['drup2SF'].keys():
@@ -72,12 +72,12 @@ def processData(mdc):
                     objet = mdc['drup2SF'][clef]['Salesforce Object']
                     champ =mdc['drup2SF'][clef]['Salesforce Field']
                     byLigne[ligne['field_club_soc_id_stockx']][objet][champ]=ligne[clef]
-                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = "AAAAAA"
+                byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = byCSTX[ligne['field_club_soc_id_stockx']]
                     ## byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]     
                     #byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Additional_Reference__c'] = ligne    
                     
                     
-            #pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
+            pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
             cpte += 1
             if cpte > 10 :
                 import sys
