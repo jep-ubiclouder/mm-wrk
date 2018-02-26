@@ -62,10 +62,10 @@ def processData(mdc):
             for clef in ligne.keys():
                 if clef in mdc['drup2SF'].keys():
                     print('clef',clef)
-                    print('mdc[clef]',mdc[clef])
-                    print('mdc[clef][sf]',mdc[clef]['Salesforce Field'])
+                    print('mdc[clef]',mdc['drup2SF'][clef])
+                    print('mdc[clef][sf]',mdc['drup2SF'][clef]['Salesforce Field'])
                     
-                    recordSF[mdc[clef]['Salesforce Field']]=  ligne[clef]
+                    recordSF[mdc['drup2SF'][clef]['Salesforce Field']]=  ligne[clef]
             print(recordSF)
             cpte += 1
             if cpte > 10 :
