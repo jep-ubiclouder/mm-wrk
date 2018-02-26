@@ -66,7 +66,7 @@ def processData(mdc):
                 ##    print('mdc[clef]',mdc['drup2SF'][clef])
                 ##     print('mdc[clef][sf]',mdc['drup2SF'][clef]['Salesforce Field']) """    
                     recordSF[mdc['drup2SF'][clef]['Salesforce Field']]=  ligne[clef]
-            print(recordSF)
+            pp.pprint(recordSF)
             cpte += 1
             if cpte > 10 :
                 import sys
