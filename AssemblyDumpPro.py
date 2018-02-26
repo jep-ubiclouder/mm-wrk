@@ -67,6 +67,18 @@ def processOut():
     
     
 def processIn():
+    from simple_salesforce import (
+        Salesforce,
+        SalesforceAPI,
+        SFType,
+        SalesforceError,
+        SalesforceMoreThanOneRecord,
+        SalesforceExpiredSession,
+        SalesforceRefusedRequest,
+        SalesforceResourceNotFound,
+        SalesforceGeneralError,
+        SalesforceMalformedRequest
+    )
     sf = Salesforce(username='hp@maisonmoderne.lu.1assembdev', password='Ubi$2018', security_token='KhrfeUNWQz8Z60PDIKG8G8vO', sandbox=true)
     import csv
     strFieldsToInsert="BillingStreet;BillingCity;BillingState;BillingPostalCode;BillingCountry;ShippingStreet;ShippingCity;ShippingState;ShippingPostalCode;ShippingCountry;Phone;Fax;Website;Cle_Client_STOCKX__;Name"
