@@ -58,6 +58,7 @@ def processData(mdc):
         readData = csv.DictReader(dataDrup,delimiter=';')
         for ligne in readData:
             recordSF ={}
+            pp.pprint(ligne)
             for clef in ligne.keys():
                 if clef in mdc['drup2SF'].keys():
                     recordSF[mdc[clef]['Salesforce Field']]=  ligne[clef]
