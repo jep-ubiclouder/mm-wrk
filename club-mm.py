@@ -2,7 +2,6 @@ import sys
 
 def prepareMapChamps():
     import csv
-    import JSON
     resultat = {"drup2SF":{},"internSF":{}}
     with open('./mapping.club.company.csv','r') as mapCSV:
         lecteur = csv.DictReader(mapCSV,delimiter=';')
