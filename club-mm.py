@@ -74,7 +74,7 @@ def processData(mdc):
                     byLigne[ligne['field_club_soc_id_stockx']][objet][champ]=ligne[clef]
                     byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]
                     ## byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]     
-                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Additional_Reference__c'] = ligne    
+                    #byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Additional_Reference__c'] = ligne    
                     
                     
             pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
