@@ -53,11 +53,19 @@ def process():
     i = 0
     import csv
     with open('./Account.csv','w') as f:
-        w= csv.writer(f,delimiter=';')
+       """ w= csv.writer(f,delimiter=';')
         r = records[0]
         w.writerow(r.keys())
         for rec in records:
-            w.writerow(rec.values())
+            w.writerow(rec.values())"""
+            
+        fAccount =  csv.DictWriter(f,fieldnames=records[0].keys(),delimiter=';')
+        print(fAccount)
+        fAccount.writeheader()
+        
+        for r in records:
+            print(fAccount.writerow(r))
+
     import json     
     with open('./resultat.json','w',encoding="utf-8") as js:   
         for rec in records:
