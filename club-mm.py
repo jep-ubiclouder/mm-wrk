@@ -8,7 +8,7 @@ def prepareMapChamps():
         for r in lecteur:
             if r['To be imported?'] != 'VRAI':
                 continue
-            if r['Drupal Field'] is not None  and r['Drupal Field'] != 'All' :
+            if len(r['Drupal Field'])>0  and r['Drupal Field'] != 'All' :
                 resultat['drup2SF'][r['Drupal Field']] =r
                 ##cif r['Salesforce Object'] not in resultat['drup2SF'].keys():
                 ##c    resultat['drup2SF'][r['Salesforce Object']] ={}
