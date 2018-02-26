@@ -72,7 +72,7 @@ def processData(mdc):
                     objet = mdc['drup2SF'][clef]['Salesforce Object']
                     champ =mdc['drup2SF'][clef]['Salesforce Field']
                     byLigne[ligne['field_club_soc_id_stockx']][objet][champ]=ligne[clef]
-                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]
+                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = "AAAAAA"
                     ## byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]     
                     #byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Additional_Reference__c'] = ligne    
                     
