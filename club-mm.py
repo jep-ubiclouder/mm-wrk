@@ -50,10 +50,10 @@ def processData(mdc):
     
     qryAccId =  "select Cle_Client_STOCKX__c,Id from account"
     byCSTX = {}
-    """records = sf.query_all(qryAccId)['records']
+    records = sf.query_all(qryAccId)['records']
     for r in records:
         byCSTX[r['Cle_Client_STOCKX__c']]=r['Id']
-    """
+    
     with open('./export_club_soc__main.csv','r') as dataDrup:
         readData = csv.DictReader(dataDrup,delimiter=';')
         cpte =0
@@ -61,7 +61,7 @@ def processData(mdc):
         for ligne in readData:
             
             recordSF ={}
-            byLigne[ligne['field_club_soc_id_stockx']]={'Account':{},'Data_Integration_Account__c':{},'Data_Origin_Account__c':{}}
+            byLigne[ligne['field_club_soc_id_stockx']]={'Account':{},'Data_Integration_Account__c':mdc['internSF']['Data_Integration_Account__c'],'Data_Origin_Account__c':mdc['internSF']['Data_Origin_Account__c']}
             
             ##  pp.pprint(ligne)
             for clef in ligne.keys():
@@ -71,8 +71,12 @@ def processData(mdc):
                 ##     print('mdc[clef][sf]',mdc['drup2SF'][clef]['Salesforce Field']) """
                     objet = mdc['drup2SF'][clef]['Salesforce Object']
                     champ =mdc['drup2SF'][clef]['Salesforce Field']
-                    byLigne[ligne['field_club_soc_id_stockx']][objet][champ]=ligne[clef]   
-                    # recordSF[mdc['drup2SF'][clef]['Salesforce Field']]=  ligne[clef]
+                    byLigne[ligne['field_club_soc_id_stockx']][objet][champ]=ligne[clef]
+                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]
+                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Account__c'] = byCSTX[[ligne['field_club_soc_id_stockx']]     
+                    byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Additional_Reference__c'] = ligne    
+                    
+                    
             pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
             cpte += 1
             if cpte > 10 :
