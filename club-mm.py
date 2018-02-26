@@ -35,6 +35,6 @@ def processData(mdc):
     
     
     pass
-if _name__=='__main__':
+if __name__=='__main__':
     mapDC = prepareMapChamps()
     processData(mapDC)
