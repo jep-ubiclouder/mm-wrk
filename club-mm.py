@@ -56,15 +56,16 @@ def processData(mdc):
     """
     with open('./export_club_soc__main.csv','r') as dataDrup:
         readData = csv.DictReader(dataDrup,delimiter=';')
+        cpte =0
         for ligne in readData:
             recordSF ={}
             pp.pprint(ligne)
             for clef in ligne.keys():
                 if clef in mdc['drup2SF'].keys():
-                    print('clef',clef)
+                """   print('clef',clef)
                     print('mdc[clef]',mdc['drup2SF'][clef])
                     print('mdc[clef][sf]',mdc['drup2SF'][clef]['Salesforce Field'])
-                    
+                """    
                     recordSF[mdc['drup2SF'][clef]['Salesforce Field']]=  ligne[clef]
             print(recordSF)
             cpte += 1
