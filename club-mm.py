@@ -31,11 +31,41 @@ def processData(mdc):
     insert Data_Integration_Account__c
     """
     import pprint
-    
+    import csv
     pp = pprint.PrettyPrinter(width=41, compact=True)
     pp.pprint(mdc)
+        from simple_salesforce import (
+        Salesforce,
+        SalesforceAPI,
+        SFType,
+        SalesforceError,
+        SalesforceMoreThanOneRecord,
+        SalesforceExpiredSession,
+        SalesforceRefusedRequest,
+        SalesforceResourceNotFound,
+        SalesforceGeneralError,
+        SalesforceMalformedRequest
+    )
+    sf = Salesforce(username='hp@maisonmoderne.lu.1assembdev', password='Ubi$2018', security_token='KhrfeUNWQz8Z60PDIKG8G8vO', sandbox=True)
     
+    qryAccId =  "select Cle_Client_STOCKX__c,Id from account"
+    byCSTX = {}
+    records = sf.query_all(qryAccId)['records']
+    for r in records:
+        byCSTX[r['Cle_Client_STOCKX__c']]=r['Id']
     
+    with open('./export_club_soc__main.csv','r') as dataDrup:
+        readData = csv.DictReader(dataDrup,delimiter=';')
+        for ligne in readData:
+            recordSF ={}
+            for clef in ligne.keys():
+                if clef in mdc['drup2SF'].keys():
+                    recordSF[mdc[clef]['Salesforce Field']]=  ligne[clef]
+            print(recordSF)
+            cpte += 1
+            if cpte > 10 :
+                import sys
+                sys.exit()
     pass
 if __name__=='__main__':
     mapDC = prepareMapChamps()
