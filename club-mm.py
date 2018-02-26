@@ -57,20 +57,28 @@ def processData(mdc):
     with open('./export_club_soc__main.csv','r') as dataDrup:
         readData = csv.DictReader(dataDrup,delimiter=';')
         cpte =0
+        byLigne={}
         for ligne in readData:
+            
             recordSF ={}
-            pp.pprint(ligne)
+            byLigne[ligne['field_club_soc_id_stockx']]={'Account':{},'Data_Integration_Account__c':{},'Data_Origin_Account__c':{}}
+            
+            ##  pp.pprint(ligne)
             for clef in ligne.keys():
                 if clef in mdc['drup2SF'].keys():
                 ##print('clef',clef)
                 ##    print('mdc[clef]',mdc['drup2SF'][clef])
-                ##     print('mdc[clef][sf]',mdc['drup2SF'][clef]['Salesforce Field']) """    
-                    recordSF[mdc['drup2SF'][clef]['Salesforce Field']]=  ligne[clef]
-            pp.pprint(recordSF)
+                ##     print('mdc[clef][sf]',mdc['drup2SF'][clef]['Salesforce Field']) """
+                    objet = mdc['drup2SF'][clef]['Salesforce Object']
+                    champ =mdc['drup2SF'][clef]['Salesforce Field']
+                    byLigne[ligne['field_club_soc_id_stockx']][objet][champ]=ligne[clef]   
+                    # recordSF[mdc['drup2SF'][clef]['Salesforce Field']]=  ligne[clef]
+            pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
             cpte += 1
             if cpte > 10 :
                 import sys
                 sys.exit()
+        
     pass
 if __name__=='__main__':
     mapDC = prepareMapChamps()
