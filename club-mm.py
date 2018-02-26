@@ -50,10 +50,10 @@ def processData(mdc):
     
     qryAccId =  "select Cle_Client_STOCKX__c,Id from account"
     byCSTX = {}
-    records = sf.query_all(qryAccId)['records']
+    """records = sf.query_all(qryAccId)['records']
     for r in records:
         byCSTX[r['Cle_Client_STOCKX__c']]=r['Id']
-    
+    """
     with open('./export_club_soc__main.csv','r') as dataDrup:
         readData = csv.DictReader(dataDrup,delimiter=';')
         for ligne in readData:
@@ -61,6 +61,10 @@ def processData(mdc):
             pp.pprint(ligne)
             for clef in ligne.keys():
                 if clef in mdc['drup2SF'].keys():
+                    print('clef',clef)
+                    print('mdc[clef]',mdc[clef])
+                    print('mdc[clef][sf]',mdc[clef]['Salesforce Field'])
+                    
                     recordSF[mdc[clef]['Salesforce Field']]=  ligne[clef]
             print(recordSF)
             cpte += 1
