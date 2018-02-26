@@ -86,7 +86,7 @@ def processIn():
     batch =[]
     compteur = 0
     with open('./Account.csv','r') as inputF:
-        data = csv.DictReader(inputF,delimter=';')
+        data = csv.DictReader(inputF,delimiter=';')
         for row in data:
             rec = {}
             for champ in fieldsToInsert:
