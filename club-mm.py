@@ -34,7 +34,7 @@ def processData(mdc):
     import csv
     pp = pprint.PrettyPrinter(width=41, compact=True)
     pp.pprint(mdc)
-        from simple_salesforce import (
+    from simple_salesforce import (
         Salesforce,
         SalesforceAPI,
         SFType,
