@@ -83,7 +83,7 @@ def processin():
                 sf.bulk.Account.insert(batch)
                 batch=[]
         sf.bulk.Account.insert(batch)
-            batch=[]
+        batch=[]
             
             
             
