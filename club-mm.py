@@ -30,7 +30,10 @@ def processData(mdc):
     insert Data_Origin_Account__c
     insert Data_Integration_Account__c
     """
-    print(mdc)
+    import pprint
+    
+    pp = pprint.PrettyPrinter(width=41, compact=True)
+    pp.pprint(mdc)
     
     
     pass
