@@ -47,7 +47,7 @@ def processOut():
         if t['name'] not in fieldsToExclude and t['calculated'] == False:
             fieldsToQuery.append(t['name'])
 
-    queryAllAccount = 'select Name'+','.join(fieldsToQuery) +' from Account'
+    queryAllAccount = 'select Name,'+','.join(fieldsToQuery) +' from Account'
     cursor = sf.query_all(queryAllAccount)
     records =  cursor['records']
     i = 0
