@@ -75,11 +75,11 @@ def processData(mdc):
                 byLigne[ligne['field_club_soc_id_stockx']]['Data_Integration_Account__c']['Account__c'] = byCSTX[ligne['field_club_soc_id_stockx']]
                 byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Account__c'] = byCSTX[ligne['field_club_soc_id_stockx']]     
                 byLigne[ligne['field_club_soc_id_stockx']]['Data_Origin_Account__c']['Additional_Reference__c'] = ligne    
-                    
+                byLigne[ligne['field_club_soc_id_stockx']]['Account']['Id']= byCSTX[ligne['field_club_soc_id_stockx']]   
                     
             pp.pprint(byLigne[ligne['field_club_soc_id_stockx']])
             cpte += 1
-            if cpte > 10 :
+            if cpte > 3:
                 import sys
                 sys.exit()
         
