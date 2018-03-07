@@ -24,7 +24,7 @@ def getCredentials(isTest):
     import json
     cipher = Fernet(clef)
     creds = json.loads(cipher.decrypt(data).decode())
-    creds =  {'user':'hp@maisonmoderne.lu', 'passwd':'Ubiclouder$2018','security_token':'ZI8DAzQdqx3ElEhliEarsEV5'}
+    creds =  {'user':'hp@maisonmoderne.lu', 'passwd':'ubiClouder$2018','security_token':'ImLyrZrrANcN70V8S4N3vR6YJ'}
     return creds
 
 
