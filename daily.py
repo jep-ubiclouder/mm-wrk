@@ -246,19 +246,21 @@ def process(parmDate, now, isTest):
                 print('Erreur', err)
         i = 1
     summary = {}
-
-    lstCommandesToBeDel = ""
-    for comm in deletions:
-        lstCommandesToBeDel += "'%s'," % comm
-    qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
-    # print(qryForIDtoBEDel)
-    rex = sf.query(qryForIDtoBEDel)
-    tobedel = []
-    for r in rex['records']:
-        # print(rex)
-        tobedel.append({'Id': r['Id']})
-    if len(tobedel) > 0:
-        resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
+    
+    if len(deletions)>0:
+        lstCommandesToBeDel = ""
+        for comm in deletions:
+            lstCommandesToBeDel += "'%s'," % comm
+        qryForIDtoBEDel = "select id from Lignes_commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
+        print(qryForIDtoBEDel)
+        
+        rex = sf.query(qryForIDtoBEDel)
+        tobedel = []
+        for r in rex['records']:
+            # print(rex)
+            tobedel.append({'Id': r['Id']})
+        if len(tobedel) > 0:
+            resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
         
     for comm in deleteFactures:
         lstCommandesToBeDel += "'%s'," % comm    
