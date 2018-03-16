@@ -262,17 +262,17 @@ def process(parmDate, now, isTest):
         if len(tobedel) > 0:
             resDel = sf.bulk.Lignes_commande__c.delete(tobedel)
         
-    for comm in deleteFactures:
-        lstCommandesToBeDel += "'%s'," % comm    
-    qryForDeleteCommandes = "select id from Commandes__c where Commande_STX__c in (%s)" % lstCommandesToBeDel[:-1]
-    rex = sf.query(qryForDeleteCommandes)
-    tobedel = []
-    for r in rex['records']:
-        # print(rex)
-        tobedel.append({'Id': r['Id']})
-    if len(tobedel) > 0:
-        resDel = sf.bulk.Commandes__c.delete(tobedel)
-    #qryForIDtoBEDel = "select id from commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
+        for comm in deleteFactures:
+            lstCommandesToBeDel += "'%s'," % comm    
+        qryForDeleteCommandes = "select id from Commandes__c where Commande_STX__c in (%s)" % lstCommandesToBeDel[:-1]
+        rex = sf.query(qryForDeleteCommandes)
+        tobedel = []
+        for r in rex['records']:
+            # print(rex)
+            tobedel.append({'Id': r['Id']})
+        if len(tobedel) > 0:
+            resDel = sf.bulk.Commandes__c.delete(tobedel)
+        #qryForIDtoBEDel = "select id from commande__c where COMMANDE_STX__c in (%s)" % lstCommandesToBeDel[:-1]  # on omet la derniere virgule !!
     
     
     fullUpdate = {}
