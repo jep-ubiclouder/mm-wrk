@@ -165,7 +165,15 @@ def process(parmDate, now, isTest):
     creds = getCredentials(isTest)
 
     try:
-        sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
+        import configparser
+        config = configparser.ConfigParser()
+        ## config.read('globalBackup.data.ini')
+        config.read('/home/ec2-user/asembly-imports/club/gBackup.prod.ini')
+        sf = Salesforce(username=config['DEFAULT']['username'], password=config['DEFAULT']['password'], security_token=config['DEFAULT']['security_token'], sandbox=False )
+    
+    
+        
+        #sf = Salesforce(username=creds['user'], password=creds['passwd'], security_token=creds['security_token'], sandbox=isTest)
     except Exception as err:
         sendErrorMail()
         import sys
